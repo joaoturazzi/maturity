@@ -91,6 +91,7 @@ export const dimensionScores = pgTable('dimension_scores', {
   pctFerramental: numeric('pct_ferramental'),
   pctTecnica: numeric('pct_tecnica'),
   reportPeriod: text('report_period'),
+  narrative: text('narrative'),
   createdAt: timestamp('created_at').defaultNow(),
 })
 
@@ -118,6 +119,7 @@ export const tasks = pgTable('tasks', {
   dueDate: date('due_date'),
   status: text('status').default('To Do'),
   requiresWeeklyCheckin: boolean('requires_weekly_checkin').default(true),
+  dependsOnId: uuid('depends_on_id'),
   completedAt: timestamp('completed_at'),
   createdAt: timestamp('created_at').defaultNow(),
 })
@@ -133,6 +135,8 @@ export const checkins = pgTable('checkins', {
   blockerNotes: text('blocker_notes'),
   confidenceRating: integer('confidence_rating'),
   newStatus: text('new_status'),
+  evidenceUrl: text('evidence_url'),
+  evidenceNote: text('evidence_note'),
   submittedAt: timestamp('submitted_at').defaultNow(),
 })
 

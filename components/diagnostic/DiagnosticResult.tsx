@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { GeneratePlanButton } from './GeneratePlanButton'
+import { DimensionNarrative } from './DimensionNarrative'
 
 const RadarCharts = dynamic(() => import('./RadarCharts'), { ssr: false,
   loading: () => <div style={{ height: 240, background: '#f0efec', borderRadius: 8 }} /> })
@@ -39,6 +40,11 @@ type TableRow = {
   comportamental: number
   ferramental: number
   tecnica: number
+  dimensionId?: string
+  narrative?: string | null
+  prevScore?: number | null
+  delta?: number | null
+  criticals?: Array<{ title: string; score: number; chosenText: string }>
 }
 
 type Props = {
@@ -47,11 +53,13 @@ type Props = {
   deficiencyData: Array<{ dimension: string; comportamental: number; ferramental: number; tecnica: number }>
   tableData: TableRow[]
   cycleId: string
+  prevDiagnosticDate?: string | null
+  prevImeScore?: number | null
   companyId: string
   hasExistingPlan: boolean
 }
 
-export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, cycleId, companyId, hasExistingPlan }: Props) {
+export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, cycleId, companyId, hasExistingPlan, prevDiagnosticDate, prevImeScore }: Props) {
   const mc = MATURITY_COLORS[cycle.maturityLevel ?? ''] ?? '#555'
   const imeScore = Number(cycle.overallImeScore ?? 0)
 
@@ -181,6 +189,68 @@ export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, 
           )
         })}
       </div>
+
+      {/* Qualitative analysis per dimension */}
+      <div style={{ background: '#fff', border: '1px solid #eceae5', borderRadius: 8, padding: '20px 24px', marginBottom: 20 }}>
+        <p style={{ fontSize: 11, fontWeight: 700, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.09em', marginBottom: 16 }}>
+          Análise qualitativa por dimensão
+        </p>
+        {tableData.map(row => {
+          const dc = DIM_COLORS[row.dimension] ?? { color: '#bbb' }
+          return (
+            <div key={row.dimension + '-narrative'} style={{ marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid #f0efec' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: dc.color }}>{row.dimension} — {row.atual.toFixed(1)}/5.0</span>
+                {row.delta != null && (
+                  <span style={{ fontSize: 12, fontWeight: 600, color: row.delta > 0 ? '#1e8449' : row.delta < 0 ? '#c0392b' : '#bbb' }}>
+                    {row.delta > 0 ? '↑' : row.delta < 0 ? '↓' : '→'} {Math.abs(row.delta).toFixed(1)} vs anterior
+                  </span>
+                )}
+              </div>
+              {row.dimensionId && (
+                <DimensionNarrative cycleId={cycleId} dimensionId={row.dimensionId} existingNarrative={row.narrative ?? null} dimColor={dc.color} />
+              )}
+              {row.criticals && row.criticals.length > 0 && (
+                <div style={{ marginTop: 10 }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+                    Indicadores mais críticos
+                  </p>
+                  {row.criticals.map((ind, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 6 }}>
+                      <span style={{ width: 22, height: 22, borderRadius: '50%', background: ind.score <= 2 ? '#fdf2f2' : '#fef9e7', color: ind.score <= 2 ? '#c0392b' : '#d68910', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{ind.score}</span>
+                      <div>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a' }}>{ind.title}</span>
+                        {ind.chosenText && (
+                          <p style={{ fontSize: 11, color: '#888', lineHeight: 1.4, marginTop: 2 }}>
+                            &ldquo;{ind.chosenText.length > 120 ? ind.chosenText.slice(0, 120) + '...' : ind.chosenText}&rdquo;
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Evolution banner */}
+      {prevDiagnosticDate && prevImeScore != null && (
+        <div style={{
+          background: Number(cycle.overallImeScore) > prevImeScore ? '#eafaf1' : '#fef9e7',
+          border: `1px solid ${Number(cycle.overallImeScore) > prevImeScore ? '#b7dfc6' : '#f5deb3'}`,
+          borderRadius: 8, padding: '14px 20px', marginBottom: 20,
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          <span style={{ fontSize: 18 }}>{Number(cycle.overallImeScore) > prevImeScore ? '📈' : '📊'}</span>
+          <span style={{ fontSize: 13, color: '#1a1a1a' }}>
+            {Number(cycle.overallImeScore) > prevImeScore
+              ? `Evolução desde ${prevDiagnosticDate}: IME Score subiu de ${prevImeScore.toFixed(1)} para ${Number(cycle.overallImeScore).toFixed(1)}`
+              : `Comparação com ${prevDiagnosticDate}: IME Score ${Number(cycle.overallImeScore).toFixed(1)} (anterior: ${prevImeScore.toFixed(1)})`}
+          </span>
+        </div>
+      )}
 
       {/* Actions */}
       <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', alignItems: 'center' }}>
