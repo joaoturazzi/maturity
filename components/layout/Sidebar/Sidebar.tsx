@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: '/checkins',     label: 'Check-ins',     icon: '◷' },
   { href: '/reports',      label: 'Reports',       icon: '↗' },
   { href: '/ai-agents',    label: 'AI Agents',     icon: '⬡' },
+  { href: '/company',      label: 'Minha Empresa',  icon: '◉' },
 ]
 
 const MANAGEMENT_ITEMS = [
