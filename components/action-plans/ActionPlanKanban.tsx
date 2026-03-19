@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+import { TaskSlidePanel } from './TaskSlidePanel'
 
 const DIM_COLORS: Record<string, { color: string; bg: string }> = {
   'Estratégia': { color: '#1a5276', bg: '#eaf2fb' },
@@ -27,6 +28,8 @@ type Plan = {
 
 export function ActionPlanKanban({ plans, stats }: { plans: Plan[]; stats: { totalTasks: number; doneTasks: number; lateTasks: number } }) {
   const [activeDim, setActiveDim] = useState<string | null>(null)
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
   const [taskStatus, setTaskStatus] = useState<Record<string, string>>(() => {
     const m: Record<string, string> = {}
     for (const p of plans) for (const t of p.tasks) m[t.id] = t.status ?? 'To Do'
@@ -99,7 +102,7 @@ export function ActionPlanKanban({ plans, stats }: { plans: Plan[]; stats: { tot
           <a href="/diagnostic" style={{ display: 'inline-block', background: '#1a1a1a', color: '#fff', textDecoration: 'none', padding: '8px 20px', borderRadius: 6, fontSize: 13, fontWeight: 600 }}>Iniciar diagnóstico →</a>
         </div>
       ) : (
-        <DragDropContext onDragEnd={handleDragEnd}>
+        <DragDropContext onDragStart={() => setIsDragging(true)} onDragEnd={(result) => { setIsDragging(false); handleDragEnd(result) }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(180px, 1fr))', gap: 12, overflowX: 'auto' }}>
             {COLUMNS.map(col => (
               <div key={col.id} style={{ background: '#f7f6f3', borderRadius: 8, padding: '12px 10px', minWidth: 180 }}>
@@ -131,7 +134,7 @@ export function ActionPlanKanban({ plans, stats }: { plans: Plan[]; stats: { tot
                                     <span style={{ fontSize: 12, color: '#bbb', cursor: 'grab' }}>⠿</span>
                                   </div>
                                 </div>
-                                <p style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.4, marginBottom: 6 }}>{task.title}</p>
+                                <p onClick={() => { if (!isDragging) setSelectedTaskId(task.id) }} style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.4, marginBottom: 6, cursor: 'pointer' }}>{task.title}</p>
                                 {task.dueDate && <p style={{ fontSize: 11, color: late ? '#c0392b' : '#bbb' }}>{new Date(task.dueDate).toLocaleDateString('pt-BR')}</p>}
                               </div>
                             )}
@@ -152,6 +155,12 @@ export function ActionPlanKanban({ plans, stats }: { plans: Plan[]; stats: { tot
           </div>
         </DragDropContext>
       )}
+
+      <TaskSlidePanel
+        taskId={selectedTaskId}
+        onClose={() => setSelectedTaskId(null)}
+        onStatusChange={(id, s) => setTaskStatus(prev => ({ ...prev, [id]: s }))}
+      />
     </div>
   )
 }
