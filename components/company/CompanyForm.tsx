@@ -17,12 +17,32 @@ export function CompanyForm({ company }: { company: Company }) {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [analyzing, setAnalyzing] = useState(false)
+  const [analyzeError, setAnalyzeError] = useState('')
   const [form, setForm] = useState({
     name: company.name,
     industry: company.industry ?? 'Tecnologia',
     size: company.size ?? '1-10',
     websiteUrl: company.websiteUrl ?? '',
   })
+
+  async function handleAnalyzeSite() {
+    setAnalyzing(true)
+    setAnalyzeError('')
+    try {
+      const res = await fetch('/api/company/scrape-now', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) {
+        setAnalyzeError(data.error ?? 'Erro ao analisar.')
+        return
+      }
+      window.location.reload()
+    } catch {
+      setAnalyzeError('Erro inesperado.')
+    } finally {
+      setAnalyzing(false)
+    }
+  }
 
   async function handleSave() {
     setLoading(true)
@@ -173,6 +193,34 @@ export function CompanyForm({ company }: { company: Company }) {
               <p style={{ fontSize: 13, color: '#1a1a1a', marginTop: 4, lineHeight: 1.5 }}>{item.value}</p>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Scrape prompt — URL exists but no summary */}
+      {company.websiteUrl && !summary && (
+        <div style={{
+          background: '#fff', border: '1px solid #eceae5', borderRadius: 8,
+          padding: '20px 24px', display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
+              Resumo de IA não gerado
+            </p>
+            <p style={{ fontSize: 12, color: '#888' }}>
+              Analise o site para personalizar os agentes de IA.
+            </p>
+            {analyzeError && (
+              <p style={{ fontSize: 12, color: '#c0392b', marginTop: 4 }}>{analyzeError}</p>
+            )}
+          </div>
+          <button onClick={handleAnalyzeSite} disabled={analyzing} style={{
+            background: analyzing ? '#888' : '#1a1a1a', color: '#fff', border: 'none',
+            borderRadius: 6, padding: '8px 16px', fontSize: 12, fontWeight: 600,
+            cursor: analyzing ? 'not-allowed' : 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+          }}>
+            {analyzing ? 'Analisando...' : 'Analisar site agora →'}
+          </button>
         </div>
       )}
 
