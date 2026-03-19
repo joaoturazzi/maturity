@@ -5,10 +5,8 @@ const isPublicRoute = createRouteMatcher([
   '/login(.*)',
   '/signup(.*)',
   '/onboarding(.*)',
-  '/api/webhooks(.*)',
+  '/api/webhooks/clerk(.*)',
   '/api/onboarding(.*)',
-  '/api/fix-user(.*)',
-  '/api/debug(.*)',
   '/',
 ])
 
@@ -19,27 +17,22 @@ const isAdminRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, req) => {
-  const { userId, sessionClaims } = await auth()
-
-  // Public routes — let through
   if (isPublicRoute(req)) return NextResponse.next()
 
-  // Not logged in — redirect to login
-  if (!userId) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  }
+  const { userId, sessionClaims, redirectToSignIn } = await auth()
+  if (!userId) return redirectToSignIn()
 
-  // Logged in but no companyId — redirect to onboarding
   const meta = sessionClaims?.metadata as Record<string, string> | undefined
   const companyId = meta?.companyId ?? ''
+  const role = meta?.role ?? ''
 
-  if (!companyId && !req.nextUrl.pathname.startsWith('/onboarding')) {
+  // Usuário logado sem companyId → forçar onboarding
+  if (!companyId) {
     return NextResponse.redirect(new URL('/onboarding', req.url))
   }
 
-  // Admin route protection
+  // Rotas de admin → verificar role
   if (isAdminRoute(req)) {
-    const role = meta?.role ?? ''
     if (!['SuperUser', 'Admin'].includes(role)) {
       return NextResponse.redirect(new URL('/dashboard', req.url))
     }
