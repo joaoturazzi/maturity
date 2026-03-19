@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { actionPlans, tasks, dimensionScores, diagnosticCycles } from '@/lib/db/schema'
 import { eq, and, desc } from 'drizzle-orm'
@@ -11,8 +12,7 @@ export async function POST(req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const companyId = meta?.companyId ?? ''
+    const companyId = await getCompanyId()
     if (!companyId) return Response.json({ error: 'Onboarding incomplete' }, { status: 403 })
 
     const body = await req.json().catch(() => ({}))

@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { diagnosticResponses, diagnosticCycles } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = await getCompanyId()
 
     const body = await req.json()
     const parsed = answerSchema.parse(body)

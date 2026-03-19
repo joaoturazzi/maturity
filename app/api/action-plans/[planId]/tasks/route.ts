@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { tasks, actionPlans } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
@@ -21,7 +22,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ planId:
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = await getCompanyId()
 
     const plan = await db.query.actionPlans.findFirst({
       where: eq(actionPlans.id, planId),

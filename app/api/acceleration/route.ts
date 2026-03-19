@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { accelerationEvents } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
@@ -18,7 +19,7 @@ export async function GET(_req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = await getCompanyId()
 
     const events = await db.query.accelerationEvents.findMany({
       where: eq(accelerationEvents.companyId, companyId),

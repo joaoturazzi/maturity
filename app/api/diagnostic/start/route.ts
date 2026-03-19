@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { diagnosticCycles, companies } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
@@ -10,8 +11,8 @@ export async function POST(req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
+    const companyId = await getCompanyId()
     const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const companyId = meta?.companyId ?? ''
     const role = meta?.role ?? 'User'
 
     if (!companyId) {

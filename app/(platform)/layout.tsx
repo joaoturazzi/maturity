@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/layout/Sidebar/Sidebar'
 import { PlatformHeader } from '@/components/layout/PlatformHeader/PlatformHeader'
+import { CookieRefresher } from '@/components/layout/CookieRefresher'
 import styles from './layout.module.css'
 
 export default async function PlatformLayout({
@@ -19,6 +20,7 @@ export default async function PlatformLayout({
       <Sidebar userRole={role} />
       <div className={styles.main}>
         <PlatformHeader />
+        <CookieRefresher />
         <main className={styles.content}>
           {children}
         </main>

@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { getReportData } from '@/lib/db/queries/reports'
 
 export const dynamic = 'force-dynamic'
@@ -8,7 +9,7 @@ export async function GET(req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = await getCompanyId()
 
     const { searchParams } = new URL(req.url)
     const period = searchParams.get('period')

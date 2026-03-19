@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { alerts } from '@/lib/db/schema'
 import { eq, and, desc } from 'drizzle-orm'
@@ -10,7 +11,7 @@ export async function GET(req: Request) {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = await getCompanyId()
 
     const { searchParams } = new URL(req.url)
     const unreadOnly = searchParams.get('unreadOnly') === 'true'
