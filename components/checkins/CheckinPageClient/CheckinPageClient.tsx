@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckinModal } from '../CheckinModal/CheckinModal'
 import { CheckinHistoryModal } from '../CheckinHistory/CheckinHistory'
@@ -20,14 +20,23 @@ type Task = {
 export function CheckinPageClient({
   tasks,
   checkedInTaskIds,
+  preselectedTaskId,
 }: {
   tasks: Task[]
   checkedInTaskIds: string[]
+  preselectedTaskId?: string | null
 }) {
   const router = useRouter()
   const [checkinTaskId, setCheckinTaskId] = useState<string | null>(null)
   const [historyTaskId, setHistoryTaskId] = useState<string | null>(null)
   const [localCheckedIds, setLocalCheckedIds] = useState<Set<string>>(new Set(checkedInTaskIds))
+
+  // Auto-open check-in modal when navigating from task slide panel
+  useEffect(() => {
+    if (preselectedTaskId && !localCheckedIds.has(preselectedTaskId)) {
+      setCheckinTaskId(preselectedTaskId)
+    }
+  }, [preselectedTaskId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const pendingTasks = tasks.filter(t => t.status !== 'Done' && t.status !== 'Blocked')
 

@@ -21,7 +21,15 @@ export default clerkMiddleware(async (auth, req) => {
   if (isPublicRoute(req)) return NextResponse.next()
 
   const { userId, sessionClaims, redirectToSignIn } = await auth()
-  if (!userId) return redirectToSignIn()
+  if (!userId) {
+    // Clean up stale cookie if session expired or user signed out
+    if (req.cookies.get('maturityiq_company')?.value) {
+      const response = NextResponse.redirect(new URL('/login', req.url))
+      response.cookies.delete('maturityiq_company')
+      return response
+    }
+    return redirectToSignIn()
+  }
 
   const { companyId: jwtCompanyId = '', role = '' } = parseClerkMeta(sessionClaims)
 

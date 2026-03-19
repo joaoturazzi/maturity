@@ -5,7 +5,11 @@ import { getMyActiveTasks, getThisWeekCheckins } from '@/lib/db/queries'
 import { CheckinPageClient } from '@/components/checkins/CheckinPageClient/CheckinPageClient'
 import styles from './page.module.css'
 
-export default async function CheckinsPage() {
+export default async function CheckinsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ taskId?: string }>
+}) {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
@@ -18,6 +22,8 @@ export default async function CheckinsPage() {
   ])
 
   const checkedInTaskIds = thisWeekCheckins.map(c => c.taskId)
+  const params = await searchParams
+  const preselectedTaskId = params.taskId ?? null
 
   return (
     <div className={styles.page}>
@@ -27,7 +33,11 @@ export default async function CheckinsPage() {
         <p className={styles.subtitle}>Semana de {getWeekLabel()}</p>
       </div>
 
-      <CheckinPageClient tasks={myTasks} checkedInTaskIds={checkedInTaskIds} />
+      <CheckinPageClient
+        tasks={myTasks}
+        checkedInTaskIds={checkedInTaskIds}
+        preselectedTaskId={preselectedTaskId}
+      />
     </div>
   )
 }

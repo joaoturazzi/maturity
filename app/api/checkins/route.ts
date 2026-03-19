@@ -14,6 +14,8 @@ const checkinSchema = z.object({
   blockerNotes: z.string().optional(),
   confidenceRating: z.number().int().min(1).max(5),
   newStatus: z.enum(['To Do', 'In Progress', 'In Review', 'Done', 'Blocked']),
+  evidenceUrl: z.string().url().or(z.literal('')).optional(),
+  evidenceNote: z.string().optional(),
 })
 
 function getWeekStart(): string {
@@ -56,6 +58,8 @@ export async function POST(req: Request) {
       blockerNotes: body.blockerNotes,
       confidenceRating: body.confidenceRating,
       newStatus: body.newStatus,
+      evidenceUrl: body.evidenceUrl || null,
+      evidenceNote: body.evidenceNote || null,
       companyId,
       submittedBy: userId,
       weekStartDate,

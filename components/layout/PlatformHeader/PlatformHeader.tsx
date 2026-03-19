@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
+import { SignOutButton } from '../SignOutButton/SignOutButton'
 import styles from './PlatformHeader.module.css'
 
 export function PlatformHeader() {
@@ -30,6 +31,7 @@ export function PlatformHeader() {
         </Link>
 
         <UserButton />
+        <SignOutButton />
       </div>
     </header>
   )
