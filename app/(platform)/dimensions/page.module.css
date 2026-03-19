@@ -1,0 +1,141 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.colorAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 4px;
+}
+
+.cardName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.priorityHigh {
+  background: #fde8e8;
+  color: #c0392b;
+}
+
+.priorityMedium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priorityLow {
+  background: #d4edda;
+  color: #155724;
+}
+
+.cardDescription {
+  font-size: 13px;
+  color: var(--text3, #999);
+  line-height: 1.5;
+}
+
+.scoreSection {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border, #eee);
+}
+
+.scoreValue {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.scoreMax {
+  font-size: 13px;
+  color: var(--text3, #999);
+}
+
+.scoreLabel {
+  font-size: 11px;
+  color: var(--text3, #999);
+  margin-left: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.noScore {
+  font-size: 12px;
+  color: var(--text3, #999);
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border, #eee);
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text3, #999);
+  font-size: 14px;
+}

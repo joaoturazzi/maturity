@@ -1,8 +1,30 @@
-// TODO: Implement option selector for descriptive paragraph options (levels 1-5)
 'use client';
 
 import type { ResponseOption } from '@/types/database';
+import styles from './OptionSelector.module.css';
 
-export function OptionSelector({ options: _options, selected: _selected, onSelect: _onSelect }: { options: ResponseOption[]; selected: number | null; onSelect: (level: number) => void }) {
-  return <div>{/* TODO: Render 5 descriptive options as selectable cards */}</div>;
+type Props = {
+  options: ResponseOption[];
+  selected: number | null;
+  onSelect: (level: number) => void;
+};
+
+export function OptionSelector({ options, selected, onSelect }: Props) {
+  const sorted = [...options].sort((a, b) => a.level - b.level);
+
+  return (
+    <div className={styles.list}>
+      {sorted.map((option) => (
+        <button
+          key={option.level}
+          type="button"
+          className={`${styles.option} ${selected === option.level ? styles.selected : ''}`}
+          onClick={() => onSelect(option.level)}
+        >
+          <span className={styles.badge}>{option.level}</span>
+          <span className={styles.text}>{option.text}</span>
+        </button>
+      ))}
+    </div>
+  );
 }

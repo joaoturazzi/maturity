@@ -1,0 +1,154 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.primaryBtn:hover {
+  opacity: 0.9;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text3, #999);
+  font-size: 14px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cycleCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 16px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s;
+}
+
+.cycleCard:hover {
+  border-color: var(--text3, #999);
+}
+
+.cycleLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badgeDraft {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.badgeInProgress {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badgeSubmitted {
+  background: #d4edda;
+  color: #155724;
+}
+
+.cycleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cycleTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cycleDate {
+  font-size: 12px;
+  color: var(--text3, #999);
+}
+
+.cycleRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.imeScore {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.imeLabel {
+  font-size: 11px;
+  color: var(--text3, #999);
+  margin-left: 2px;
+  font-weight: 400;
+}
+
+.arrow {
+  font-size: 16px;
+  color: var(--text3, #999);
+}

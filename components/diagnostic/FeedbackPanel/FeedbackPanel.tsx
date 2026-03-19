@@ -1,7 +1,18 @@
-// TODO: Implement immediate feedback panel shown after answering
 'use client';
 
-export function FeedbackPanel({ feedback }: { feedback: string | null }) {
+import styles from './FeedbackPanel.module.css';
+
+type Props = {
+  feedback: string | null;
+};
+
+export function FeedbackPanel({ feedback }: Props) {
   if (!feedback) return null;
-  return <div>{/* TODO: Show feedback text with appropriate styling */}</div>;
+
+  return (
+    <div className={styles.panel}>
+      <span className={styles.icon}>&#9432;</span>
+      <p className={styles.text}>{feedback}</p>
+    </div>
+  );
 }

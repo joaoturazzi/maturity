@@ -1,0 +1,64 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.option:hover {
+  background: var(--bg2);
+  border-left-color: var(--text3);
+}
+
+.selected {
+  border-left-color: var(--text);
+  background: var(--bg2);
+  box-shadow: 0 0 0 1px var(--border2);
+}
+
+.selected:hover {
+  border-left-color: var(--text);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: var(--bg3);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+}
+
+.selected .badge {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+  padding-top: 3px;
+}
+
+.selected .text {
+  color: var(--text);
+}

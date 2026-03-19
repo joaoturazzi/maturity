@@ -12,11 +12,3 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-
-# Edge Functions — rotas que precisam de streaming
-[[edge_functions]]
-  path = "/api/agents/*"
-  function = "next-runtime"
-
-[context.production.environment]
-  NEXTAUTH_URL = "https://SEU-DOMINIO.netlify.app"
