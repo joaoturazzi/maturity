@@ -1,12 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { getLatestCycleById } from '@/lib/db/queries'
-import dynamic from 'next/dynamic'
 import { redirect } from 'next/navigation'
-
-const ResultRadar = dynamic(
-  () => import('@/components/diagnostic/ResultRadar/ResultRadar').then(m => m.ResultRadar),
-  { ssr: false, loading: () => <div style={{ height: 400, background: '#f0efec', borderRadius: 8 }} /> }
-)
+import { ResultRadarWrapper } from '@/components/diagnostic/ResultRadarWrapper'
 import Link from 'next/link'
 
 export default async function ResultPage({ params }: { params: Promise<{ cycleId: string }> }) {
@@ -30,7 +25,7 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
         </p>
       </div>
 
-      <ResultRadar scores={cycle.dimensionScores} />
+      <ResultRadarWrapper scores={cycle.dimensionScores} />
 
       <div>
         <Link href="/action-plans">Ver plano de ação →</Link>
