@@ -100,6 +100,7 @@ export const actionPlans = pgTable('action_plans', {
   description: text('description'),
   dimensionId: uuid('dimension_id').references(() => dimensions.id),
   companyId: uuid('company_id').notNull().references(() => companies.id),
+  cycleId: uuid('cycle_id').references(() => diagnosticCycles.id),
   createdBy: text('created_by').references(() => users.id),
   priority: text('priority'),
   status: text('status').default('Active'),

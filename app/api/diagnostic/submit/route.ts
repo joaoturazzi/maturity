@@ -89,7 +89,15 @@ export async function POST(req: Request) {
       submittedAt: new Date(),
     }).where(eq(diagnosticCycles.id, cycleId))
 
-    return Response.json({ ok: true, overallImeScore, maturityLevel })
+    // 6. Generate action plans in background
+    const baseUrl = process.env.URL ?? 'https://maturity2.netlify.app'
+    fetch(`${baseUrl}/api/action-plans/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cycleId, companyId }),
+    }).catch(() => {})
+
+    return Response.json({ ok: true, overallImeScore, maturityLevel, cycleId })
   } catch (error) {
     console.error('[diagnostic/submit]', error)
     return Response.json({ error: 'Internal server error' }, { status: 500 })
