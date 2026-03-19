@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { getMyActiveTasks, getThisWeekCheckins } from '@/lib/db/queries'
 import { CheckinPageClient } from '@/components/checkins/CheckinPageClient/CheckinPageClient'
@@ -8,7 +9,7 @@ export default async function CheckinsPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '' } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
 
   const [myTasks, thisWeekCheckins] = await Promise.all([

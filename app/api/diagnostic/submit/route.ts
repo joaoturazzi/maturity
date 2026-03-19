@@ -4,6 +4,8 @@ import { db } from '@/lib/db'
 import { diagnosticCycles, dimensionScores, diagnosticResponses } from '@/lib/db/schema'
 import { calculateDimensionScore, calculateIME, getMaturityLevel, determinePriority } from '@/lib/scoring'
 import { eq, and } from 'drizzle-orm'
+import { generateNarrativeForDimension } from '@/lib/services/generateNarrative'
+import { generateActionPlanForCycle } from '@/lib/services/generateActionPlan'
 
 export const dynamic = 'force-dynamic'
 
@@ -38,7 +40,12 @@ export async function POST(req: Request) {
     }
 
     // 3. Calcular score ponderado por dimensão
-    const dimScores = []
+    const dimScores: Array<{
+      cycleId: string; dimensionId: string; companyId: string;
+      weightedScore: string; desiredScore: string; maturityGap: string;
+      priorityLevel: string; pctComportamental: string; pctFerramental: string;
+      pctTecnica: string; reportPeriod: string;
+    }> = []
     for (const [dimensionId, dimResponses] of Object.entries(byDimension)) {
       const validResponses = dimResponses.filter(r => r.score != null && r.score > 0)
       const weightedScore = calculateDimensionScore(
@@ -89,12 +96,13 @@ export async function POST(req: Request) {
       submittedAt: new Date(),
     }).where(eq(diagnosticCycles.id, cycleId))
 
-    // 6. Generate action plans in background
-    const baseUrl = process.env.URL ?? 'https://maturity2.netlify.app'
-    fetch(`${baseUrl}/api/action-plans/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cycleId, companyId }),
+    // 6. Generate narratives and action plans in background (direct call, no HTTP)
+    Promise.resolve().then(async () => {
+      for (const ds of dimScores) {
+        await generateNarrativeForDimension(cycleId, ds.dimensionId).catch(() => {})
+        await new Promise(r => setTimeout(r, 600))
+      }
+      await generateActionPlanForCycle(cycleId, companyId).catch(() => {})
     }).catch(() => {})
 
     return Response.json({ ok: true, overallImeScore, maturityLevel, cycleId })

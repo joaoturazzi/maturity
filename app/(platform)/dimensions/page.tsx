@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { getActiveDimensions, getLatestCycle } from '@/lib/db/queries'
 import styles from './page.module.css'
@@ -33,7 +34,7 @@ export default async function DimensionsPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '' } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
 
   const [dimensions, latestCycle] = await Promise.all([

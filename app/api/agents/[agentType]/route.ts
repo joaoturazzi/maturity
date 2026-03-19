@@ -1,116 +1,131 @@
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
+
 import { streamText } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { auth } from '@clerk/nextjs/server'
-import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
-import { buildAgentContext, buildSystemPrompt } from '@/lib/agents/context'
-import { db } from '@/lib/db'
-import { aiConversations, aiMessages, companies } from '@/lib/db/schema'
-import { eq, and } from 'drizzle-orm'
-import { z } from 'zod'
-
-export const runtime = 'edge'
-
-const bodySchema = z.object({
-  messages: z.array(z.object({
-    role: z.enum(['user', 'assistant']),
-    content: z.string(),
-  })),
-})
+import { getCompanyIdEdge } from '@/lib/getCompanyIdEdge'
+import { AGENT_CONFIGS } from '@/lib/agents/config'
 
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ agentType: string }> }
 ) {
   try {
-    const { agentType: rawAgentType } = await params
-    const { userId, sessionClaims } = await auth()
-    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    const { userId } = await auth()
+    if (!userId) return new Response('Unauthorized', { status: 401 })
 
-    const agentType = decodeURIComponent(rawAgentType) as AgentType
-    if (!AGENT_CONFIG[agentType]) {
-      return Response.json({ error: 'Agent not found' }, { status: 404 })
-    }
+    const companyId = await getCompanyIdEdge(req)
+    if (!companyId) return new Response('Forbidden', { status: 403 })
 
-    const { messages: rawMessages } = bodySchema.parse(await req.json())
-    // Limit history to prevent context overflow
-    const messages = rawMessages.slice(-20)
-    // Read from JWT metadata (primary) or cookie header (fallback)
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const jwtCompanyId = meta?.companyId ?? ''
-    // Edge runtime: read cookie from request headers
-    const cookieHeader = req.headers.get('cookie') ?? ''
-    const cookieMatch = cookieHeader.match(/maturityiq_company=([^;]+)/)
-    const companyId = jwtCompanyId || (cookieMatch ? cookieMatch[1] : '')
+    const { agentType } = await params
+    const agentConfig = AGENT_CONFIGS[agentType]
+    if (!agentConfig) return new Response('Agent not found', { status: 404 })
 
-    // Get company name
-    const company = await db.query.companies.findFirst({
-      where: eq(companies.id, companyId),
-      columns: { name: true },
-    })
+    const { messages, context } = await req.json()
 
-    // Build context
-    const context = await buildAgentContext(companyId, company?.name ?? 'Empresa', agentType)
-    const systemPrompt = buildSystemPrompt(agentType, context)
+    // Montar system prompt com contexto passado pelo client
+    const systemPrompt = buildSystemPrompt(agentConfig, context)
 
-    // Persist user message
-    await persistMessage(companyId, userId, agentType, {
-      role: 'user',
-      content: messages[messages.length - 1].content,
-    })
-
-    // OpenAI streaming
     const result = streamText({
       model: openai('gpt-4o'),
       system: systemPrompt,
-      messages,
-      maxOutputTokens: 1000,
-      temperature: 0.7,
-      onFinish: async ({ text }) => {
-        await persistMessage(companyId, userId, agentType, {
-          role: 'assistant',
-          content: text,
-        })
-      },
+      messages: (messages ?? []).slice(-20),
     })
 
     return result.toTextStreamResponse()
-  } catch (error) {
-    console.error('[agents/POST]', error)
-    return Response.json({ error: 'Internal server error' }, { status: 500 })
+  } catch (err) {
+    console.error('[agents/stream]', err)
+    return new Response(
+      JSON.stringify({ error: err instanceof Error ? err.message : 'Internal error' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    )
   }
 }
 
-async function persistMessage(
-  companyId: string,
-  userId: string,
-  agentType: AgentType,
-  message: { role: 'user' | 'assistant'; content: string }
-) {
-  let conversation = await db.query.aiConversations.findFirst({
-    where: and(
-      eq(aiConversations.companyId, companyId),
-      eq(aiConversations.userId, userId),
-      eq(aiConversations.agentType, agentType),
-    ),
-  })
+function buildSystemPrompt(
+  agent: typeof AGENT_CONFIGS[string],
+  context: Record<string, unknown> | null
+): string {
+  const noContext = !context || !context.hasDiagnostic
 
-  if (!conversation) {
-    const [created] = await db.insert(aiConversations).values({
-      companyId,
-      userId,
-      agentType,
-      lastMessageAt: new Date(),
-    }).returning()
-    conversation = created
-  } else {
-    await db.update(aiConversations)
-      .set({ lastMessageAt: new Date() })
-      .where(eq(aiConversations.id, conversation.id))
+  let prompt = `Você é ${agent.name} (${agent.role}) da plataforma MaturityIQ da Grow Platform.
+Você é um consultor estratégico especializado que conhece profundamente o método de maturidade empresarial com 5 dimensões: Estratégia, Produto, Mercado, Finanças e Branding.
+${agent.personality}
+
+Responda sempre em português brasileiro. Seja direto, analítico e orientado a resultados.
+Máximo 3-4 parágrafos por resposta, a menos que seja solicitado algo mais longo.
+Nunca invente dados. Se não tiver informação, pergunte.`
+
+  if (noContext) {
+    prompt += `\n\nA empresa ainda não realizou um diagnóstico de maturidade.
+Incentive o usuário a completar o diagnóstico para que você possa dar recomendações personalizadas.
+Enquanto isso, ofereça orientações gerais sobre a sua área de especialidade.`
+    return prompt
   }
 
-  await db.insert(aiMessages).values({
-    conversationId: conversation.id,
-    role: message.role,
-    content: message.content,
-  })
+  const ctx = context as Record<string, unknown>
+
+  prompt += `\n\n## Empresa
+Nome: ${ctx.companyName ?? 'não informado'}
+Setor: ${ctx.industry ?? 'não informado'}`
+
+  const ws = ctx.websiteContext as Record<string, string> | null
+  if (ws) {
+    prompt += `\n\n## Contexto extraído do site
+- O que fazem: ${ws.description}
+- Público-alvo: ${ws.targetAudience}
+- Proposta de valor: ${ws.valueProposition}
+- Tom de voz: ${ws.toneOfVoice}`
+  }
+
+  prompt += `\n\n## Diagnóstico de Maturidade
+IME Score: ${ctx.imeScore}/5.0
+Nível: ${ctx.maturityLevel}
+Realizado em: ${ctx.diagnosedAt
+    ? new Date(ctx.diagnosedAt as string).toLocaleDateString('pt-BR')
+    : 'data não disponível'}`
+
+  const dims = (ctx.dimensions ?? []) as Array<Record<string, unknown>>
+  if (dims.length > 0) {
+    prompt += `\n\n## Scores por Dimensão (ordenado do mais crítico ao mais maduro)`
+    for (const dim of dims) {
+      const pctC = dim.pctComportamental as number
+      const pctF = dim.pctFerramental as number
+      const pctT = dim.pctTecnica as number
+      const defType = pctC >= pctF && pctC >= pctT
+        ? 'Comportamental'
+        : pctF >= pctT
+          ? 'Ferramental'
+          : 'Técnica'
+      prompt += `\n- ${dim.name}: ${dim.score}/5.0 (gap: ${dim.gap}, prioridade: ${dim.priority}, deficiência predominante: ${defType})`
+      if (dim.narrative) {
+        prompt += `\n  Análise: ${dim.narrative}`
+      }
+    }
+  }
+
+  const rd = ctx.relevantDimension as Record<string, unknown> | null
+  if (rd) {
+    prompt += `\n\n## Sua dimensão especializada: ${rd.name}
+Score: ${rd.score}/5.0
+Gap: ${rd.gap} pontos
+Prioridade: ${rd.priority}
+Deficiência comportamental: ${rd.pctComportamental}%
+Deficiência ferramental: ${rd.pctFerramental}%
+Deficiência técnica: ${rd.pctTecnica}%`
+    if (rd.narrative) {
+      prompt += `\nAnálise qualitativa: ${rd.narrative}`
+    }
+  }
+
+  prompt += `\n\n## Instruções
+- Use os dados reais do diagnóstico nas suas respostas
+- Quando citar scores, use os valores exatos acima
+- Priorize as dimensões com maior gap nas recomendações
+- Seja específico e prático, não genérico
+- Quando sugerir uma ação, especifique: O QUÊ fazer + POR QUÊ é prioritário + COMO começar
+- Se o usuário perguntar algo fora da sua área, indique qual agente seria mais adequado`
+
+  return prompt
 }

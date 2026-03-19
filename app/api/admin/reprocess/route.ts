@@ -4,11 +4,12 @@ import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import {
   diagnosticCycles, diagnosticResponses,
-  dimensionScores, actionPlans, tasks,
-  indicators, dimensions,
+  dimensionScores, indicators, dimensions,
 } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { getCompanyId } from '@/lib/getCompanyId'
+import { generateNarrativeForDimension } from '@/lib/services/generateNarrative'
+import { generateActionPlanForCycle } from '@/lib/services/generateActionPlan'
 
 export async function POST(req: Request) {
   try {
@@ -57,12 +58,11 @@ export async function POST(req: Request) {
         else if (dt.includes('ferramental')) ferr++
         else if (dt.includes('técnica') || dt.includes('tecnica')) tec++
         else {
-          // Infer from score when deficiencyType is null
           const s = r.score ?? 0
           if (s === 1) comp++
           else if (s === 2) ferr++
           else if (s === 3) tec++
-          else comp++ // 4-5 default
+          else comp++
         }
       }
 
@@ -128,44 +128,21 @@ export async function POST(req: Request) {
       results.maturityLevel = level
     }
 
-    // 6. Delete old plans and tasks
-    const oldPlans = await db.query.actionPlans.findMany({
-      where: and(eq(actionPlans.companyId, companyId), eq(actionPlans.cycleId, cycleId)),
-      with: { tasks: { columns: { id: true } } },
-    })
-    for (const plan of oldPlans) {
-      for (const task of plan.tasks) {
-        await db.delete(tasks).where(eq(tasks.id, task.id))
-      }
-      await db.delete(actionPlans).where(eq(actionPlans.id, plan.id))
-    }
-    results.deletedPlans = oldPlans.length
-
-    // 7. Generate narratives
-    const baseUrl = process.env.URL ?? 'https://maturity2.netlify.app'
+    // 6. Generate narratives — DIRECT call, no HTTP
     for (const score of scores) {
       try {
-        await fetch(`${baseUrl}/api/diagnostic/narrative`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cycleId, dimensionId: score.dimensionId, companyId }),
-        })
+        await generateNarrativeForDimension(cycleId, score.dimensionId)
         await new Promise(r => setTimeout(r, 600))
       } catch {}
     }
     results.narrativesGenerated = scores.length
 
-    // 8. Regenerate action plans
-    try {
-      const genRes = await fetch(`${baseUrl}/api/action-plans/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cycleId, companyId }),
-      })
-      results.planGenerated = genRes.ok
-    } catch {
-      results.planGenerated = false
-    }
+    // 7. Generate action plans — DIRECT call, no HTTP
+    // Does NOT delete existing plans — skips if they exist
+    const planResult = await generateActionPlanForCycle(cycleId, companyId)
+    results.planGenerated = planResult.created > 0
+    results.planSkipped = planResult.skipped
+    results.plansCreated = planResult.created
 
     return Response.json({ ok: true, message: 'Diagnóstico reprocessado com sucesso', results })
   } catch (error) {

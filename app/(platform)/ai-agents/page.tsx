@@ -3,17 +3,19 @@ import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { aiConversations } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
-import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
+import { AGENT_CONFIGS, AGENT_ORDER } from '@/lib/agents/config'
+import { getCompanyId } from '@/lib/getCompanyId'
 import Link from 'next/link'
 import styles from './page.module.css'
 
 export default async function AIAgentsPage() {
-  const { userId, sessionClaims } = await auth()
+  const { userId } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const companyId = await getCompanyId()
   if (!companyId) redirect('/onboarding')
 
+  // Count messages per agent
   const conversations = await db.query.aiConversations.findMany({
     where: and(
       eq(aiConversations.companyId, companyId),
@@ -41,18 +43,18 @@ export default async function AIAgentsPage() {
 
       {/* Orchestrator - featured card */}
       <AgentCard
-        agentType="Orquestrador"
-        msgCount={msgCountByAgent['Orquestrador'] ?? 0}
+        agentKey="orquestrador"
+        msgCount={msgCountByAgent['orquestrador'] ?? 0}
         featured
       />
 
       {/* Specialist grid */}
       <div className={styles.grid}>
-        {(['Estratégia', 'Produto', 'Mercado', 'Finanças', 'Branding'] as AgentType[]).map(type => (
+        {AGENT_ORDER.filter(k => k !== 'orquestrador').map(key => (
           <AgentCard
-            key={type}
-            agentType={type}
-            msgCount={msgCountByAgent[type] ?? 0}
+            key={key}
+            agentKey={key}
+            msgCount={msgCountByAgent[key] ?? 0}
           />
         ))}
       </div>
@@ -61,20 +63,21 @@ export default async function AIAgentsPage() {
 }
 
 function AgentCard({
-  agentType,
+  agentKey,
   msgCount,
   featured = false,
 }: {
-  agentType: AgentType
+  agentKey: string
   msgCount: number
   featured?: boolean
 }) {
-  const config = AGENT_CONFIG[agentType]
+  const config = AGENT_CONFIGS[agentKey]
+  if (!config) return null
   const hasHistory = msgCount > 0
 
   return (
     <Link
-      href={`/ai-agents/${encodeURIComponent(agentType)}`}
+      href={`/ai-agents/${agentKey}`}
       className={`${styles.card} ${featured ? styles.cardFeatured : ''}`}
     >
       <div className={styles.cardContent}>
@@ -82,18 +85,18 @@ function AgentCard({
           className={styles.avatar}
           style={{ background: config.color, color: '#fff' }}
         >
-          {agentType.charAt(0)}
+          {config.name.charAt(0)}
         </div>
         <div className={styles.cardInfo}>
           <div>
-            <span className={styles.agentTitle}>{config.title}</span>
+            <span className={styles.agentTitle}>{config.name}</span>
             <span className={styles.agentRole}>{config.role}</span>
           </div>
           <p className={styles.agentDesc}>{config.description}</p>
           <div className={styles.cardFooter}>
             <span
               className={styles.msgBadge}
-              style={{ background: config.colorBg, color: config.color }}
+              style={{ background: config.bg, color: config.color }}
             >
               {hasHistory ? `${msgCount} mensagens` : 'Nova conversa'}
             </span>

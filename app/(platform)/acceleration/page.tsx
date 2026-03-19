@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { accelerationEvents } from '@/lib/db/schema'
@@ -10,9 +11,8 @@ export default async function AccelerationPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '', role } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
-  const role = (sessionClaims?.metadata as Record<string, string>)?.role
 
   const events = await db.query.accelerationEvents.findMany({
     where: eq(accelerationEvents.companyId, companyId),

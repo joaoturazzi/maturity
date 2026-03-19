@@ -43,7 +43,7 @@ export function AgentContextPanel({ agentType, agentConfig, latestCycle }: Props
   const relevantScores = isOrchestrator
     ? latestCycle.dimensionScores
     : latestCycle.dimensionScores.filter(
-        d => d.dimension?.name === agentConfig.dimensionName
+        d => d.dimension?.name === agentConfig.dimension
       )
 
   const imeScore = Number(latestCycle.overallImeScore ?? 0)
@@ -69,7 +69,7 @@ export function AgentContextPanel({ agentType, agentConfig, latestCycle }: Props
       {/* Relevant dimensions */}
       <div className={styles.section}>
         <span className={styles.label}>
-          {isOrchestrator ? 'Todas as dimensões' : agentConfig.dimensionName}
+          {isOrchestrator ? 'Todas as dimensões' : agentConfig.dimension}
         </span>
         <div className={styles.dimList}>
           {relevantScores.map((ds, i) => {

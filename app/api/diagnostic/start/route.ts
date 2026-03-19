@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { getCompanyId } from '@/lib/getCompanyId'
 import { db } from '@/lib/db'
 import { diagnosticCycles, companies } from '@/lib/db/schema'
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
     const companyId = await getCompanyId()
-    const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role ?? 'User'
+    const role = parseClerkMeta(sessionClaims).role ?? 'User'
 
     if (!companyId) {
       return Response.json(

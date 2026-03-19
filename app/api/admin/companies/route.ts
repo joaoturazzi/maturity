@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
 import { eq, desc } from 'drizzle-orm'
@@ -10,7 +11,7 @@ export async function GET() {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role ?? ''
+    const role = parseClerkMeta(sessionClaims).role ?? ''
     if (!role || !['SuperUser', 'Admin'].includes(role)) {
       return Response.json({ error: 'Forbidden' }, { status: 403 })
     }

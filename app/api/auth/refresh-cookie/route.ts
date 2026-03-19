@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { cookies } from 'next/headers'
 import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
@@ -11,8 +12,7 @@ export async function GET() {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ ok: false }, { status: 401 })
 
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    let companyId = meta?.companyId ?? ''
+    let companyId = parseClerkMeta(sessionClaims).companyId ?? ''
 
     if (!companyId) {
       const userInDb = await db.query.users.findFirst({

@@ -1,6 +1,7 @@
 import { streamText } from 'ai'
 import { openai } from '@ai-sdk/openai'
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
 import { buildAgentContext, buildSystemPrompt } from '@/lib/agents/context'
 import { db } from '@/lib/db'
@@ -19,8 +20,7 @@ export async function GET(
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
     // Read from JWT metadata (primary) or cookie header (fallback)
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const jwtCompanyId = meta?.companyId ?? ''
+    const jwtCompanyId = parseClerkMeta(sessionClaims).companyId ?? ''
     // Edge runtime: read cookie from request headers
     const cookieHeader = req.headers.get('cookie') ?? ''
     const cookieMatch = cookieHeader.match(/maturityiq_company=([^;]+)/)
@@ -48,7 +48,7 @@ export async function GET(
       system: systemPrompt,
       messages: [{
         role: 'user',
-        content: `Inicie a conversa com uma mensagem proativa curta (máximo 3 frases) baseada no diagnóstico atual da empresa. Identifique o gap mais crítico da ${config.dimensionName ?? 'análise geral'} e sugira um próximo passo concreto. Não se apresente — vá direto ao ponto.`,
+        content: `Inicie a conversa com uma mensagem proativa curta (máximo 3 frases) baseada no diagnóstico atual da empresa. Identifique o gap mais crítico da ${config.dimension ?? 'análise geral'} e sugira um próximo passo concreto. Não se apresente — vá direto ao ponto.`,
       }],
       maxOutputTokens: 200,
     })

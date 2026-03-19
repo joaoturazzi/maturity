@@ -78,10 +78,10 @@ export async function buildAgentContext(
     ).join('\n')
   } else {
     const myDimScore = latestCycle.dimensionScores.find(
-      d => d.dimension?.name === config.dimensionName
+      d => d.dimension?.name === config.dimension
     )
     if (myDimScore) {
-      dimensionContext = `### Sua dimensão: ${config.dimensionName}\n`
+      dimensionContext = `### Sua dimensão: ${config.dimension}\n`
       dimensionContext += `Score atual: ${Number(myDimScore.weightedScore).toFixed(1)}/5.0\n`
       dimensionContext += `Score desejado: ${Number(myDimScore.desiredScore).toFixed(1)}/5.0\n`
       dimensionContext += `Gap: ${Number(myDimScore.maturityGap).toFixed(1)}\n`
@@ -101,7 +101,7 @@ export async function buildAgentContext(
 
   const relevantPlans = isOrchestrator
     ? activePlans
-    : activePlans.filter(p => p.dimension?.name === config.dimensionName)
+    : activePlans.filter(p => p.dimension?.name === config.dimension)
 
   let actionPlanContext = ''
   if (!relevantPlans.length) {
@@ -130,7 +130,7 @@ export async function buildAgentContext(
 export function buildSystemPrompt(agentType: AgentType, context: AgentContext): string {
   const config = AGENT_CONFIG[agentType]
 
-  return `Você é o ${config.title} da plataforma MaturityIQ, atuando como ${config.role} para a empresa ${context.companyName}.
+  return `Você é o ${config.name} da plataforma MaturityIQ, atuando como ${config.role} para a empresa ${context.companyName}.
 
 ## Seu perfil
 ${config.personality}

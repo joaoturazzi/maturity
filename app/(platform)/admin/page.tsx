@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
@@ -11,7 +12,7 @@ export default async function AdminPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const role = (sessionClaims?.metadata as Record<string, string>)?.role
+  const { role } = parseClerkMeta(sessionClaims)
   if (!role || !['SuperUser', 'Admin'].includes(role)) {
     redirect('/dashboard')
   }

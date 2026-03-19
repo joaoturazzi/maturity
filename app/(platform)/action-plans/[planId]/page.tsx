@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { getPlanWithTasks } from '@/lib/db/queries'
 import { KanbanBoard } from '@/components/action-plans/KanbanBoard/KanbanBoard'
@@ -17,7 +18,7 @@ export default async function ActionPlanDetailPage({ params }: { params: Promise
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '' } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
   const plan = await getPlanWithTasks(planId, companyId)
   if (!plan) redirect('/action-plans')

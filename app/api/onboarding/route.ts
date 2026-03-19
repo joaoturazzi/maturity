@@ -75,9 +75,13 @@ export async function POST(req: Request) {
     // 5. Trigger scraping via separate API route (fire-and-forget)
     if (websiteUrl) {
       const baseUrl = process.env.URL || 'https://maturity2.netlify.app'
+      const cookieHeader = req.headers.get('cookie') ?? ''
       fetch(`${baseUrl}/api/internal/scrape`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(cookieHeader ? { Cookie: cookieHeader } : {}),
+        },
         body: JSON.stringify({ companyId: company.id, websiteUrl }),
       }).catch(() => {})
     }

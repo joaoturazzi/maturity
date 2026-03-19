@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
+import { parseClerkMeta } from './clerkMeta'
 
 /**
  * Get companyId from 3 sources in order:
@@ -15,8 +16,7 @@ export async function getCompanyId(): Promise<string> {
   if (!userId) return ''
 
   // 1. JWT metadata (fast when Clerk JWT template is configured)
-  const meta = sessionClaims?.metadata as Record<string, string> | undefined
-  const jwtId = meta?.companyId ?? ''
+  const jwtId = parseClerkMeta(sessionClaims).companyId ?? ''
   if (jwtId) return jwtId
 
   // 2. httpOnly cookie (instant, set during onboarding)
@@ -56,6 +56,5 @@ export async function getUserId(): Promise<string> {
 
 export async function getRole(): Promise<string> {
   const { sessionClaims } = await auth()
-  const meta = sessionClaims?.metadata as Record<string, string> | undefined
-  return meta?.role ?? 'User'
+  return parseClerkMeta(sessionClaims).role ?? 'User'
 }

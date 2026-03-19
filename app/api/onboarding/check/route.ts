@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { cookies } from 'next/headers'
 
 export async function GET() {
@@ -8,8 +9,7 @@ export async function GET() {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ ready: false }, { status: 401 })
 
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const jwtCompanyId = meta?.companyId ?? ''
+    const jwtCompanyId = parseClerkMeta(sessionClaims).companyId ?? ''
 
     const cookieStore = await cookies()
     const cookieCompanyId = cookieStore.get('maturityiq_company')?.value ?? ''

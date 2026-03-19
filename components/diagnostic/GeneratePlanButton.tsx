@@ -27,7 +27,7 @@ export function GeneratePlanButton({
       const res = await fetch('/api/action-plans/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cycleId, companyId }),
+        body: JSON.stringify({ cycleId }),
       })
       const data = await res.json()
       if (!res.ok) {

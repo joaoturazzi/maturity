@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
@@ -18,7 +19,7 @@ export default async function DashboardPage() {
   if (!userId) redirect('/login')
 
   // Try JWT first (fast path)
-  let companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  let companyId = parseClerkMeta(sessionClaims).companyId ?? ''
 
   // If JWT doesn't have companyId yet, check the database directly
   // This handles the case where onboarding just completed but JWT hasn't propagated

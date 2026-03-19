@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
@@ -33,7 +34,7 @@ export default async function DiagnosticPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '' } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
 
   const cycles = await db.query.diagnosticCycles.findMany({

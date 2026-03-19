@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/layout/Sidebar/Sidebar'
 import { PlatformHeader } from '@/components/layout/PlatformHeader/PlatformHeader'
@@ -13,7 +14,7 @@ export default async function PlatformLayout({
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role ?? 'User'
+  const { role = 'User' } = parseClerkMeta(sessionClaims)
 
   return (
     <div className={styles.shell}>

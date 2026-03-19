@@ -1,4 +1,5 @@
 import { auth } from '@clerk/nextjs/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 import { redirect } from 'next/navigation'
 import { getAvailablePeriods, getReportData } from '@/lib/db/queries/reports'
 import { ReportsClient } from '@/components/reports/ReportsClient/ReportsClient'
@@ -12,7 +13,7 @@ export default async function ReportsPage({
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const { companyId = '' } = parseClerkMeta(sessionClaims)
   if (!companyId) redirect('/onboarding')
   const periods = await getAvailablePeriods(companyId)
 

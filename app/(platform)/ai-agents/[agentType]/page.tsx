@@ -1,78 +1,31 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { db } from '@/lib/db'
-import { aiConversations, aiMessages } from '@/lib/db/schema'
-import { eq, and } from 'drizzle-orm'
-import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
-import { getLatestCycle } from '@/lib/db/queries'
-import { ChatInterface } from '@/components/ai-agents/ChatInterface/ChatInterface'
-import { AgentContextPanel } from '@/components/ai-agents/AgentContextPanel/AgentContextPanel'
-import Link from 'next/link'
-import styles from './page.module.css'
+import { getCompanyId } from '@/lib/getCompanyId'
+import { AgentChat } from '@/components/agents/AgentChat'
+import { AGENT_CONFIGS } from '@/lib/agents/config'
 
 export default async function AgentChatPage({
   params,
 }: {
-  params: { agentType: string }
+  params: Promise<{ agentType: string }>
 }) {
-  const { userId, sessionClaims } = await auth()
+  const { userId } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  const companyId = await getCompanyId()
   if (!companyId) redirect('/onboarding')
 
-  const agentType = decodeURIComponent(params.agentType) as AgentType
-  const config = AGENT_CONFIG[agentType]
-  if (!config) redirect('/ai-agents')
-
-  const conversation = await db.query.aiConversations.findFirst({
-    where: and(
-      eq(aiConversations.companyId, companyId),
-      eq(aiConversations.userId, userId),
-      eq(aiConversations.agentType, agentType),
-    ),
-    with: {
-      messages: { orderBy: aiMessages.createdAt },
-    },
-  })
-
-  const initialMessages = (conversation?.messages ?? []).map(m => ({
-    id: m.id,
-    role: m.role as 'user' | 'assistant',
-    content: m.content ?? '',
-  }))
-
-  const latestCycle = await getLatestCycle(companyId)
+  const { agentType } = await params
+  const agent = AGENT_CONFIGS[agentType]
+  if (!agent) redirect('/ai-agents')
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.chatColumn}>
-        <div className={styles.chatHeader}>
-          <Link href="/ai-agents" className={styles.backLink}>← Agentes</Link>
-          <span className={styles.sep}>|</span>
-          <div className={styles.agentAvatar} style={{ background: config.color }}>
-            {agentType.charAt(0)}
-          </div>
-          <div>
-            <span className={styles.agentTitle}>{config.title}</span>
-            <span className={styles.agentRole}>{config.role}</span>
-          </div>
-        </div>
-
-        <ChatInterface
-          agentType={agentType}
-          agentColor={config.color}
-          agentColorBg={config.colorBg}
-          initialMessages={initialMessages}
-          hasHistory={initialMessages.length > 0}
-        />
-      </div>
-
-      <AgentContextPanel
-        agentType={agentType}
-        agentConfig={config}
-        latestCycle={latestCycle}
-      />
-    </div>
+    <AgentChat
+      agentType={agentType}
+      agentName={agent.name}
+      agentRole={agent.role}
+      agentColor={agent.color}
+      agentBg={agent.bg}
+    />
   )
 }

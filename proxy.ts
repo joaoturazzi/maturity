@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import { parseClerkMeta } from '@/lib/clerkMeta'
 
 const isPublicRoute = createRouteMatcher([
   '/login(.*)',
@@ -22,9 +23,7 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
   if (!userId) return redirectToSignIn()
 
-  const meta = sessionClaims?.metadata as Record<string, string> | undefined
-  const jwtCompanyId = meta?.companyId ?? ''
-  const role = meta?.role ?? ''
+  const { companyId: jwtCompanyId = '', role = '' } = parseClerkMeta(sessionClaims)
 
   // Fallback: read httpOnly cookie if JWT hasn't propagated yet
   const cookieCompanyId = req.cookies.get('maturityiq_company')?.value ?? ''
