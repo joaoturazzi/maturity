@@ -13,14 +13,15 @@ const createTaskSchema = z.object({
   requiresWeeklyCheckin: z.boolean().default(true),
 })
 
-export async function POST(req: Request, { params }: { params: { planId: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ planId: string }> }) {
+  const { planId } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
   const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const plan = await db.query.actionPlans.findFirst({
-    where: eq(actionPlans.id, params.planId),
+    where: eq(actionPlans.id, planId),
   })
   if (!plan || plan.companyId !== companyId) {
     return new Response('Not found', { status: 404 })
@@ -30,7 +31,7 @@ export async function POST(req: Request, { params }: { params: { planId: string 
 
   const [task] = await db.insert(tasks).values({
     ...body,
-    actionPlanId: params.planId,
+    actionPlanId: planId,
     dimensionId: plan.dimensionId ?? undefined,
     companyId,
   }).returning()

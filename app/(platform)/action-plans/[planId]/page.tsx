@@ -12,12 +12,13 @@ const PRIORITY_STYLES: Record<string, { bg: string; color: string }> = {
   Low:      { bg: '#f4f4f3', color: '#555' },
 }
 
-export default async function ActionPlanDetailPage({ params }: { params: { planId: string } }) {
+export default async function ActionPlanDetailPage({ params }: { params: Promise<{ planId: string }> }) {
+  const { planId } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
   const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
-  const plan = await getPlanWithTasks(params.planId, companyId)
+  const plan = await getPlanWithTasks(planId, companyId)
   if (!plan) redirect('/action-plans')
 
   const totalTasks = plan.tasks.length

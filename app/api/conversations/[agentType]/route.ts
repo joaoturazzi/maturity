@@ -5,8 +5,9 @@ import { eq, and } from 'drizzle-orm'
 
 export async function GET(
   _req: Request,
-  { params }: { params: { agentType: string } }
+  { params }: { params: Promise<{ agentType: string }> }
 ) {
+  const { agentType } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
@@ -16,7 +17,7 @@ export async function GET(
     where: and(
       eq(aiConversations.companyId, companyId),
       eq(aiConversations.userId, userId),
-      eq(aiConversations.agentType, decodeURIComponent(params.agentType)),
+      eq(aiConversations.agentType, decodeURIComponent(agentType)),
     ),
     with: {
       messages: {

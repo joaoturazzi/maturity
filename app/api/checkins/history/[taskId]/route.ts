@@ -5,8 +5,9 @@ import { eq, and, desc } from 'drizzle-orm'
 
 export async function GET(
   _req: Request,
-  { params }: { params: { taskId: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
+  const { taskId } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
@@ -14,7 +15,7 @@ export async function GET(
 
   const history = await db.query.checkins.findMany({
     where: and(
-      eq(checkins.taskId, params.taskId),
+      eq(checkins.taskId, taskId),
       eq(checkins.companyId, companyId),
     ),
     orderBy: desc(checkins.weekStartDate),

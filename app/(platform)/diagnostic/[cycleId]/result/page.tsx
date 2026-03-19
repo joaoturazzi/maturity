@@ -4,11 +4,12 @@ import { ResultRadar } from '@/components/diagnostic/ResultRadar/ResultRadar'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-export default async function ResultPage({ params }: { params: { cycleId: string } }) {
+export default async function ResultPage({ params }: { params: Promise<{ cycleId: string }> }) {
+  const { cycleId } = await params
   const { userId } = await auth()
   if (!userId) redirect('/login')
 
-  const cycle = await getLatestCycleById(params.cycleId)
+  const cycle = await getLatestCycleById(cycleId)
   if (!cycle) redirect('/diagnostic')
 
   return (

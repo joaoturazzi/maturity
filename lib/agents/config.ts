@@ -3,7 +3,6 @@ export type AgentType =
   | 'Produto'
   | 'Mercado'
   | 'Finanças'
-  | 'Pessoas'
   | 'Branding'
   | 'Orquestrador'
 
@@ -69,16 +68,6 @@ export const AGENT_CONFIG: Record<AgentType, AgentConfig> = {
     personality: 'Criativo e estratégico. Pensa em marcas como ativos de negócio. Referências: David Aaker, Marty Neumeier. Fala em brand equity, autenticidade, consistência.',
     model: 'gpt-4o',
   },
-  'Pessoas': {
-    title: 'Agente de Pessoas',
-    role: 'Chief People Officer',
-    description: 'Especialista em gestão de pessoas, cultura organizacional, liderança e desenvolvimento de talentos.',
-    dimensionName: 'Pessoas',
-    color: '#c0392b',
-    colorBg: '#fdedec',
-    personality: 'Empático e estratégico. Entende que pessoas são o ativo mais valioso. Foca em cultura, engajamento, retenção e desenvolvimento. Referências: Patrick Lencioni, Daniel Pink.',
-    model: 'gpt-4o',
-  },
   'Orquestrador': {
     title: 'Orquestrador',
     role: 'CEO Advisor',
@@ -92,5 +81,5 @@ export const AGENT_CONFIG: Record<AgentType, AgentConfig> = {
 }
 
 export const AGENT_ORDER: AgentType[] = [
-  'Orquestrador', 'Estratégia', 'Produto', 'Mercado', 'Finanças', 'Branding', 'Pessoas'
+  'Orquestrador', 'Estratégia', 'Produto', 'Mercado', 'Finanças', 'Branding'
 ]

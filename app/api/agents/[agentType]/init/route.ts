@@ -11,23 +11,17 @@ export const runtime = 'edge'
 
 export async function GET(
   _req: Request,
-  { params }: { params: { agentType: string } }
+  { params }: { params: Promise<{ agentType: string }> }
 ) {
+  const { agentType: rawAgentType } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
   const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
-  const agentType = decodeURIComponent(params.agentType) as AgentType
+  const agentType = decodeURIComponent(rawAgentType) as AgentType
   const config = AGENT_CONFIG[agentType]
   if (!config) return new Response('Not found', { status: 404 })
-
-  // Mock mode
-  if (process.env.USE_AI_MOCK === 'true') {
-    return Response.json({
-      message: `[MOCK] Olá! Sou o ${config.title}. Analisei o diagnóstico da sua empresa e identifiquei oportunidades de melhoria na dimensão ${config.dimensionName ?? 'geral'}. Vamos trabalhar nisso?`,
-    })
-  }
 
   const company = await db.query.companies.findFirst({
     where: eq(companies.id, companyId),

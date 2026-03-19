@@ -9,7 +9,6 @@ export const DIMENSION_COLORS: Record<string, { color: string; bg: string }> = {
   'Mercado':    { color: '#1e8449', bg: '#eafaf1' },
   'Finanças':   { color: '#d68910', bg: '#fef9e7' },
   'Branding':   { color: '#c0392b', bg: '#fdedec' },
-  'Pessoas':    { color: '#c0392b', bg: '#fdedec' },
 }
 
 // Cores por nível de maturidade

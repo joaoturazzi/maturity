@@ -4,86 +4,107 @@ import { actionPlans, tasks, dimensionScores, diagnosticCycles } from '@/lib/db/
 import { eq, and, desc } from 'drizzle-orm'
 import { determinePriority } from '@/lib/scoring'
 
-export async function POST() {
+export async function POST(req: Request) {
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const meta = sessionClaims?.metadata as Record<string, string> | undefined
+  const companyId = meta?.companyId ?? ''
+  if (!companyId) return new Response('Onboarding incomplete', { status: 403 })
 
-  // Get latest submitted cycle
-  const latestCycle = await db.query.diagnosticCycles.findFirst({
-    where: and(
-      eq(diagnosticCycles.companyId, companyId),
-      eq(diagnosticCycles.status, 'Submitted'),
-    ),
-    orderBy: desc(diagnosticCycles.submittedAt),
-  })
+  const body = await req.json().catch(() => ({}))
+  const cycleId = body.cycleId
 
-  if (!latestCycle) {
-    return Response.json(
-      { error: 'Nenhum diagnóstico finalizado encontrado. Complete um diagnóstico primeiro.' },
-      { status: 400 }
-    )
+  // Find cycle — use provided cycleId or latest
+  let cycle
+  if (cycleId) {
+    cycle = await db.query.diagnosticCycles.findFirst({
+      where: and(eq(diagnosticCycles.id, cycleId), eq(diagnosticCycles.companyId, companyId)),
+    })
+  } else {
+    cycle = await db.query.diagnosticCycles.findFirst({
+      where: and(eq(diagnosticCycles.companyId, companyId), eq(diagnosticCycles.status, 'Submitted')),
+      orderBy: desc(diagnosticCycles.submittedAt),
+    })
   }
 
-  // Get dimension scores with gaps
+  if (!cycle) {
+    return Response.json({ error: 'Nenhum diagnóstico finalizado encontrado.' }, { status: 400 })
+  }
+
+  // Get dimension scores with gaps >= 1.0 (Medium or higher)
   const scores = await db.query.dimensionScores.findMany({
-    where: eq(dimensionScores.cycleId, latestCycle.id),
+    where: eq(dimensionScores.cycleId, cycle.id),
     with: { dimension: true },
   })
 
-  const gaps = scores
-    .map(s => ({
-      dimensionId: s.dimensionId,
-      dimensionName: s.dimension?.name ?? '',
-      gap: Number(s.maturityGap ?? 0),
-      priority: s.priorityLevel ?? determinePriority(Number(s.maturityGap ?? 0)),
-      weightedScore: Number(s.weightedScore ?? 0),
-    }))
-    .filter(g => g.gap > 0)
-    .sort((a, b) => b.gap - a.gap)
+  const gapDimensions = scores
+    .filter(s => Number(s.maturityGap) >= 1.0)
+    .sort((a, b) => Number(b.maturityGap) - Number(a.maturityGap))
 
-  if (gaps.length === 0) {
-    return Response.json({ message: 'Nenhum gap identificado — parabéns!', plans: [] })
+  if (gapDimensions.length === 0) {
+    return Response.json({ message: 'Nenhum gap significativo identificado — parabéns!', created: 0, plans: [] })
   }
 
-  // Generate one action plan per dimension with gap > 0
   const createdPlans = []
 
-  for (const gap of gaps) {
+  for (const dimScore of gapDimensions) {
+    const priority = dimScore.priorityLevel ?? determinePriority(Number(dimScore.maturityGap))
+    const dimName = dimScore.dimension?.name ?? 'Dimensão'
+    const currentScore = Number(dimScore.weightedScore).toFixed(1)
+    const targetScore = Number(dimScore.desiredScore ?? 5).toFixed(1)
+    const gap = Number(dimScore.maturityGap).toFixed(1)
+
     const [plan] = await db.insert(actionPlans).values({
-      title: `Plano de melhoria: ${gap.dimensionName}`,
-      description: `Gap de ${gap.gap.toFixed(1)} pontos identificado na dimensão ${gap.dimensionName}. Score atual: ${gap.weightedScore.toFixed(1)}/5.0.`,
-      dimensionId: gap.dimensionId,
+      title: `Plano de Evolução — ${dimName}`,
+      description: `Plano de 90 dias para evoluir ${dimName} do nível ${currentScore} para ${targetScore}. Gap: ${gap}.`,
+      dimensionId: dimScore.dimensionId,
       companyId,
       createdBy: userId,
-      priority: gap.priority,
+      priority,
       status: 'Active',
     }).returning()
 
-    // Create 3 default tasks per plan
-    const defaultTasks = [
+    // Create 5 tasks with 30/60/90 day deadlines
+    const dueDate30 = new Date(); dueDate30.setDate(dueDate30.getDate() + 30)
+    const dueDate60 = new Date(); dueDate60.setDate(dueDate60.getDate() + 60)
+    const dueDate90 = new Date(); dueDate90.setDate(dueDate90.getDate() + 90)
+
+    const taskDefs = [
       {
-        title: `Diagnóstico detalhado de ${gap.dimensionName}`,
-        description: `Analisar os indicadores específicos da dimensão ${gap.dimensionName} e identificar as causas raiz do gap.`,
+        title: `Diagnóstico detalhado de ${dimName}`,
+        description: `Mapear os indicadores com menor score em ${dimName} e identificar causas raiz. Revisar o relatório de deficiências (Comportamental/Ferramental/Técnica).`,
+        dueDate: dueDate30.toISOString().split('T')[0],
       },
       {
-        title: `Definir iniciativas para ${gap.dimensionName}`,
-        description: `Com base no diagnóstico, definir 3-5 iniciativas concretas para reduzir o gap de ${gap.gap.toFixed(1)} pontos.`,
+        title: `Plano de ação 30 dias — ${dimName}`,
+        description: `Definir as 3 iniciativas prioritárias para evoluir ${dimName} no primeiro mês. Cada iniciativa deve ter responsável e métrica de sucesso.`,
+        dueDate: dueDate30.toISOString().split('T')[0],
       },
       {
-        title: `Implementar quick wins em ${gap.dimensionName}`,
-        description: `Identificar e executar ações de impacto rápido para melhorar o score de ${gap.weightedScore.toFixed(1)} para pelo menos ${(gap.weightedScore + gap.gap * 0.3).toFixed(1)}.`,
+        title: `Execução e acompanhamento semanal — ${dimName}`,
+        description: `Executar as iniciativas definidas. Registrar check-in semanal com progresso, bloqueios e confiança na entrega.`,
+        dueDate: dueDate60.toISOString().split('T')[0],
+      },
+      {
+        title: `Revisão de meio ciclo (45 dias) — ${dimName}`,
+        description: `Avaliar o progresso das iniciativas. Ajustar o plano se necessário. Preparar pauta para a próxima Board Meeting com resultados parciais.`,
+        dueDate: dueDate60.toISOString().split('T')[0],
+      },
+      {
+        title: `Entrega final 90 dias — ${dimName}`,
+        description: `Consolidar os resultados do ciclo de 90 dias em ${dimName}. Realizar novo diagnóstico parcial para medir a evolução do score. Documentar aprendizados.`,
+        dueDate: dueDate90.toISOString().split('T')[0],
       },
     ]
 
     await db.insert(tasks).values(
-      defaultTasks.map(t => ({
+      taskDefs.map(t => ({
         ...t,
         actionPlanId: plan.id,
-        dimensionId: gap.dimensionId,
+        dimensionId: dimScore.dimensionId,
         companyId,
-        status: 'To Do',
+        status: 'To Do' as const,
         requiresWeeklyCheckin: true,
       }))
     )
@@ -91,8 +112,5 @@ export async function POST() {
     createdPlans.push(plan)
   }
 
-  return Response.json({
-    message: `${createdPlans.length} planos de ação gerados com sucesso.`,
-    plans: createdPlans,
-  })
+  return Response.json({ created: createdPlans.length, plans: createdPlans })
 }

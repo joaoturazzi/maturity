@@ -19,12 +19,13 @@ const bodySchema = z.object({
 
 export async function POST(
   req: Request,
-  { params }: { params: { agentType: string } }
+  { params }: { params: Promise<{ agentType: string }> }
 ) {
+  const { agentType: rawAgentType } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
-  const agentType = decodeURIComponent(params.agentType) as AgentType
+  const agentType = decodeURIComponent(rawAgentType) as AgentType
   if (!AGENT_CONFIG[agentType]) {
     return new Response('Agent not found', { status: 404 })
   }
@@ -48,32 +49,7 @@ export async function POST(
     content: messages[messages.length - 1].content,
   })
 
-  // Mock mode for development
-  if (process.env.USE_AI_MOCK === 'true') {
-    const mockText = `[MOCK - ${agentType}] Contexto carregado para ${context.companyName}. IME Score: ${context.imeScore}. Esta é uma resposta simulada para desenvolvimento local sem consumir tokens da OpenAI.`
-    const words = mockText.split(' ')
-    let i = 0
-    const stream = new ReadableStream({
-      async pull(controller) {
-        if (i >= words.length) {
-          // Persist mock response
-          await persistMessage(companyId, userId, agentType, {
-            role: 'assistant',
-            content: mockText,
-          })
-          controller.close()
-          return
-        }
-        controller.enqueue(new TextEncoder().encode(words[i++] + ' '))
-        await new Promise(r => setTimeout(r, 30))
-      },
-    })
-    return new Response(stream, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-    })
-  }
-
-  // Real OpenAI streaming
+  // OpenAI streaming
   const result = streamText({
     model: openai('gpt-4o'),
     system: systemPrompt,

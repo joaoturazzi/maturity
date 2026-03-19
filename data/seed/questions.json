@@ -1968,6 +1968,1826 @@
           "feedback": "Parabéns! Você está no caminho certo."
         }
       ]
+    },
+    {
+      "id": "ind_mercado_018",
+      "dimension": "Mercado",
+      "title": "Gestão de Prospecções",
+      "description": "Gestão de Prospecções: Como a empresa gerencia a prospecção e acompanhamento de clientes?",
+      "weight": 0.033333,
+      "order_index": 18,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não possui um gerente de conta ou business developer alocado para atendimento de clientes. Não existe ainda uma equipe formada. Os fundadores são a força de vendas que de fato viabiliza negócios."
+        },
+        {
+          "level": 2,
+          "text": "A empresa possui uma pessoa responsável por atendimento a clientes. Fluxo de prospecção está em desenvolvimento."
+        },
+        {
+          "level": 3,
+          "text": "A empresa possui uma pequena estrutura de venda direta ou indireta, mas não possui pessoal qualificado alocado exclusivamente para atender clientes."
+        },
+        {
+          "level": 4,
+          "text": "A empresa se relaciona com seus clientes através de venda direta e indireta, mas ainda não possui sistema automatizado para controlar leads, prospects e fazer vendas integrado com marketing online."
+        },
+        {
+          "level": 5,
+          "text": "A empresa se relaciona com seus clientes através de venda direta e indireta, e possui sistema automatizado para controlar leads, prospects e fazer vendas integrado com marketing online."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Estabeleça uma pessoa com essa atribuição, se for o caso part-time mas com planos de ficar full time, como um gerente de contas ou business developer."
+        },
+        {
+          "level": 2,
+          "feedback": "Avalie o grau de domínio da pessoa responsável do que é esperado dela em termos de entregáveis, conhecimentos e experiências."
+        },
+        {
+          "level": 3,
+          "feedback": "O gestor responsável deve avaliar sua equipe, o que se desenvolve ou se vale mais a pena mudar a equipe para atingir melhores resultados."
+        },
+        {
+          "level": 4,
+          "feedback": "Implante sistemas de apoio à gestão como um CRM. Estabeleça um fluxo em que fique claro para a equipe as prioridades."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_019",
+      "dimension": "Mercado",
+      "title": "Gestão do Relacionamento com Cliente",
+      "description": "Gestão do Relacionamento com Cliente: Como a empresa estabelece uma boa relação com clientes?",
+      "weight": 0.033333,
+      "order_index": 19,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A startup não realiza um processo de análise para entender como ocorre sua relação com o cliente, ocorrendo de forma espontânea"
+        },
+        {
+          "level": 2,
+          "text": "A startup realiza uma análise do seu relacionamento com o cliente, porém não consegue mensurar seus pontos de deficiência"
+        },
+        {
+          "level": 3,
+          "text": "Conseguimos sistematizar prospects e relacionamento com o cliente em ferramentas simples (planilhas Excel), são automatizadas na medida do possível, mas há pontos de retrabalho."
+        },
+        {
+          "level": 4,
+          "text": "Implantamos as funcionalidades da solução que cobrem todos os pontos de contato planejados na análise de relação com o cliente."
+        },
+        {
+          "level": 5,
+          "text": "Tem ótima relação comercial, com interação e identificação de clientes em diferentes segmentos, revisando regularmente estratégias de retenção e fidelização."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Mapeie a relação que vocês se propõem a entregar, com todos os pontos de contato."
+        },
+        {
+          "level": 2,
+          "feedback": "A gestão do relacionamento precisa ter seu mínimo produto viável dentro do negócio."
+        },
+        {
+          "level": 3,
+          "feedback": "Identifique as deficiências dentro do processo comercial e foque em atendê-las com vistas a ampliar o volume de prospecções."
+        },
+        {
+          "level": 4,
+          "feedback": "Dentro do processo de UX está compreendida a avaliação dos pontos de contato para identificar melhorias."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no nível máximo nesse quesito."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_020",
+      "dimension": "Mercado",
+      "title": "Satisfação dos Clientes",
+      "description": "Satisfação dos Clientes: Como a empresa identifica se os clientes estão satisfeitos?",
+      "weight": 0.033333,
+      "order_index": 20,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não mensura a satisfação dos clientes."
+        },
+        {
+          "level": 2,
+          "text": "A empresa não mensura a satisfação dos clientes formalmente, mas tem a impressão de que os clientes estão satisfeitos."
+        },
+        {
+          "level": 3,
+          "text": "A empresa mensura a satisfação dos clientes e os resultados não são positivos."
+        },
+        {
+          "level": 4,
+          "text": "Há um chat para entrar em contato com os clientes e responder a suas dúvidas. Temos boa taxa de retorno às pesquisas enviadas."
+        },
+        {
+          "level": 5,
+          "text": "A empresa mensura a satisfação dos clientes e os resultados são positivos. Há chat, pesquisas de satisfação, registro de reclamações e busca de melhorias."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Elabore meios de abrir o canal cliente/empresa. Crie um canal para receber reclamações dos clientes."
+        },
+        {
+          "level": 2,
+          "feedback": "Elabore padrões para uma mensuração mais precisa e consequentemente mais eficiente."
+        },
+        {
+          "level": 3,
+          "feedback": "É importante que seus métodos de pesquisa indiquem não apenas a insatisfação, mas também a raiz desse sentimento."
+        },
+        {
+          "level": 4,
+          "feedback": "Conforme os volumes aumentarem, serão cada vez mais necessárias soluções de automatização como CRM."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_021",
+      "dimension": "Mercado",
+      "title": "Métricas Pirata",
+      "description": "Métricas de Conversão: Como tem sido os resultados de aquisição, ativação, retenção, referências e receita?",
+      "weight": 0.033333,
+      "order_index": 21,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos estratégia de conversão pois estamos apenas obtendo nossos primeiros leads."
+        },
+        {
+          "level": 2,
+          "text": "Temos uma página estruturada com estrutura para obtenção de dados que permitam follow up. Ainda temos baixos resultados."
+        },
+        {
+          "level": 3,
+          "text": "Temos melhorado nossos indicadores de aquisição, ativação e retenção, entretanto nossos indicadores de conversão em receitas ainda é baixa."
+        },
+        {
+          "level": 4,
+          "text": "Temos desenvolvido um funil de conversão, com plano de comunicação, metas quantitativas, e gestão de pipeline via CRM."
+        },
+        {
+          "level": 5,
+          "text": "A partir da ativação já buscamos estabelecer estratégias de conversão, nossos esforços têm se refletido em bons resultados nas pirate metrics AARRR."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Foquem em produzir leads e rodar o ciclo de vendas."
+        },
+        {
+          "level": 2,
+          "feedback": "Estabeleçam os indicadores chave de monitoramento e implantem sistemática de coleta automatizada de dados."
+        },
+        {
+          "level": 3,
+          "feedback": "Cuidado com as métricas de vaidade! Garantam a estrutura de processo e responsáveis por atuar na conversão."
+        },
+        {
+          "level": 4,
+          "feedback": "Estabeleçam um dashboard de indicadores das pirate metrics AARRR. Monitorem a fidelização."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no nível máximo nesse quesito."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_022",
+      "dimension": "Mercado",
+      "title": "Retorno do Investimento em Marketing",
+      "description": "Retorno do Investimento em Marketing: Como os esforços de marketing têm se revertido em resultado financeiro?",
+      "weight": 0.033333,
+      "order_index": 22,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos uma política estruturada de investimentos em marketing."
+        },
+        {
+          "level": 2,
+          "text": "Estabelecemos a política de investimentos no plano de marketing entretanto não a colocamos em prática."
+        },
+        {
+          "level": 3,
+          "text": "Iniciamos a implantação da política de investimentos e estamos monitorando os resultados."
+        },
+        {
+          "level": 4,
+          "text": "Estamos apresentando resultados que demonstram retornos crescentes, sinalizando que estamos no caminho certo."
+        },
+        {
+          "level": 5,
+          "text": "Temos tido resultados satisfatórios do Retorno do Investimento em Marketing."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Estabeleçam a política de investimentos alinhada com o plano de marketing."
+        },
+        {
+          "level": 2,
+          "feedback": "Priorizem os desembolsos com fins de testagem de estratégias de divulgação."
+        },
+        {
+          "level": 3,
+          "feedback": "Avaliem quais testes apresentam o retorno mais satisfatório."
+        },
+        {
+          "level": 4,
+          "feedback": "Monitorem o Retorno do Investimento, eventualmente realizando ajustes."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_023",
+      "dimension": "Mercado",
+      "title": "Padrão de comunicação",
+      "description": "Como vocês asseguram uma padronização de comunicação que assegure consistência da mensagem?",
+      "weight": 0.033333,
+      "order_index": 23,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos um padrão de comunicação estabelecido."
+        },
+        {
+          "level": 2,
+          "text": "Temos um padrão de comunicação que acaba sendo incorporado de forma intuitiva. Existe grande discrepância de abordagem."
+        },
+        {
+          "level": 3,
+          "text": "Temos um padrão de comunicação incorporado de forma intuitiva. A cultura da empresa é muito forte e contribui para isso."
+        },
+        {
+          "level": 4,
+          "text": "Em geral os pontos de contato com o cliente tem uma mesma abordagem, especialmente dentro de processos vinculados a marketing."
+        },
+        {
+          "level": 5,
+          "text": "Todos nossos pontos de contato recordam um mesmo padrão de comunicação, alinhada com a estratégia da marca."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Tom de comunicação estabelece a abordagem, a intensidade e forma. Estabeleça linhas gerais deste approach."
+        },
+        {
+          "level": 2,
+          "feedback": "Para padronizar sua identidade é importante alinhar entre os envolvidos o tom de voz."
+        },
+        {
+          "level": 3,
+          "feedback": "Avalie se o tom de voz está alinhado com os mercados onde a empresa se propõe atingir."
+        },
+        {
+          "level": 4,
+          "feedback": "Diagnostique os pontos de contatos e estabeleça medidas corretivas. Tenha um guia de estilo."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_024",
+      "dimension": "Mercado",
+      "title": "Engajamento",
+      "description": "Como sua startup mede o churn dos seus clientes?",
+      "weight": 0.033333,
+      "order_index": 24,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não realizamos nenhum tipo de acompanhamento."
+        },
+        {
+          "level": 2,
+          "text": "Observamos o churn através da utilização do produto/serviço. Contudo não realizamos medidas para controlar."
+        },
+        {
+          "level": 3,
+          "text": "Medimos o engajamento a partir da utilização do produto/serviço, mas não entendemos como realizar a redução do churn."
+        },
+        {
+          "level": 4,
+          "text": "Medimos o engajamento de acordo com indicadores e conseguimos entender como utilizar essa medida para buscar a redução do churn."
+        },
+        {
+          "level": 5,
+          "text": "Medimos o engajamento de acordo com indicadores. Além disso, conseguimos aplicar um plano contínuo de redução do churn e já atingimos um valor ideal."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Entender o engajamento dos clientes é a melhor forma de planejar onde alocar esforços para fidelizar e captar clientes."
+        },
+        {
+          "level": 2,
+          "feedback": "É um bom começo. Tente alocar as observações dentro de indicadores mais concretos."
+        },
+        {
+          "level": 3,
+          "feedback": "Se vocês já possuem as métricas, alocar dentro de indicadores será o ponto de partida para criar um plano de redução do churn."
+        },
+        {
+          "level": 4,
+          "feedback": "A partir dos indicadores, você pode entender quais ações geram mais retornos positivos e potencializar o engajamento."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_025",
+      "dimension": "Mercado",
+      "title": "Novos mercados",
+      "description": "Qual o potencial da startup para explorar novos mercados?",
+      "weight": 0.033333,
+      "order_index": 25,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não vemos possibilidade de explorar novos mercados."
+        },
+        {
+          "level": 2,
+          "text": "Entendemos que temos potencial para explorar novos mercados, mas não temos nenhuma análise sobre isso."
+        },
+        {
+          "level": 3,
+          "text": "Entendemos que temos potencial e já começamos a realizar estudos para entender quais mercados seriam."
+        },
+        {
+          "level": 4,
+          "text": "Temos potencial, já visualizamos quais mercados são, porém não definimos uma estratégia para isso ainda."
+        },
+        {
+          "level": 5,
+          "text": "Temos potencial, já visualizamos quais são eles e já possuímos uma estratégia clara e plano de ação."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Para crescimento exponencial, sua startup precisa ver formas de expandir."
+        },
+        {
+          "level": 2,
+          "feedback": "Olhe para o mercado de forma mais crítica. Pesquise outros potenciais mercados."
+        },
+        {
+          "level": 3,
+          "feedback": "É um ótimo começo. Inclua nos planejamentos estratégicos uma forma de canalizar os esforços."
+        },
+        {
+          "level": 4,
+          "feedback": "A partir do conhecimento dos potenciais mercados, defina estratégias de ação. Realize pequenas validações."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_026",
+      "dimension": "Mercado",
+      "title": "Segmentação de clientes",
+      "description": "A empresa sabe quais são os melhores segmentos de clientes que oferecem o maior potencial de monetização?",
+      "weight": 0.033333,
+      "order_index": 26,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não realizou esse estudo para entender o melhor segmento de cliente."
+        },
+        {
+          "level": 2,
+          "text": "A empresa tem ideia de quais são os segmentos com potencial, porém não aprofundou."
+        },
+        {
+          "level": 3,
+          "text": "A empresa está validando segmentos de clientes para monetização mas ainda não concluiu."
+        },
+        {
+          "level": 4,
+          "text": "A empresa já realizou os estudos sobre os melhores segmentos, porém não colocou em prática."
+        },
+        {
+          "level": 5,
+          "text": "A empresa já realizou os estudos, sabe quais são os melhores segmentos e já está monetizando de acordo."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "É importante conhecer os melhores segmentos de clientes para a sua startup crescer."
+        },
+        {
+          "level": 2,
+          "feedback": "Reavalie o seu modelo de negócio e os melhores segmentos de clientes."
+        },
+        {
+          "level": 3,
+          "feedback": "Entender os melhores segmentos aumenta os fatores de sucesso para a sua startup."
+        },
+        {
+          "level": 4,
+          "feedback": "Busque priorizar este potencial junto ao time de marketing e vendas."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_027",
+      "dimension": "Mercado",
+      "title": "Potencial de monetização",
+      "description": "A empresa sabe quais são os melhores casos de uso que oferecem o maior potencial de monetização?",
+      "weight": 0.033333,
+      "order_index": 27,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não realizou esse estudo para entender o melhor caso de uso."
+        },
+        {
+          "level": 2,
+          "text": "A empresa tem ideia de quais são os casos de uso com potencial, porém não aprofundou."
+        },
+        {
+          "level": 3,
+          "text": "A empresa está validando casos de uso para monetização mas ainda não concluiu."
+        },
+        {
+          "level": 4,
+          "text": "A empresa já realizou os estudos sobre os melhores casos de uso, porém não colocou em prática."
+        },
+        {
+          "level": 5,
+          "text": "A empresa já sabe quais são os melhores casos de uso e já está monetizando de acordo."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "É importante conhecer os melhores casos de uso para a sua startup crescer."
+        },
+        {
+          "level": 2,
+          "feedback": "Reavalie o seu modelo de negócio e os melhores casos de uso."
+        },
+        {
+          "level": 3,
+          "feedback": "Entender os melhores casos de uso aumenta os fatores de sucesso."
+        },
+        {
+          "level": 4,
+          "feedback": "O caso de uso é um fator de sucesso para a área comercial."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_028",
+      "dimension": "Mercado",
+      "title": "Canais de distribuição",
+      "description": "A empresa sabe quais são os melhores canais de distribuição para sua linha de produtos e serviços?",
+      "weight": 0.033333,
+      "order_index": 28,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não realizou esse estudo sobre canais de distribuição."
+        },
+        {
+          "level": 2,
+          "text": "A empresa tem ideia de quais são os canais, porém não aprofundou."
+        },
+        {
+          "level": 3,
+          "text": "A empresa está validando os canais de distribuição mas ainda não concluiu."
+        },
+        {
+          "level": 4,
+          "text": "A empresa já realizou os estudos sobre os canais, porém não colocou em prática."
+        },
+        {
+          "level": 5,
+          "text": "A empresa já sabe quais são os melhores canais e já está distribuindo de acordo."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "É importante conhecer os melhores canais de distribuição para a sua startup crescer."
+        },
+        {
+          "level": 2,
+          "feedback": "Reavalie os melhores canais de distribuição para entender a viabilidade de crescimento."
+        },
+        {
+          "level": 3,
+          "feedback": "Entender os melhores canais aumenta os fatores de sucesso."
+        },
+        {
+          "level": 4,
+          "feedback": "Busque priorizar os melhores canais junto ao time de marketing e vendas."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_029",
+      "dimension": "Mercado",
+      "title": "Barreiras de monetização",
+      "description": "A empresa sabe quais são as principais barreiras para a monetização?",
+      "weight": 0.033333,
+      "order_index": 29,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não realizou esse estudo sobre as principais barreiras para monetização."
+        },
+        {
+          "level": 2,
+          "text": "A empresa tem ideia de quais são as principais barreiras, porém não aprofundou."
+        },
+        {
+          "level": 3,
+          "text": "A empresa está validando as principais barreiras mas ainda não concluiu."
+        },
+        {
+          "level": 4,
+          "text": "A empresa já realizou os estudos sobre as principais barreiras, porém não colocou em prática a estratégia."
+        },
+        {
+          "level": 5,
+          "text": "A empresa já sabe quais são as principais barreiras e já iniciou a execução das estratégias."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "É importante conhecer as barreiras para monetização para a sua startup crescer."
+        },
+        {
+          "level": 2,
+          "feedback": "Reavalie as principais barreiras para entender a viabilidade de crescimento."
+        },
+        {
+          "level": 3,
+          "feedback": "Entender as barreiras pode garantir uma longa jornada com clientes e aumento do LTV."
+        },
+        {
+          "level": 4,
+          "feedback": "Conhecer as barreiras é um fator de sucesso. Busque priorizar o estudo sobre formas alternativas."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_030",
+      "dimension": "Mercado",
+      "title": "Estratégia de Expansão",
+      "description": "Como a startup está planejando explorar novos mercados?",
+      "weight": 0.033333,
+      "order_index": 30,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não está buscando maneiras de explorar novos mercados"
+        },
+        {
+          "level": 2,
+          "text": "Apesar de vislumbrar como atender novos mercados, a empresa optou por não explorá-los."
+        },
+        {
+          "level": 3,
+          "text": "Apesar de vislumbrar como atender novos mercados, a empresa não tem uma visão estratégica clara."
+        },
+        {
+          "level": 4,
+          "text": "Sim, no entanto, a empresa está focada em ganhar espaço no mercado atual primeiro."
+        },
+        {
+          "level": 5,
+          "text": "Sim, inclusive a empresa já está tomando atitudes para iniciar essa exploração de novos mercados."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Explorar novos mercados é uma das principais maneiras de aumentar seus lucros."
+        },
+        {
+          "level": 2,
+          "feedback": "Considere seriamente esta estratégia de crescimento pois ela é comprovadamente eficaz."
+        },
+        {
+          "level": 3,
+          "feedback": "Identifique os mercados que se enquadram no horizonte de longo prazo."
+        },
+        {
+          "level": 4,
+          "feedback": "Foco é essencial, mas sugerimos que parem para pensar em como dar o próximo passo."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_031",
+      "dimension": "Mercado",
+      "title": "Barreira de Entrada",
+      "description": "Existem barreiras de entrada em seu segmento de negócio?",
+      "weight": 0.033333,
+      "order_index": 31,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não sabe mensurar essa informação."
+        },
+        {
+          "level": 2,
+          "text": "Hoje adentrar no mercado é fácil e a empresa não se sente preparada para concorrer com novos entrantes."
+        },
+        {
+          "level": 3,
+          "text": "Existem poucas barreiras de entrada mas a empresa se sente preparada."
+        },
+        {
+          "level": 4,
+          "text": "Hoje existem algumas barreiras mas a empresa não se sente preparada caso a entrada aconteça."
+        },
+        {
+          "level": 5,
+          "text": "Existem barreiras e a empresa está preparada para novos entrantes."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Diversos fatores influenciam na facilidade de entrada de novos concorrentes. Avalie os fatores relevantes."
+        },
+        {
+          "level": 2,
+          "feedback": "Procure entender o quanto a empresa está suscetível a um novo concorrente significativo."
+        },
+        {
+          "level": 3,
+          "feedback": "De que forma sua empresa poderia atingir um oceano azul?"
+        },
+        {
+          "level": 4,
+          "feedback": "Não fique confortável: fortaleça o posicionamento e a diferenciação."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Sua empresa tem uma estratégia oceano azul."
+        }
+      ]
+    },
+    {
+      "id": "ind_mercado_032",
+      "dimension": "Mercado",
+      "title": "Ameaça de Substitutos",
+      "description": "Quão ameaçada está sua empresa no mercado por substitutos?",
+      "weight": 0.033333,
+      "order_index": 32,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não acompanhamos a evolução do mercado para mapear surgimento de potenciais substitutos"
+        },
+        {
+          "level": 2,
+          "text": "Entendemos que existe margem para ameaças de substitutos, contudo não possuímos uma estratégia para lidar"
+        },
+        {
+          "level": 3,
+          "text": "Entendemos que existe margem para ameaças de substitutos, contudo entendemos que não há estratégias para lidar"
+        },
+        {
+          "level": 4,
+          "text": "Entendemos que existe margem para ameaças de substitutos e estamos trabalhando em estratégias"
+        },
+        {
+          "level": 5,
+          "text": "Entendemos que não há ameaça de substitutos"
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Monitore o mercado através de pesquisas periódicas setoriais, eventos e publicações especializadas."
+        },
+        {
+          "level": 2,
+          "feedback": "Busque formas de fazer o que você faz com maior economicidade."
+        },
+        {
+          "level": 3,
+          "feedback": "Invista em estratégias de marketing adaptadas. Atenção redobrada no monitoramento de indicadores."
+        },
+        {
+          "level": 4,
+          "feedback": "É importante que o mapeamento se converta na identificação de possibilidades. Construam uma matriz eliminar/aumentar/reduzir/criar."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você possui o nível máximo neste quesito."
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_001",
+      "dimension": "Finanças",
+      "title": "Fluxo de Caixa",
+      "description": "Fluxo de Caixa: Quão organizada é sua empresa em termos de controle e projeção de entradas e saídas?",
+      "weight": 0.033333,
+      "order_index": 1,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não possui controle das despesas e de seu saldo bancário."
+        },
+        {
+          "level": 2,
+          "text": "A empresa controla suas entradas, saídas e saldo de contas."
+        },
+        {
+          "level": 3,
+          "text": "Temos um fluxo de caixa com categorização de contas."
+        },
+        {
+          "level": 4,
+          "text": "A empresa faz projeções e monitora o orçado frente ao realizado."
+        },
+        {
+          "level": 5,
+          "text": "A empresa gera indicadores, calcula prazos médios, avalia oscilações e toma decisões com base nas informações."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Comece a utilizar ferramentas para controlar o fluxo de caixa."
+        },
+        {
+          "level": 2,
+          "feedback": "Avalie categorizar suas contas para poder avaliar principais tipos de entradas e saídas."
+        },
+        {
+          "level": 3,
+          "feedback": "Comece a fazer projeções financeiras para horizonte de 12 meses."
+        },
+        {
+          "level": 4,
+          "feedback": "Comece a gerar indicadores como geração de caixa. Controle prazos de pagamentos e recebimentos."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_002",
+      "dimension": "Finanças",
+      "title": "Planejamento Orçamentário",
+      "description": "Planejamento Orçamentário: Como sua empresa planeja seu orçamento?",
+      "weight": 0.033333,
+      "order_index": 2,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Nossa empresa não tem planejamento orçamentário."
+        },
+        {
+          "level": 2,
+          "text": "A empresa tem planejamento financeiro de curto prazo, no horizonte de 6 meses."
+        },
+        {
+          "level": 3,
+          "text": "A empresa dispõe de planejamento financeiro com horizonte de 1 ano."
+        },
+        {
+          "level": 4,
+          "text": "Temos projeção mensal e para 3 anos que demonstra como vamos crescer e o ponto de equilíbrio."
+        },
+        {
+          "level": 5,
+          "text": "O planejamento financeiro é um desdobramento do planejamento estratégico da empresa."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Realize um planejamento orçamentário, estabeleça pelo menos um horizonte de 6 meses."
+        },
+        {
+          "level": 2,
+          "feedback": "Estabeleça o orçamento no horizonte de 12 meses."
+        },
+        {
+          "level": 3,
+          "feedback": "Projete o planejamento para 36 meses e identifique o ponto de equilíbrio."
+        },
+        {
+          "level": 4,
+          "feedback": "Comece a associar o planejamento orçamentário com os objetivos estratégicos."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_003",
+      "dimension": "Finanças",
+      "title": "Precificação",
+      "description": "Precificação: Como você define o preço do seu produto ou serviço?",
+      "weight": 0.033333,
+      "order_index": 3,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos critérios definidos para definir a precificação."
+        },
+        {
+          "level": 2,
+          "text": "Definimos com base na concorrência."
+        },
+        {
+          "level": 3,
+          "text": "Definimos a precificação a partir do custo de produção."
+        },
+        {
+          "level": 4,
+          "text": "Estabelecemos o preço com base nos custos de produção e margem de lucro (markup)."
+        },
+        {
+          "level": 5,
+          "text": "Preço baseado em custos, markup e pesquisa de mercado, atrelado às metas da startup."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Você não saberá se está cobrando muito ou pouco. Considere custo de produção e margem de contribuição."
+        },
+        {
+          "level": 2,
+          "feedback": "Faça validações de mercado mas dimensione seus custos."
+        },
+        {
+          "level": 3,
+          "feedback": "É importante considerar a margem de lucro no processo de precificação."
+        },
+        {
+          "level": 4,
+          "feedback": "A margem de lucro deve ser baseada em pesquisa de mercado e estratégias da startup."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_004",
+      "dimension": "Finanças",
+      "title": "Margem de Contribuição",
+      "description": "Margem de Contribuição: Como a empresa gerencia a margem de contribuição?",
+      "weight": 0.033333,
+      "order_index": 4,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não calcula."
+        },
+        {
+          "level": 2,
+          "text": "A empresa não tem dimensionado seus custos e despesas variáveis."
+        },
+        {
+          "level": 3,
+          "text": "Calculamos a margem de contribuição, entretanto não sabemos como utilizá-la na tomada de decisão."
+        },
+        {
+          "level": 4,
+          "text": "Cada produto possui diferentes margens de contribuição."
+        },
+        {
+          "level": 5,
+          "text": "Todos os produtos estão em uma faixa de margem de contribuição padrão da empresa."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Se a margem não é conhecida, você pode estar vendendo bastante e ter prejuízo."
+        },
+        {
+          "level": 2,
+          "feedback": "Identifique os valores que variam em função do volume produzido ou vendido."
+        },
+        {
+          "level": 3,
+          "feedback": "A margem de contribuição pode alimentar processos como precificação e avaliação de custos."
+        },
+        {
+          "level": 4,
+          "feedback": "O próximo passo é normatizar uma faixa padrão de margem de contribuição."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_005",
+      "dimension": "Finanças",
+      "title": "Valuation",
+      "description": "Valuation: Você sabe quanto vale a sua empresa?",
+      "weight": 0.033333,
+      "order_index": 5,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos o valor e ainda não calculamos o valuation."
+        },
+        {
+          "level": 2,
+          "text": "Temos apenas uma estimativa do valor, sem um fluxo de caixa projetado."
+        },
+        {
+          "level": 3,
+          "text": "Temos uma estimativa e iniciamos uma projeção mas está incompleta."
+        },
+        {
+          "level": 4,
+          "text": "Sabemos o valor calculado pela projeção de fluxo de caixa para os próximos anos."
+        },
+        {
+          "level": 5,
+          "text": "Sabemos o valor exato, com diferentes cenários e métodos de valuation."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Saber o valor da empresa é fundamental para captação de investimentos e decisões estratégicas."
+        },
+        {
+          "level": 2,
+          "feedback": "Uma estimativa é um começo, mas formalize com projeção de fluxo de caixa."
+        },
+        {
+          "level": 3,
+          "feedback": "Complete a projeção e valide com um profissional de finanças."
+        },
+        {
+          "level": 4,
+          "feedback": "Considere diferentes cenários (conservador, moderado, otimista) para robustez."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_006",
+      "dimension": "Finanças",
+      "title": "LTV e CAC",
+      "description": "LTV e CAC: Como a empresa monitora o Lifetime Value e o Custo de Aquisição de Cliente?",
+      "weight": 0.033333,
+      "order_index": 6,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não conhecemos esses indicadores."
+        },
+        {
+          "level": 2,
+          "text": "Conhecemos os conceitos mas não calculamos."
+        },
+        {
+          "level": 3,
+          "text": "Calculamos LTV e CAC mas não usamos para tomada de decisão."
+        },
+        {
+          "level": 4,
+          "text": "Monitoramos LTV e CAC regularmente e usamos para decisões de marketing e vendas."
+        },
+        {
+          "level": 5,
+          "text": "LTV/CAC é um dos principais indicadores de decisão. Temos LTV/CAC > 3 e otimizamos continuamente."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "LTV (Lifetime Value) e CAC (Custo de Aquisição de Cliente) são fundamentais para entender a saúde do negócio."
+        },
+        {
+          "level": 2,
+          "feedback": "Comece a calcular: LTV = receita média por cliente × tempo médio de permanência. CAC = investimento em marketing e vendas / novos clientes."
+        },
+        {
+          "level": 3,
+          "feedback": "Use a relação LTV/CAC para decidir quanto investir em aquisição. O ideal é LTV > 3x CAC."
+        },
+        {
+          "level": 4,
+          "feedback": "Busque otimizar o LTV aumentando retenção e ticket médio, e reduzir o CAC com canais mais eficientes."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_007",
+      "dimension": "Finanças",
+      "title": "Ponto de Equilíbrio",
+      "description": "Ponto de Equilíbrio: A empresa sabe quando atinge o breakeven?",
+      "weight": 0.033333,
+      "order_index": 7,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não calculamos o ponto de equilíbrio."
+        },
+        {
+          "level": 2,
+          "text": "Temos uma noção geral mas sem cálculo formal."
+        },
+        {
+          "level": 3,
+          "text": "Calculamos o ponto de equilíbrio mas não monitoramos regularmente."
+        },
+        {
+          "level": 4,
+          "text": "Monitoramos o ponto de equilíbrio mensalmente e usamos para planejamento."
+        },
+        {
+          "level": 5,
+          "text": "O ponto de equilíbrio é monitorado e já foi ultrapassado. Trabalhamos para aumentar a margem de segurança."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Calcule o ponto de equilíbrio: custos fixos / margem de contribuição unitária."
+        },
+        {
+          "level": 2,
+          "feedback": "Formalize o cálculo e identifique quantas unidades ou clientes precisa para cobrir os custos fixos."
+        },
+        {
+          "level": 3,
+          "feedback": "Monitore mensalmente e compare com o realizado. Isso é essencial para entender o ritmo de crescimento necessário."
+        },
+        {
+          "level": 4,
+          "feedback": "Use o ponto de equilíbrio como referência para metas de vendas e para avaliar novos investimentos."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_008",
+      "dimension": "Finanças",
+      "title": "Captação de Recursos",
+      "description": "Captação de Recursos: Como a empresa se prepara para captar investimentos?",
+      "weight": 0.033333,
+      "order_index": 8,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos planos de captação e o negócio é 100% bootstrapped."
+        },
+        {
+          "level": 2,
+          "text": "Estamos considerando captar mas não temos materiais ou pitch preparado."
+        },
+        {
+          "level": 3,
+          "text": "Temos pitch deck e valuation mas ainda não iniciamos rodada."
+        },
+        {
+          "level": 4,
+          "text": "Estamos em processo de captação com investidores interessados."
+        },
+        {
+          "level": 5,
+          "text": "Já captamos investimento e temos relacionamento ativo com investidores para próximas rodadas."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Se a empresa não planeja captar, assegure que o fluxo de caixa operacional sustenta o crescimento desejado."
+        },
+        {
+          "level": 2,
+          "feedback": "Prepare um pitch deck e calcule o valuation. Participe de eventos de investidores para entender o mercado."
+        },
+        {
+          "level": 3,
+          "feedback": "Comece a conversar com investidores. Faça networking em eventos e aceleradoras."
+        },
+        {
+          "level": 4,
+          "feedback": "Mantenha o pipeline de investidores ativo. Prepare-se para due diligence com documentação organizada."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_009",
+      "dimension": "Finanças",
+      "title": "Indicadores Financeiros",
+      "description": "Indicadores Financeiros: Quais indicadores financeiros a empresa monitora?",
+      "weight": 0.033333,
+      "order_index": 9,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não monitoramos indicadores financeiros além do saldo bancário."
+        },
+        {
+          "level": 2,
+          "text": "Monitoramos receita e despesas mensais de forma básica."
+        },
+        {
+          "level": 3,
+          "text": "Temos um dashboard com receita, despesas, margem e burn rate."
+        },
+        {
+          "level": 4,
+          "text": "Monitoramos KPIs financeiros completos incluindo runway, MRR/ARR, churn financeiro."
+        },
+        {
+          "level": 5,
+          "text": "Temos dashboard financeiro completo com projeções, cenários e alertas automáticos."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Comece com os básicos: receita, despesa, resultado e saldo. Use uma planilha simples."
+        },
+        {
+          "level": 2,
+          "feedback": "Adicione indicadores como margem bruta, burn rate e runway (meses de caixa restantes)."
+        },
+        {
+          "level": 3,
+          "feedback": "Inclua métricas de SaaS como MRR, churn rate e expansion revenue se aplicável."
+        },
+        {
+          "level": 4,
+          "feedback": "Automatize alertas para indicadores críticos como runway < 6 meses ou churn > threshold."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_financas_010",
+      "dimension": "Finanças",
+      "title": "Gestão Tributária",
+      "description": "Gestão Tributária: Como a empresa gerencia suas obrigações fiscais e tributárias?",
+      "weight": 0.033333,
+      "order_index": 10,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos controle das obrigações fiscais."
+        },
+        {
+          "level": 2,
+          "text": "Temos contador mas não participamos ativamente da gestão tributária."
+        },
+        {
+          "level": 3,
+          "text": "Acompanhamos as obrigações fiscais com o contador e estamos em dia."
+        },
+        {
+          "level": 4,
+          "text": "Fazemos planejamento tributário para otimizar a carga fiscal dentro da legalidade."
+        },
+        {
+          "level": 5,
+          "text": "Temos planejamento tributário estratégico alinhado com o crescimento da empresa e incentivos fiscais mapeados."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Regularize imediatamente. Multas e juros podem comprometer o caixa e inviabilizar captação de investimentos."
+        },
+        {
+          "level": 2,
+          "feedback": "Participe mais ativamente. Entenda o regime tributário da empresa e se é o mais vantajoso."
+        },
+        {
+          "level": 3,
+          "feedback": "Avalie se o regime atual (Simples, Lucro Presumido, Lucro Real) é o mais adequado para o momento da empresa."
+        },
+        {
+          "level": 4,
+          "feedback": "Mapeie incentivos fiscais disponíveis para seu setor, como Lei do Bem para inovação."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_001",
+      "dimension": "Branding",
+      "title": "Identidade Visual",
+      "description": "Identidade Visual: A empresa possui uma identidade visual profissional e consistente?",
+      "weight": 0.033333,
+      "order_index": 1,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A empresa não possui identidade visual definida."
+        },
+        {
+          "level": 2,
+          "text": "Temos logo e cores básicas mas sem manual de marca."
+        },
+        {
+          "level": 3,
+          "text": "Temos identidade visual com manual de marca mas nem todos os materiais seguem o padrão."
+        },
+        {
+          "level": 4,
+          "text": "Identidade visual consistente em todos os pontos de contato, com manual de marca atualizado."
+        },
+        {
+          "level": 5,
+          "text": "Identidade visual premium, desenvolvida por profissionais, com brand guidelines completo e aplicação consistente em todos os canais."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Comece com o básico: logo, paleta de cores e tipografia. Ferramentas como Canva podem ajudar no início."
+        },
+        {
+          "level": 2,
+          "feedback": "Invista em um manual de marca que padronize o uso da identidade visual em todos os materiais."
+        },
+        {
+          "level": 3,
+          "feedback": "Faça uma auditoria de marca e alinhe todos os materiais existentes com o manual."
+        },
+        {
+          "level": 4,
+          "feedback": "Avalie se a identidade visual comunica os valores e posicionamento desejados da marca."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_002",
+      "dimension": "Branding",
+      "title": "Posicionamento de Marca",
+      "description": "Posicionamento de Marca: A empresa tem clareza sobre como quer ser percebida pelo mercado?",
+      "weight": 0.033333,
+      "order_index": 2,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos um posicionamento de marca definido."
+        },
+        {
+          "level": 2,
+          "text": "Temos uma ideia geral mas não está formalizado."
+        },
+        {
+          "level": 3,
+          "text": "Posicionamento definido mas não é consistentemente comunicado."
+        },
+        {
+          "level": 4,
+          "text": "Posicionamento claro, comunicado em todos os canais, reconhecido por clientes."
+        },
+        {
+          "level": 5,
+          "text": "Posicionamento diferenciado e reconhecido como referência no segmento. A marca é um ativo estratégico."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Defina: para quem é a marca, qual problema resolve, e qual o diferencial. Use o framework: Para [público], [marca] é [categoria] que [benefício] porque [razão]."
+        },
+        {
+          "level": 2,
+          "feedback": "Formalize o posicionamento em um documento e alinhe com toda a equipe."
+        },
+        {
+          "level": 3,
+          "feedback": "Faça um cross-check: o posicionamento está refletido no site, materiais, pitch e atendimento?"
+        },
+        {
+          "level": 4,
+          "feedback": "Monitore a percepção da marca com pesquisas periódicas junto a clientes e prospects."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_003",
+      "dimension": "Branding",
+      "title": "Tom de Voz",
+      "description": "Tom de Voz: A empresa tem um tom de comunicação consistente e reconhecível?",
+      "weight": 0.033333,
+      "order_index": 3,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos definição de tom de voz."
+        },
+        {
+          "level": 2,
+          "text": "Cada pessoa da equipe comunica de um jeito diferente."
+        },
+        {
+          "level": 3,
+          "text": "Temos diretrizes gerais mas não são seguidas consistentemente."
+        },
+        {
+          "level": 4,
+          "text": "Tom de voz definido e seguido na maioria das comunicações."
+        },
+        {
+          "level": 5,
+          "text": "Tom de voz reconhecível, documentado em guia de estilo, aplicado em todos os pontos de contato."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Defina se a marca é formal ou casual, técnica ou acessível, séria ou bem-humorada."
+        },
+        {
+          "level": 2,
+          "feedback": "Crie um guia simples de tom de voz com exemplos do que fazer e não fazer."
+        },
+        {
+          "level": 3,
+          "feedback": "Treine a equipe e revise as comunicações antes de publicar. Consistência gera confiança."
+        },
+        {
+          "level": 4,
+          "feedback": "Expanda o guia com exemplos para diferentes contextos: redes sociais, email, suporte, vendas."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_004",
+      "dimension": "Branding",
+      "title": "Brand Equity",
+      "description": "Brand Equity: Quanto valor a marca agrega ao negócio?",
+      "weight": 0.033333,
+      "order_index": 4,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "A marca não é reconhecida pelo mercado."
+        },
+        {
+          "level": 2,
+          "text": "A marca é conhecida por alguns clientes mas não tem diferenciação clara."
+        },
+        {
+          "level": 3,
+          "text": "A marca tem reconhecimento no nicho e é associada a qualidade."
+        },
+        {
+          "level": 4,
+          "text": "A marca tem equity mensurável: clientes pagam premium e indicam espontaneamente."
+        },
+        {
+          "level": 5,
+          "text": "A marca é referência no segmento. Brand equity é ativo estratégico com valor quantificado."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Foque em construir awareness: produção de conteúdo, presença em eventos, mídia social."
+        },
+        {
+          "level": 2,
+          "feedback": "Trabalhe a diferenciação: o que torna sua marca única? Comunique isso consistentemente."
+        },
+        {
+          "level": 3,
+          "feedback": "Meça o NPS e a intenção de recompra. Esses são indicadores de brand equity."
+        },
+        {
+          "level": 4,
+          "feedback": "Quantifique o valor da marca e use como argumento em captação de investimentos."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_005",
+      "dimension": "Branding",
+      "title": "Storytelling",
+      "description": "Storytelling: A empresa usa narrativas para conectar emocionalmente com o público?",
+      "weight": 0.033333,
+      "order_index": 5,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não usamos storytelling na comunicação."
+        },
+        {
+          "level": 2,
+          "text": "Comunicamos de forma funcional, focando apenas em features do produto."
+        },
+        {
+          "level": 3,
+          "text": "Temos história da marca mas não é usada consistentemente na comunicação."
+        },
+        {
+          "level": 4,
+          "text": "Storytelling presente nas principais peças de comunicação e pitch."
+        },
+        {
+          "level": 5,
+          "text": "Narrativa de marca forte que gera identificação emocional e engajamento do público."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Toda marca tem uma história. Comece com o porquê: por que a empresa existe? Qual problema motivou a criação?"
+        },
+        {
+          "level": 2,
+          "feedback": "Pessoas compram emoções, não features. Conte histórias de clientes transformados pela sua solução."
+        },
+        {
+          "level": 3,
+          "feedback": "Integre a narrativa em todos os canais: site, pitch, redes sociais, email marketing."
+        },
+        {
+          "level": 4,
+          "feedback": "Use cases de clientes e depoimentos são as histórias mais poderosas. Colete e compartilhe regularmente."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_006",
+      "dimension": "Branding",
+      "title": "Presença Digital",
+      "description": "Presença Digital: Como a marca se posiciona nos canais digitais?",
+      "weight": 0.033333,
+      "order_index": 6,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Presença digital mínima ou inexistente."
+        },
+        {
+          "level": 2,
+          "text": "Temos perfis nas principais redes mas sem estratégia de conteúdo."
+        },
+        {
+          "level": 3,
+          "text": "Presença ativa em 2-3 canais com publicação regular."
+        },
+        {
+          "level": 4,
+          "text": "Estratégia digital integrada com conteúdo de valor e engajamento crescente."
+        },
+        {
+          "level": 5,
+          "text": "Marca é referência digital no segmento com comunidade engajada e autoridade reconhecida."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Escolha 2 canais onde seu público está e comece a publicar regularmente."
+        },
+        {
+          "level": 2,
+          "feedback": "Crie um calendário editorial e defina pilares de conteúdo alinhados com o posicionamento."
+        },
+        {
+          "level": 3,
+          "feedback": "Monitore métricas de engajamento e ajuste a estratégia com base nos dados."
+        },
+        {
+          "level": 4,
+          "feedback": "Invista em SEO e conteúdo evergreen para construir autoridade de longo prazo."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_007",
+      "dimension": "Branding",
+      "title": "Reputação",
+      "description": "Reputação: Como a empresa gerencia sua reputação no mercado?",
+      "weight": 0.033333,
+      "order_index": 7,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não monitoramos nossa reputação."
+        },
+        {
+          "level": 2,
+          "text": "Recebemos feedbacks eventualmente mas não de forma estruturada."
+        },
+        {
+          "level": 3,
+          "text": "Monitoramos avaliações e feedbacks em canais principais."
+        },
+        {
+          "level": 4,
+          "text": "Gestão ativa de reputação com resposta rápida a feedbacks e avaliações."
+        },
+        {
+          "level": 5,
+          "text": "Reputação excelente com programa de advocacy, depoimentos e cases estruturados."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Configure alertas no Google para o nome da empresa. Monitore redes sociais e Reclame Aqui."
+        },
+        {
+          "level": 2,
+          "feedback": "Crie um processo para coletar e responder feedbacks sistematicamente."
+        },
+        {
+          "level": 3,
+          "feedback": "Responda a todas as avaliações, positivas e negativas. Transparência gera confiança."
+        },
+        {
+          "level": 4,
+          "feedback": "Transforme clientes satisfeitos em advocates. Peça depoimentos e cases de sucesso."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_008",
+      "dimension": "Branding",
+      "title": "Experiência de Marca",
+      "description": "Experiência de Marca: Como é a experiência do cliente em cada ponto de contato com a marca?",
+      "weight": 0.033333,
+      "order_index": 8,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não pensamos na experiência de marca nos pontos de contato."
+        },
+        {
+          "level": 2,
+          "text": "Alguns pontos de contato são bem cuidados, outros não."
+        },
+        {
+          "level": 3,
+          "text": "Mapeamos os pontos de contato e trabalhamos para melhorar a experiência."
+        },
+        {
+          "level": 4,
+          "text": "Experiência consistente e positiva na maioria dos pontos de contato."
+        },
+        {
+          "level": 5,
+          "text": "Experiência memorável em todos os pontos de contato, gerando encantamento e diferenciação."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Mapeie todos os pontos de contato: site, email, suporte, redes, produto, embalagem, etc."
+        },
+        {
+          "level": 2,
+          "feedback": "Identifique os pontos críticos (onde o cliente forma opinião) e priorize melhorias neles."
+        },
+        {
+          "level": 3,
+          "feedback": "Crie padrões de atendimento e comunicação para cada ponto de contato."
+        },
+        {
+          "level": 4,
+          "feedback": "Busque surpreender positivamente. Pequenos detalhes inesperados criam memórias de marca."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_009",
+      "dimension": "Branding",
+      "title": "Propósito e Valores",
+      "description": "Propósito e Valores: A empresa comunica seu propósito e valores de forma autêntica?",
+      "weight": 0.033333,
+      "order_index": 9,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não temos propósito ou valores definidos."
+        },
+        {
+          "level": 2,
+          "text": "Temos missão/visão/valores mas são genéricos e não praticados."
+        },
+        {
+          "level": 3,
+          "text": "Propósito definido e comunicado internamente."
+        },
+        {
+          "level": 4,
+          "text": "Propósito vivido pela equipe e comunicado ao mercado."
+        },
+        {
+          "level": 5,
+          "text": "Propósito é o motor da empresa, reconhecido por clientes e colaboradores como autêntico."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Comece pelo porquê: por que a empresa existe além de gerar lucro? Que mudança quer causar no mundo?"
+        },
+        {
+          "level": 2,
+          "feedback": "Reescreva de forma autêntica. Propósito genérico é pior que não ter — gera cinismo."
+        },
+        {
+          "level": 3,
+          "feedback": "Leve para fora: comunique no site, pitch, materiais. O propósito deve atrair clientes e talentos alinhados."
+        },
+        {
+          "level": 4,
+          "feedback": "Meça se as decisões da empresa são coerentes com o propósito. Autenticidade é testada nas decisões difíceis."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
+    },
+    {
+      "id": "ind_branding_010",
+      "dimension": "Branding",
+      "title": "Gestão de Marca",
+      "description": "Gestão de Marca: Como a empresa estrutura a gestão estratégica da marca?",
+      "weight": 0.033333,
+      "order_index": 10,
+      "response_options": [
+        {
+          "level": 1,
+          "text": "Não existe gestão de marca. Decisões são tomadas ad hoc."
+        },
+        {
+          "level": 2,
+          "text": "Uma pessoa cuida da marca mas sem processo formal."
+        },
+        {
+          "level": 3,
+          "text": "Temos processos básicos de aprovação de materiais e uso da marca."
+        },
+        {
+          "level": 4,
+          "text": "Gestão de marca com responsável, processos, métricas e orçamento dedicado."
+        },
+        {
+          "level": 5,
+          "text": "Brand management estratégico integrado ao planejamento da empresa com KPIs de marca."
+        }
+      ],
+      "feedback_per_level": [
+        {
+          "level": 1,
+          "feedback": "Atribua a responsabilidade de marca a alguém. Mesmo que não seja full-time, precisa ter um guardião."
+        },
+        {
+          "level": 2,
+          "feedback": "Crie processos mínimos: aprovação de materiais, checklist de brand guidelines, revisão periódica."
+        },
+        {
+          "level": 3,
+          "feedback": "Defina métricas de marca: awareness, NPS, share of voice, sentimento. Monitore trimestralmente."
+        },
+        {
+          "level": 4,
+          "feedback": "Integre a estratégia de marca com o planejamento estratégico da empresa."
+        },
+        {
+          "level": 5,
+          "feedback": "Parabéns! Você está no caminho certo!"
+        }
+      ]
     }
   ]
 }

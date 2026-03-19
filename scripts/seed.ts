@@ -20,7 +20,6 @@ const DIMENSION_COLORS: Record<string, { color: string; bg: string }> = {
   'Mercado':    { color: '#1e8449', bg: '#eafaf1' },
   'Finanças':   { color: '#d68910', bg: '#fef9e7' },
   'Branding':   { color: '#c0392b', bg: '#fdedec' },
-  'Pessoas':    { color: '#c0392b', bg: '#fdedec' },
 }
 
 const DIMENSIONS = [
@@ -29,7 +28,6 @@ const DIMENSIONS = [
   { name: 'Mercado',    description: 'GTM, personas, posicionamento, canais, fidelização', orderIndex: 3 },
   { name: 'Finanças',   description: 'Fluxo de caixa, valuation, LTV/CAC, precificação', orderIndex: 4 },
   { name: 'Branding',   description: 'Identidade de marca, posicionamento, comunicação', orderIndex: 5 },
-  { name: 'Pessoas', description: 'Equipe, cultura, liderança e desenvolvimento de pessoas', orderIndex: 6 },
 ]
 
 async function seed() {

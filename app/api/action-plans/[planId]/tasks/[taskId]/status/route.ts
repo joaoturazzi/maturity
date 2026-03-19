@@ -5,8 +5,9 @@ import { eq, and } from 'drizzle-orm'
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { planId: string; taskId: string } }
+  { params }: { params: Promise<{ planId: string; taskId: string }> }
 ) {
+  const { taskId } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
@@ -20,7 +21,7 @@ export async function PATCH(
       completedAt: status === 'Done' ? new Date() : null,
     })
     .where(and(
-      eq(tasks.id, params.taskId),
+      eq(tasks.id, taskId),
       eq(tasks.companyId, companyId),
     ))
     .returning()

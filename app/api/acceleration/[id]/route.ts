@@ -5,8 +5,9 @@ import { eq, and } from 'drizzle-orm'
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const { userId, sessionClaims } = await auth()
   if (!userId) return new Response('Unauthorized', { status: 401 })
 
@@ -17,7 +18,7 @@ export async function PATCH(
   const [updated] = await db.update(accelerationEvents)
     .set(body)
     .where(and(
-      eq(accelerationEvents.id, params.id),
+      eq(accelerationEvents.id, id),
       eq(accelerationEvents.companyId, companyId),
     ))
     .returning()
@@ -27,8 +28,9 @@ export async function PATCH(
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const { userId: delUserId, sessionClaims: delClaims } = await auth()
   if (!delUserId) return new Response('Unauthorized', { status: 401 })
 
@@ -36,7 +38,7 @@ export async function DELETE(
 
   await db.delete(accelerationEvents)
     .where(and(
-      eq(accelerationEvents.id, params.id),
+      eq(accelerationEvents.id, id),
       eq(accelerationEvents.companyId, delCompanyId),
     ))
 
