@@ -12,11 +12,12 @@ export function StartDiagnosticButton() {
     setLoading(true)
     try {
       const res = await fetch('/api/diagnostic/start', { method: 'POST' })
+      const data = await res.json()
+
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
         throw new Error(data.error ?? 'Erro ao iniciar diagnóstico')
       }
-      const data = await res.json()
+
       router.push(`/diagnostic/${data.cycleId}`)
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Erro ao iniciar diagnóstico')
