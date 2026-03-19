@@ -4,6 +4,8 @@ import { checkins, tasks } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const checkinSchema = z.object({
   taskId: z.string().uuid(),
   actionPlanId: z.string().uuid().optional(),
@@ -24,49 +26,54 @@ function getWeekStart(): string {
 }
 
 export async function POST(req: Request) {
-  const { userId, sessionClaims } = await auth()
-  if (!userId) return new Response('Unauthorized', { status: 401 })
+  try {
+    const { userId, sessionClaims } = await auth()
+    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
-  const body = checkinSchema.parse(await req.json())
-  const weekStartDate = getWeekStart()
+    const body = checkinSchema.parse(await req.json())
+    const weekStartDate = getWeekStart()
 
-  // Check for existing check-in this week
-  const existing = await db.query.checkins.findFirst({
-    where: and(
-      eq(checkins.taskId, body.taskId),
-      eq(checkins.submittedBy, userId),
-      eq(checkins.weekStartDate, weekStartDate),
-    ),
-  })
-  if (existing) {
-    return Response.json({ error: 'Check-in já enviado esta semana' }, { status: 409 })
-  }
-
-  // Insert check-in
-  const [checkin] = await db.insert(checkins).values({
-    taskId: body.taskId,
-    actionPlanId: body.actionPlanId,
-    progressNotes: body.progressNotes,
-    blockerNotes: body.blockerNotes,
-    confidenceRating: body.confidenceRating,
-    newStatus: body.newStatus,
-    companyId,
-    submittedBy: userId,
-    weekStartDate,
-  }).returning()
-
-  // Update task status
-  await db.update(tasks)
-    .set({
-      status: body.newStatus,
-      completedAt: body.newStatus === 'Done' ? new Date() : null,
+    // Check for existing check-in this week
+    const existing = await db.query.checkins.findFirst({
+      where: and(
+        eq(checkins.taskId, body.taskId),
+        eq(checkins.submittedBy, userId),
+        eq(checkins.weekStartDate, weekStartDate),
+      ),
     })
-    .where(and(
-      eq(tasks.id, body.taskId),
-      eq(tasks.companyId, companyId),
-    ))
+    if (existing) {
+      return Response.json({ error: 'Check-in já enviado esta semana' }, { status: 409 })
+    }
 
-  return Response.json(checkin)
+    // Insert check-in
+    const [checkin] = await db.insert(checkins).values({
+      taskId: body.taskId,
+      actionPlanId: body.actionPlanId,
+      progressNotes: body.progressNotes,
+      blockerNotes: body.blockerNotes,
+      confidenceRating: body.confidenceRating,
+      newStatus: body.newStatus,
+      companyId,
+      submittedBy: userId,
+      weekStartDate,
+    }).returning()
+
+    // Update task status
+    await db.update(tasks)
+      .set({
+        status: body.newStatus,
+        completedAt: body.newStatus === 'Done' ? new Date() : null,
+      })
+      .where(and(
+        eq(tasks.id, body.taskId),
+        eq(tasks.companyId, companyId),
+      ))
+
+    return Response.json(checkin)
+  } catch (error) {
+    console.error('[checkins/POST]', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

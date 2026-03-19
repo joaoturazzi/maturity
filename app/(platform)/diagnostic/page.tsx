@@ -33,7 +33,8 @@ export default async function DiagnosticPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  if (!companyId) redirect('/onboarding')
 
   const cycles = await db.query.diagnosticCycles.findMany({
     where: eq(diagnosticCycles.companyId, companyId),

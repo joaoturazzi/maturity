@@ -33,7 +33,8 @@ export default async function DimensionsPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  if (!companyId) redirect('/onboarding')
 
   const [dimensions, latestCycle] = await Promise.all([
     getActiveDimensions(),

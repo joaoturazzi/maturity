@@ -4,6 +4,8 @@ import { diagnosticResponses } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const answerSchema = z.object({
   cycleId: z.string().uuid(),
   indicatorId: z.string().uuid(),
@@ -15,38 +17,43 @@ const answerSchema = z.object({
 })
 
 export async function POST(req: Request) {
-  const { userId, sessionClaims } = await auth()
-  if (!userId) return new Response('Unauthorized', { status: 401 })
+  try {
+    const { userId, sessionClaims } = await auth()
+    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
-  const body = await req.json()
-  const parsed = answerSchema.parse(body)
+    const body = await req.json()
+    const parsed = answerSchema.parse(body)
 
-  // Upsert: se já existe resposta para esse indicador no ciclo, atualiza
-  const existing = await db.query.diagnosticResponses.findFirst({
-    where: and(
-      eq(diagnosticResponses.cycleId, parsed.cycleId),
-      eq(diagnosticResponses.indicatorId, parsed.indicatorId),
-    ),
-  })
-
-  if (existing) {
-    await db.update(diagnosticResponses)
-      .set({
-        score: parsed.score,
-        desiredScore: parsed.desiredScore,
-        deficiencyType: parsed.deficiencyType,
-        feedbackShown: parsed.feedbackShown,
-      })
-      .where(eq(diagnosticResponses.id, existing.id))
-  } else {
-    await db.insert(diagnosticResponses).values({
-      ...parsed,
-      companyId,
-      answeredBy: userId,
+    // Upsert: se já existe resposta para esse indicador no ciclo, atualiza
+    const existing = await db.query.diagnosticResponses.findFirst({
+      where: and(
+        eq(diagnosticResponses.cycleId, parsed.cycleId),
+        eq(diagnosticResponses.indicatorId, parsed.indicatorId),
+      ),
     })
-  }
 
-  return Response.json({ ok: true })
+    if (existing) {
+      await db.update(diagnosticResponses)
+        .set({
+          score: parsed.score,
+          desiredScore: parsed.desiredScore,
+          deficiencyType: parsed.deficiencyType,
+          feedbackShown: parsed.feedbackShown,
+        })
+        .where(eq(diagnosticResponses.id, existing.id))
+    } else {
+      await db.insert(diagnosticResponses).values({
+        ...parsed,
+        companyId,
+        answeredBy: userId,
+      })
+    }
+
+    return Response.json({ ok: true })
+  } catch (error) {
+    console.error('[diagnostic/answer]', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

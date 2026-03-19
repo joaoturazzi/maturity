@@ -13,39 +13,44 @@ export async function GET(
   _req: Request,
   { params }: { params: Promise<{ agentType: string }> }
 ) {
-  const { agentType: rawAgentType } = await params
-  const { userId, sessionClaims } = await auth()
-  if (!userId) return new Response('Unauthorized', { status: 401 })
+  try {
+    const { agentType: rawAgentType } = await params
+    const { userId, sessionClaims } = await auth()
+    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
-  const agentType = decodeURIComponent(rawAgentType) as AgentType
-  const config = AGENT_CONFIG[agentType]
-  if (!config) return new Response('Not found', { status: 404 })
+    const agentType = decodeURIComponent(rawAgentType) as AgentType
+    const config = AGENT_CONFIG[agentType]
+    if (!config) return Response.json({ error: 'Not found' }, { status: 404 })
 
-  const company = await db.query.companies.findFirst({
-    where: eq(companies.id, companyId),
-    columns: { name: true },
-  })
+    const company = await db.query.companies.findFirst({
+      where: eq(companies.id, companyId),
+      columns: { name: true },
+    })
 
-  const context = await buildAgentContext(
-    companyId,
-    company?.name ?? 'Empresa',
-    agentType
-  )
+    const context = await buildAgentContext(
+      companyId,
+      company?.name ?? 'Empresa',
+      agentType
+    )
 
-  const systemPrompt = buildSystemPrompt(agentType, context)
+    const systemPrompt = buildSystemPrompt(agentType, context)
 
-  const result = streamText({
-    model: openai('gpt-4o'),
-    system: systemPrompt,
-    messages: [{
-      role: 'user',
-      content: `Inicie a conversa com uma mensagem proativa curta (máximo 3 frases) baseada no diagnóstico atual da empresa. Identifique o gap mais crítico da ${config.dimensionName ?? 'análise geral'} e sugira um próximo passo concreto. Não se apresente — vá direto ao ponto.`,
-    }],
-    maxOutputTokens: 200,
-  })
+    const result = streamText({
+      model: openai('gpt-4o'),
+      system: systemPrompt,
+      messages: [{
+        role: 'user',
+        content: `Inicie a conversa com uma mensagem proativa curta (máximo 3 frases) baseada no diagnóstico atual da empresa. Identifique o gap mais crítico da ${config.dimensionName ?? 'análise geral'} e sugira um próximo passo concreto. Não se apresente — vá direto ao ponto.`,
+      }],
+      maxOutputTokens: 200,
+    })
 
-  const text = await result.text
-  return Response.json({ message: text })
+    const text = await result.text
+    return Response.json({ message: text })
+  } catch (error) {
+    console.error('[agents/init/GET]', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

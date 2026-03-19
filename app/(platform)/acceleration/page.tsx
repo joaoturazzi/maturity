@@ -10,7 +10,8 @@ export default async function AccelerationPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  if (!companyId) redirect('/onboarding')
   const role = (sessionClaims?.metadata as Record<string, string>)?.role
 
   const events = await db.query.accelerationEvents.findMany({

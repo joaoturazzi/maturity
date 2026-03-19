@@ -4,6 +4,8 @@ import { tasks, actionPlans } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
 const createTaskSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
@@ -14,27 +16,32 @@ const createTaskSchema = z.object({
 })
 
 export async function POST(req: Request, { params }: { params: Promise<{ planId: string }> }) {
-  const { planId } = await params
-  const { userId, sessionClaims } = await auth()
-  if (!userId) return new Response('Unauthorized', { status: 401 })
+  try {
+    const { planId } = await params
+    const { userId, sessionClaims } = await auth()
+    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
-  const plan = await db.query.actionPlans.findFirst({
-    where: eq(actionPlans.id, planId),
-  })
-  if (!plan || plan.companyId !== companyId) {
-    return new Response('Not found', { status: 404 })
+    const plan = await db.query.actionPlans.findFirst({
+      where: eq(actionPlans.id, planId),
+    })
+    if (!plan || plan.companyId !== companyId) {
+      return Response.json({ error: 'Not found' }, { status: 404 })
+    }
+
+    const body = createTaskSchema.parse(await req.json())
+
+    const [task] = await db.insert(tasks).values({
+      ...body,
+      actionPlanId: planId,
+      dimensionId: plan.dimensionId ?? undefined,
+      companyId,
+    }).returning()
+
+    return Response.json(task)
+  } catch (error) {
+    console.error('[action-plans/tasks/POST]', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
-
-  const body = createTaskSchema.parse(await req.json())
-
-  const [task] = await db.insert(tasks).values({
-    ...body,
-    actionPlanId: planId,
-    dimensionId: plan.dimensionId ?? undefined,
-    companyId,
-  }).returning()
-
-  return Response.json(task)
 }

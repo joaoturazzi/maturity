@@ -10,7 +10,8 @@ import styles from './page.module.css'
 export default async function ActionPlansPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  if (!companyId) redirect('/onboarding')
 
   const [plans, activeDimensions] = await Promise.all([
     db.query.actionPlans.findMany({

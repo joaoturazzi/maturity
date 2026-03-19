@@ -18,7 +18,8 @@ export default async function AgentChatPage({
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  if (!companyId) redirect('/onboarding')
 
   const agentType = decodeURIComponent(params.agentType) as AgentType
   const config = AGENT_CONFIG[agentType]

@@ -21,50 +21,55 @@ export async function POST(
   req: Request,
   { params }: { params: Promise<{ agentType: string }> }
 ) {
-  const { agentType: rawAgentType } = await params
-  const { userId, sessionClaims } = await auth()
-  if (!userId) return new Response('Unauthorized', { status: 401 })
+  try {
+    const { agentType: rawAgentType } = await params
+    const { userId, sessionClaims } = await auth()
+    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const agentType = decodeURIComponent(rawAgentType) as AgentType
-  if (!AGENT_CONFIG[agentType]) {
-    return new Response('Agent not found', { status: 404 })
+    const agentType = decodeURIComponent(rawAgentType) as AgentType
+    if (!AGENT_CONFIG[agentType]) {
+      return Response.json({ error: 'Agent not found' }, { status: 404 })
+    }
+
+    const { messages } = bodySchema.parse(await req.json())
+    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+
+    // Get company name
+    const company = await db.query.companies.findFirst({
+      where: eq(companies.id, companyId),
+      columns: { name: true },
+    })
+
+    // Build context
+    const context = await buildAgentContext(companyId, company?.name ?? 'Empresa', agentType)
+    const systemPrompt = buildSystemPrompt(agentType, context)
+
+    // Persist user message
+    await persistMessage(companyId, userId, agentType, {
+      role: 'user',
+      content: messages[messages.length - 1].content,
+    })
+
+    // OpenAI streaming
+    const result = streamText({
+      model: openai('gpt-4o'),
+      system: systemPrompt,
+      messages,
+      maxOutputTokens: 1000,
+      temperature: 0.7,
+      onFinish: async ({ text }) => {
+        await persistMessage(companyId, userId, agentType, {
+          role: 'assistant',
+          content: text,
+        })
+      },
+    })
+
+    return result.toTextStreamResponse()
+  } catch (error) {
+    console.error('[agents/POST]', error)
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
-
-  const { messages } = bodySchema.parse(await req.json())
-  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
-
-  // Get company name
-  const company = await db.query.companies.findFirst({
-    where: eq(companies.id, companyId),
-    columns: { name: true },
-  })
-
-  // Build context
-  const context = await buildAgentContext(companyId, company?.name ?? 'Empresa', agentType)
-  const systemPrompt = buildSystemPrompt(agentType, context)
-
-  // Persist user message
-  await persistMessage(companyId, userId, agentType, {
-    role: 'user',
-    content: messages[messages.length - 1].content,
-  })
-
-  // OpenAI streaming
-  const result = streamText({
-    model: openai('gpt-4o'),
-    system: systemPrompt,
-    messages,
-    maxOutputTokens: 1000,
-    temperature: 0.7,
-    onFinish: async ({ text }) => {
-      await persistMessage(companyId, userId, agentType, {
-        role: 'assistant',
-        content: text,
-      })
-    },
-  })
-
-  return result.toTextStreamResponse()
 }
 
 async function persistMessage(
