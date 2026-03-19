@@ -1,11 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useUser, useClerk } from '@clerk/nextjs'
 
 export default function OnboardingPage() {
-  const { user } = useUser()
-  const { session } = useClerk()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
@@ -40,23 +37,9 @@ export default function OnboardingPage() {
         return
       }
 
-      // Refresh JWT so middleware sees the new companyId
-      try { await session?.reload() } catch {}
-      try { await user?.reload() } catch {}
-
-      // Poll /api/onboarding/check until JWT has companyId (max 5s)
-      let ready = false
-      for (let i = 0; i < 10; i++) {
-        try {
-          const check = await fetch('/api/onboarding/check')
-          const checkData = await check.json()
-          if (checkData.hasCompanyId) { ready = true; break }
-        } catch {}
-        await new Promise(r => setTimeout(r, 500))
-      }
-
-      // Redirect — use fallback flag if JWT not ready yet
-      window.location.href = ready ? '/dashboard' : '/dashboard?onboarding=complete'
+      // Success — go to dashboard immediately
+      // The dashboard checks the DB directly if JWT hasn't propagated yet
+      window.location.href = '/dashboard'
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'tente novamente'
       setError(`Erro inesperado: ${msg}`)

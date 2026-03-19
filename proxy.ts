@@ -5,7 +5,7 @@ const isPublicRoute = createRouteMatcher([
   '/login(.*)',
   '/signup(.*)',
   '/onboarding(.*)',
-  '/api/webhooks/clerk(.*)',
+  '/api/webhooks(.*)',
   '/api/onboarding(.*)',
   '/',
 ])
@@ -26,14 +26,13 @@ export default clerkMiddleware(async (auth, req) => {
   const companyId = meta?.companyId ?? ''
   const role = meta?.role ?? ''
 
-  // Usuário logado sem companyId → forçar onboarding
-  // Fallback: ?onboarding=complete bypasses this check (JWT may not be refreshed yet)
-  const onboardingComplete = req.nextUrl.searchParams.get('onboarding') === 'complete'
-  if (!companyId && !onboardingComplete) {
+  // No companyId in JWT → redirect to onboarding
+  // EXCEPT /dashboard — let it through so it can check the DB directly
+  // (avoids infinite loop when JWT hasn't propagated yet after onboarding)
+  if (!companyId && !req.nextUrl.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/onboarding', req.url))
   }
 
-  // Rotas de admin → verificar role
   if (isAdminRoute(req)) {
     if (!['SuperUser', 'Admin'].includes(role)) {
       return NextResponse.redirect(new URL('/dashboard', req.url))

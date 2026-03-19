@@ -1,5 +1,8 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+import { db } from '@/lib/db'
+import { users } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
 import { getLatestCycle, getActiveTasksSummary, getUnreadAlerts, getUpcomingCheckins } from '@/lib/db/queries'
 import { IMEScoreCard } from '@/components/dashboard/IMEScoreCard/IMEScoreCard'
 import { DimensionBreakdown } from '@/components/dashboard/DimensionBreakdown/DimensionBreakdown'
@@ -10,24 +13,29 @@ import { TopGaps } from '@/components/dashboard/TopGaps/TopGaps'
 import Link from 'next/link'
 import styles from './page.module.css'
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ onboarding?: string }>
-}) {
+export default async function DashboardPage() {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
-  const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+  // Try JWT first (fast path)
+  let companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
 
-  // If coming from onboarding but JWT not refreshed yet, wait and retry
-  const params = await searchParams
-  if (!companyId && params.onboarding === 'complete') {
-    await new Promise(r => setTimeout(r, 1500))
-    redirect('/dashboard')
+  // If JWT doesn't have companyId yet, check the database directly
+  // This handles the case where onboarding just completed but JWT hasn't propagated
+  if (!companyId) {
+    const userInDb = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+      columns: { companyId: true },
+    })
+
+    if (userInDb?.companyId) {
+      // User completed onboarding — JWT will catch up on next request
+      companyId = userInDb.companyId
+    } else {
+      // User truly hasn't onboarded — redirect
+      redirect('/onboarding')
+    }
   }
-
-  if (!companyId) redirect('/onboarding')
 
   const [cycle, tasksSummary, alerts, upcomingCheckins] = await Promise.all([
     getLatestCycle(companyId),
