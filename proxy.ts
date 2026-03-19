@@ -31,8 +31,15 @@ export default clerkMiddleware(async (auth, req) => {
   const companyId = jwtCompanyId || cookieCompanyId
 
   // No companyId anywhere → onboarding
+  // Exception: /dashboard and /api/* pass through so they can check DB directly
+  // (covers case where JWT template isn't configured and cookie doesn't exist yet)
   if (!companyId) {
-    return NextResponse.redirect(new URL('/onboarding', req.url))
+    const path = req.nextUrl.pathname
+    const isApiRoute = path.startsWith('/api/')
+    const isDashboard = path.startsWith('/dashboard')
+    if (!isApiRoute && !isDashboard) {
+      return NextResponse.redirect(new URL('/onboarding', req.url))
+    }
   }
 
   if (isAdminRoute(req)) {
