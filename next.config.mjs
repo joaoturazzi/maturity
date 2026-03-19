@@ -9,6 +9,17 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  generateBuildId: async () => {
+    return Date.now().toString()
+  },
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+      ],
+    },
+  ],
 }
 
 export default nextConfig
