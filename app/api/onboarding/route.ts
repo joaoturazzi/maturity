@@ -4,7 +4,6 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { companies, users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
-import { scrapeWebsite } from '@/lib/website-scraper'
 
 export async function POST(req: Request) {
   try {
@@ -17,7 +16,7 @@ export async function POST(req: Request) {
       return Response.json({ error: 'Nome da empresa é obrigatório.' }, { status: 400 })
     }
 
-    // Prevent double onboarding: if user already has a company, just update Clerk
+    // Prevent double onboarding
     const existingUser = await db.query.users.findFirst({
       where: eq(users.id, userId),
     })
@@ -29,7 +28,7 @@ export async function POST(req: Request) {
       return Response.json({ ok: true, companyId: existingUser.companyId })
     }
 
-    // 1. Create company in Neon
+    // 1. Create company
     const [company] = await db.insert(companies).values({
       name: companyName.trim(),
       industry,
@@ -37,7 +36,7 @@ export async function POST(req: Request) {
       websiteUrl: websiteUrl || null,
     }).returning()
 
-    // 2. Create user in Neon
+    // 2. Create user
     await db.insert(users).values({
       id: userId,
       email: `${userId}@clerk.maturityiq`,
@@ -48,25 +47,21 @@ export async function POST(req: Request) {
       set: { companyId: company.id, role: 'User' },
     })
 
-    // 3. Save companyId in Clerk publicMetadata — CRITICAL
+    // 3. Save to Clerk metadata
     const client = await clerkClient()
     await client.users.updateUser(userId, {
-      publicMetadata: {
-        companyId: company.id,
-        role: 'User',
-      },
+      publicMetadata: { companyId: company.id, role: 'User' },
     })
 
-    // 4. Scrape website in background — never blocks the response
+    // 4. Trigger scraping via separate Netlify function (fire-and-forget)
+    // .then() would be killed when this function returns on Netlify
     if (websiteUrl) {
-      scrapeWebsite(websiteUrl)
-        .then(async (summary) => {
-          if (!summary) return
-          await db.update(companies)
-            .set({ websiteSummary: summary })
-            .where(eq(companies.id, company.id))
-        })
-        .catch(() => {/* ignore silently */})
+      const baseUrl = process.env.URL || process.env.NEXTAUTH_URL || 'https://maturity2.netlify.app'
+      fetch(`${baseUrl}/.netlify/functions/scrape-website`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId: company.id, websiteUrl }),
+      }).catch(() => {})
     }
 
     return Response.json({ ok: true, companyId: company.id })

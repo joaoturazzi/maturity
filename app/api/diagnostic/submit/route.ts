@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { diagnosticCycles, dimensionScores, diagnosticResponses } from '@/lib/db/schema'
 import { calculateDimensionScore, calculateIME, getMaturityLevel, determinePriority } from '@/lib/scoring'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,6 +15,12 @@ export async function POST(req: Request) {
     if (!companyId) return Response.json({ error: 'Onboarding incomplete' }, { status: 403 })
 
     const { cycleId } = await req.json()
+
+    // Verify cycle belongs to this company
+    const cycle = await db.query.diagnosticCycles.findFirst({
+      where: and(eq(diagnosticCycles.id, cycleId), eq(diagnosticCycles.companyId, companyId)),
+    })
+    if (!cycle) return Response.json({ error: 'Cycle not found' }, { status: 404 })
 
     // 1. Buscar todas as respostas do ciclo com indicadores
     const responses = await db.query.diagnosticResponses.findMany({

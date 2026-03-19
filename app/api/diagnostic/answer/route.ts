@@ -1,6 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
-import { diagnosticResponses } from '@/lib/db/schema'
+import { diagnosticResponses, diagnosticCycles } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 
@@ -25,6 +25,14 @@ export async function POST(req: Request) {
 
     const body = await req.json()
     const parsed = answerSchema.parse(body)
+
+    // Verify cycle belongs to this company
+    if (companyId) {
+      const cycle = await db.query.diagnosticCycles.findFirst({
+        where: and(eq(diagnosticCycles.id, parsed.cycleId), eq(diagnosticCycles.companyId, companyId)),
+      })
+      if (!cycle) return Response.json({ error: 'Cycle not found' }, { status: 404 })
+    }
 
     // Upsert: se já existe resposta para esse indicador no ciclo, atualiza
     const existing = await db.query.diagnosticResponses.findFirst({
