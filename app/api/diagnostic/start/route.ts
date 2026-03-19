@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { diagnosticCycles, companies } from '@/lib/db/schema'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,6 +31,17 @@ export async function POST(req: Request) {
       })
       if (!targetCompany) return Response.json({ error: 'Company not found' }, { status: 404 })
       effectiveCompanyId = body.companyId
+    }
+
+    // Prevent duplicates: return existing draft if one exists
+    const existingDraft = await db.query.diagnosticCycles.findFirst({
+      where: and(
+        eq(diagnosticCycles.companyId, effectiveCompanyId),
+        eq(diagnosticCycles.status, 'Draft'),
+      ),
+    })
+    if (existingDraft) {
+      return Response.json({ cycleId: existingDraft.id })
     }
 
     const [cycle] = await db.insert(diagnosticCycles).values({

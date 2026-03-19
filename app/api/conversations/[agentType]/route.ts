@@ -29,9 +29,13 @@ export async function GET(
       },
     })
 
+    const allMessages = conversation?.messages ?? []
+    // Return last 50 messages to prevent payload bloat
+    const messages = allMessages.slice(-50)
+
     return Response.json({
-      messages: conversation?.messages ?? [],
-      hasHistory: (conversation?.messages?.length ?? 0) > 0,
+      messages,
+      hasHistory: allMessages.length > 0,
     })
   } catch (error) {
     console.error('[conversations/GET]', error)

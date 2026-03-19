@@ -17,6 +17,18 @@ export async function POST(req: Request) {
       return Response.json({ error: 'Nome da empresa é obrigatório.' }, { status: 400 })
     }
 
+    // Prevent double onboarding: if user already has a company, just update Clerk
+    const existingUser = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+    })
+    if (existingUser?.companyId) {
+      const client = await clerkClient()
+      await client.users.updateUser(userId, {
+        publicMetadata: { companyId: existingUser.companyId, role: existingUser.role ?? 'User' },
+      })
+      return Response.json({ ok: true, companyId: existingUser.companyId })
+    }
+
     // 1. Create company in Neon
     const [company] = await db.insert(companies).values({
       name: companyName.trim(),

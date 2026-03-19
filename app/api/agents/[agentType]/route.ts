@@ -31,7 +31,9 @@ export async function POST(
       return Response.json({ error: 'Agent not found' }, { status: 404 })
     }
 
-    const { messages } = bodySchema.parse(await req.json())
+    const { messages: rawMessages } = bodySchema.parse(await req.json())
+    // Limit history to prevent context overflow
+    const messages = rawMessages.slice(-20)
     const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
     // Get company name

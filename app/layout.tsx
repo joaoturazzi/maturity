@@ -5,8 +5,14 @@ import '@/styles/tokens.css'
 import '@/styles/brand.css'
 
 export const metadata: Metadata = {
-  title: 'MaturityIQ — Grow Platform',
-  description: 'Plataforma de maturidade estratégica para empresas',
+  title: {
+    default: 'MaturityIQ — Diagnóstico de Maturidade Empresarial',
+    template: '%s | MaturityIQ',
+  },
+  description: 'Plataforma de diagnóstico estratégico empresarial. Identifique gaps, crie planos de ação e evolua com agentes de IA.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
