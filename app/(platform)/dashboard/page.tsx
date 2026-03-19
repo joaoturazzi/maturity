@@ -10,11 +10,23 @@ import { TopGaps } from '@/components/dashboard/TopGaps/TopGaps'
 import Link from 'next/link'
 import styles from './page.module.css'
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ onboarding?: string }>
+}) {
   const { userId, sessionClaims } = await auth()
   if (!userId) redirect('/login')
 
   const companyId = (sessionClaims?.metadata as Record<string, string> | undefined)?.companyId ?? ''
+
+  // If coming from onboarding but JWT not refreshed yet, wait and retry
+  const params = await searchParams
+  if (!companyId && params.onboarding === 'complete') {
+    await new Promise(r => setTimeout(r, 1500))
+    redirect('/dashboard')
+  }
+
   if (!companyId) redirect('/onboarding')
 
   const [cycle, tasksSummary, alerts, upcomingCheckins] = await Promise.all([

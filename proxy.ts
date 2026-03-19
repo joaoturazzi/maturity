@@ -27,7 +27,9 @@ export default clerkMiddleware(async (auth, req) => {
   const role = meta?.role ?? ''
 
   // Usuário logado sem companyId → forçar onboarding
-  if (!companyId) {
+  // Fallback: ?onboarding=complete bypasses this check (JWT may not be refreshed yet)
+  const onboardingComplete = req.nextUrl.searchParams.get('onboarding') === 'complete'
+  if (!companyId && !onboardingComplete) {
     return NextResponse.redirect(new URL('/onboarding', req.url))
   }
 
