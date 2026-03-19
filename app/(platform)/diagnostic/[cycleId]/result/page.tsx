@@ -1,5 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { getLatestCycleById } from '@/lib/db/queries'
+import { getCompanyId } from '@/lib/getCompanyId'
 import { redirect } from 'next/navigation'
 import { ResultRadarWrapper } from '@/components/diagnostic/ResultRadarWrapper'
 import Link from 'next/link'
@@ -9,8 +10,11 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
   const { userId } = await auth()
   if (!userId) redirect('/login')
 
+  const companyId = await getCompanyId()
+  if (!companyId) redirect('/onboarding')
+
   const cycle = await getLatestCycleById(cycleId)
-  if (!cycle) redirect('/diagnostic')
+  if (!cycle || cycle.companyId !== companyId) redirect('/diagnostic')
 
   return (
     <div>
