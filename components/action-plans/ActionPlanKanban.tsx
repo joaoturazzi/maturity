@@ -121,7 +121,7 @@ export function ActionPlanKanban({ plans, stats }: { plans: Plan[]; stats: { tot
                   <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: col.color }}>{col.label}</span>
                   <span style={{ fontSize: 11, fontWeight: 700, background: '#fff', color: '#888', padding: '1px 7px', borderRadius: 10, border: '1px solid #eceae5' }}>{colTasks.length}</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 'calc(100vh - 300px)', overflowY: 'auto', paddingRight: 4 }}>
                   {colTasks.map(task => {
                     const dc = DIM_COLORS[task.dimName] ?? { color: '#bbb' }
                     const late = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'Done' && task.status !== 'Blocked'

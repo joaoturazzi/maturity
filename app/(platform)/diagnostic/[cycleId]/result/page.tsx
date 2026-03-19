@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { diagnosticCycles, dimensionScores, actionPlans, diagnosticResponses } from '@/lib/db/schema'
-import { eq, and, desc, asc } from 'drizzle-orm'
+import { eq, and, desc, asc, lt } from 'drizzle-orm'
 import { getCompanyId } from '@/lib/getCompanyId'
 import { DiagnosticResult } from '@/components/diagnostic/DiagnosticResult'
 
@@ -29,14 +29,16 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
     columns: { id: true },
   })
 
-  // Previous cycle for comparison
-  const allCycles = await db.query.diagnosticCycles.findMany({
-    where: and(eq(diagnosticCycles.companyId, companyId), eq(diagnosticCycles.status, 'Submitted')),
+  // Previous cycle for comparison (submitted BEFORE current)
+  const prevCycle = cycle.submittedAt ? await db.query.diagnosticCycles.findFirst({
+    where: and(
+      eq(diagnosticCycles.companyId, companyId),
+      eq(diagnosticCycles.status, 'Submitted'),
+      lt(diagnosticCycles.submittedAt, cycle.submittedAt),
+    ),
     orderBy: desc(diagnosticCycles.submittedAt),
     with: { dimensionScores: { with: { dimension: true } } },
-    limit: 2,
-  })
-  const prevCycle = allCycles.length > 1 ? allCycles[1] : null
+  }) : null
   const prevScores: Record<string, number> = {}
   if (prevCycle) {
     for (const s of prevCycle.dimensionScores) {
@@ -51,20 +53,25 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
     orderBy: asc(diagnosticResponses.score),
   })
 
+  // Initialize all dimensions with empty array
   const criticalByDim: Record<string, Array<{ title: string; score: number; chosenText: string }>> = {}
+  for (const s of scores) {
+    if (s.dimension?.name) criticalByDim[s.dimension.name] = []
+  }
+
   for (const r of allResponses) {
-    if (!r.score || r.score === 0 || !r.dimension?.name) continue
+    if (!r.score || r.score === 0 || r.score >= 4 || !r.dimension?.name) continue
     const dimName = r.dimension.name
     if (!criticalByDim[dimName]) criticalByDim[dimName] = []
-    if (criticalByDim[dimName].length < 3) {
-      const opts = (r.indicator?.responseOptions as Array<{ level: number; text: string }>) ?? []
-      const chosen = opts.find(o => o.level === r.score)
-      criticalByDim[dimName].push({
-        title: r.indicator?.title ?? '',
-        score: r.score,
-        chosenText: chosen?.text ?? '',
-      })
-    }
+    if (criticalByDim[dimName].length >= 3) continue
+
+    const opts = (r.indicator?.responseOptions as Array<{ level: number; text: string }>) ?? []
+    const chosen = opts.find(o => o.level === r.score)
+    criticalByDim[dimName].push({
+      title: r.indicator?.title ?? '',
+      score: r.score,
+      chosenText: chosen?.text ?? '',
+    })
   }
 
   const sorted = [...scores].sort((a, b) => Number(b.maturityGap) - Number(a.maturityGap))

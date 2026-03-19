@@ -1,27 +1,29 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function DimensionNarrative({ cycleId, dimensionId, existingNarrative, dimColor }: {
   cycleId: string; dimensionId: string; existingNarrative: string | null; dimColor: string
 }) {
   const [narrative, setNarrative] = useState(existingNarrative)
   const [loading, setLoading] = useState(false)
+  const attempted = useRef(false)
 
   useEffect(() => {
-    if (!narrative && !loading) {
-      setLoading(true)
-      fetch('/api/diagnostic/narrative', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cycleId, dimensionId }),
-      })
-        .then(r => r.json())
-        .then(d => { if (d.narrative) setNarrative(d.narrative) })
-        .catch(() => {})
-        .finally(() => setLoading(false))
-    }
-  }, [cycleId, dimensionId, narrative, loading])
+    if (narrative || loading || attempted.current) return
+    attempted.current = true
+    setLoading(true)
+
+    fetch('/api/diagnostic/narrative', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cycleId, dimensionId }),
+    })
+      .then(r => r.json())
+      .then(d => { if (d.narrative) setNarrative(d.narrative) })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) return (
     <div style={{ padding: '12px 0', color: '#bbb', fontSize: 12, animation: 'pulse 1.5s infinite' }}>
