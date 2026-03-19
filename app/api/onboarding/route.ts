@@ -31,7 +31,15 @@ export async function POST(req: Request) {
         })
         .where(eq(companies.id, existingUser.companyId))
 
+      // Sync real email and name from Clerk
       const client = await clerkClient()
+      const clerkUser = await client.users.getUser(userId)
+      const realEmail = clerkUser.emailAddresses?.[0]?.emailAddress ?? existingUser.email
+      const realName = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || existingUser.name
+      await db.update(users)
+        .set({ email: realEmail, name: realName })
+        .where(eq(users.id, userId))
+
       await client.users.updateUser(userId, {
         publicMetadata: { companyId: existingUser.companyId, role: existingUser.role ?? 'User' },
       })
@@ -69,19 +77,23 @@ export async function POST(req: Request) {
       websiteUrl: websiteUrl || null,
     }).returning()
 
-    // 2. Create user
+    // 2. Create user with real email from Clerk
+    const client = await clerkClient()
+    const clerkUser = await client.users.getUser(userId)
+    const realEmail = clerkUser.emailAddresses?.[0]?.emailAddress ?? `${userId}@clerk.maturityiq`
+
     await db.insert(users).values({
       id: userId,
-      email: `${userId}@clerk.maturityiq`,
+      name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || null,
+      email: realEmail,
       companyId: company.id,
       role: 'User',
     }).onConflictDoUpdate({
       target: users.id,
-      set: { companyId: company.id, role: 'User' },
+      set: { companyId: company.id, role: 'User', email: realEmail },
     })
 
     // 3. Save to Clerk metadata
-    const client = await clerkClient()
     await client.users.updateUser(userId, {
       publicMetadata: { companyId: company.id, role: 'User' },
     })
