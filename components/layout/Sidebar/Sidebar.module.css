@@ -1,0 +1,78 @@
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logoText {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.logoSub {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 8px;
+  gap: 2px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text2);
+  text-decoration: none;
+  transition: background 0.1s;
+}
+
+.navItem:hover {
+  background: var(--bg3);
+}
+
+.active {
+  background: var(--active-bg);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text4);
+  padding: 16px 10px 6px;
+}

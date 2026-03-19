@@ -1,0 +1,70 @@
+import { auth } from '@/auth'
+import { db } from '@/lib/db'
+import { checkins, tasks } from '@/lib/db/schema'
+import { eq, and } from 'drizzle-orm'
+import { z } from 'zod'
+
+const checkinSchema = z.object({
+  taskId: z.string().uuid(),
+  actionPlanId: z.string().uuid().optional(),
+  progressNotes: z.string().min(1),
+  blockerNotes: z.string().optional(),
+  confidenceRating: z.number().int().min(1).max(5),
+  newStatus: z.enum(['To Do', 'In Progress', 'In Review', 'Done', 'Blocked']),
+})
+
+function getWeekStart(): string {
+  const now = new Date()
+  const day = now.getDay()
+  const diff = now.getDate() - day + (day === 0 ? -6 : 1)
+  const monday = new Date(now)
+  monday.setDate(diff)
+  monday.setHours(0, 0, 0, 0)
+  return monday.toISOString().split('T')[0]
+}
+
+export async function POST(req: Request) {
+  const session = await auth()
+  if (!session) return new Response('Unauthorized', { status: 401 })
+
+  const body = checkinSchema.parse(await req.json())
+  const weekStartDate = getWeekStart()
+
+  // Check for existing check-in this week
+  const existing = await db.query.checkins.findFirst({
+    where: and(
+      eq(checkins.taskId, body.taskId),
+      eq(checkins.submittedBy, session.user.id!),
+      eq(checkins.weekStartDate, weekStartDate),
+    ),
+  })
+  if (existing) {
+    return Response.json({ error: 'Check-in já enviado esta semana' }, { status: 409 })
+  }
+
+  // Insert check-in
+  const [checkin] = await db.insert(checkins).values({
+    taskId: body.taskId,
+    actionPlanId: body.actionPlanId,
+    progressNotes: body.progressNotes,
+    blockerNotes: body.blockerNotes,
+    confidenceRating: body.confidenceRating,
+    newStatus: body.newStatus,
+    companyId: session.user.companyId,
+    submittedBy: session.user.id!,
+    weekStartDate,
+  }).returning()
+
+  // Update task status
+  await db.update(tasks)
+    .set({
+      status: body.newStatus,
+      completedAt: body.newStatus === 'Done' ? new Date() : null,
+    })
+    .where(and(
+      eq(tasks.id, body.taskId),
+      eq(tasks.companyId, session.user.companyId),
+    ))
+
+  return Response.json(checkin)
+}

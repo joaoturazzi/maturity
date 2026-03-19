@@ -1,0 +1,24 @@
+/* Dimension colors mapping */
+.dim-estrategia { --dim-color: var(--dim-estrategia); --dim-bg: var(--dim-estrategia-bg); }
+.dim-produto { --dim-color: var(--dim-produto); --dim-bg: var(--dim-produto-bg); }
+.dim-mercado { --dim-color: var(--dim-mercado); --dim-bg: var(--dim-mercado-bg); }
+.dim-financas { --dim-color: var(--dim-financas); --dim-bg: var(--dim-financas-bg); }
+.dim-branding { --dim-color: var(--dim-branding); --dim-bg: var(--dim-branding-bg); }
+
+/* Maturity level colors */
+.mat-initial { --mat-color: var(--mat-1); }
+.mat-developing { --mat-color: var(--mat-2); }
+.mat-defined { --mat-color: var(--mat-3); }
+.mat-managed { --mat-color: var(--mat-4); }
+.mat-optimized { --mat-color: var(--mat-5); }
+
+/* Priority level colors */
+.priority-critical { --priority-color: var(--priority-critical); --priority-bg: var(--priority-critical-bg); }
+.priority-high { --priority-color: var(--priority-high); --priority-bg: var(--priority-high-bg); }
+.priority-medium { --priority-color: var(--priority-medium); --priority-bg: var(--priority-medium-bg); }
+.priority-low { --priority-color: var(--priority-low); --priority-bg: var(--priority-low-bg); }
+
+/* Deficiency type colors */
+.def-comportamental { --def-color: var(--def-comportamental); --def-bg: var(--def-comportamental-bg); }
+.def-ferramental { --def-color: var(--def-ferramental); --def-bg: var(--def-ferramental-bg); }
+.def-tecnica { --def-color: var(--def-tecnica); --def-bg: var(--def-tecnica-bg); }

@@ -1,0 +1,102 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.22);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--bg);
+  border-radius: var(--radius-modal);
+  padding: 24px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.loading, .empty {
+  font-size: 13px;
+  color: var(--text4);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item:last-child { border-bottom: none; }
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.week {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.confidence {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.notes {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.blockers {
+  font-size: 12px;
+  color: var(--danger);
+  line-height: 1.4;
+}
+
+.statusNote {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closeBtn {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}

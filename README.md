@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MaturityIQ — Grow Platform
 
-## Getting Started
+Plataforma SaaS B2B para evolução de maturidade estratégica e aumento de valuation.
 
-First, run the development server:
+## Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Linguagem:** TypeScript (strict mode)
+- **Banco de dados:** Neon (PostgreSQL serverless)
+- **ORM:** Drizzle ORM (drizzle-orm + drizzle-kit)
+- **Auth:** NextAuth.js v5 (Credentials provider, JWT, Drizzle adapter)
+- **Estilização:** CSS Modules + variáveis CSS
+- **Charts:** Recharts
+- **State:** Zustand (global) + useState (local)
+- **Forms:** React Hook Form + Zod
+- **AI:** OpenAI API (Fase 4)
+- **Deploy:** Netlify (@netlify/plugin-nextjs)
+
+## Setup
+
+### 1. Clone e instale dependências
+
+```bash
+git clone <repo-url>
+cd maturityiq
+npm install
+```
+
+### 2. Configure variáveis de ambiente
+
+Copie `.env.local.example` para `.env.local` e preencha:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Variáveis necessárias:
+
+| Variável | Descrição |
+|---|---|
+| `DATABASE_URL` | String de conexão do Neon (PostgreSQL) |
+| `NEXTAUTH_SECRET` | Segredo JWT — gere com `openssl rand -base64 32` |
+| `NEXTAUTH_URL` | URL da aplicação (`http://localhost:3000` em dev) |
+| `OPENAI_API_KEY` | Chave da OpenAI (Fase 4 — deixar vazio por ora) |
+
+### 3. Criar tabelas no Neon
+
+```bash
+npm run db:push
+```
+
+Isso lê o schema Drizzle (`lib/db/schema.ts`) e cria as tabelas no Neon.
+
+### 4. Seed do banco
+
+Popule `data/seed/questions.json` com os ~150 indicadores do Excel, depois:
+
+```bash
+npm run db:seed
+```
+
+### 5. Rode o projeto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 6. Visualizar banco (opcional)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run db:studio
+```
 
-## Learn More
+Abre Drizzle Studio em http://local.drizzle.studio
 
-To learn more about Next.js, take a look at the following resources:
+## Estrutura de pastas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/              → Pages e API routes (App Router)
+components/       → Componentes React organizados por domínio
+lib/db/           → Drizzle schema, conexão Neon, queries
+lib/scoring/      → Cálculos de IME, gaps, prioridade
+lib/agents/       → Prompts e contexto dos agentes IA (Fase 4)
+lib/utils/        → Formatadores e validadores
+hooks/            → Custom hooks
+store/            → Zustand stores
+types/            → TypeScript types
+data/seed/        → JSON de seed (dimensões, indicadores, perguntas)
+styles/           → CSS global, tokens, brand
+scripts/          → Scripts utilitários (seed)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Dimensões do Diagnóstico
 
-## Deploy on Vercel
+| Dimensão | Cor | Indicadores |
+|---|---|---|
+| Estratégia | `#1a5276` | 30 |
+| Produto | `#8e44ad` | 30 |
+| Mercado | `#1e8449` | 30 |
+| Finanças | `#d68910` | 30 |
+| Branding | `#c0392b` | 30 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scoring
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **IME Score** = média simples dos scores ponderados das 5 dimensões
+- **Maturity Level:** Initial (1.0–1.9) | Developing (2.0–2.9) | Defined (3.0–3.4) | Managed (3.5–4.4) | Optimized (4.5–5.0)
+- **Gap** = desired_score − weighted_score
+- **Priority:** Critical (≥3.0) | High (2.0–2.9) | Medium (1.0–1.9) | Low (<1.0)
+
+## Papéis
+
+- **User:** empresa que faz diagnóstico e executa plano
+- **SuperUser:** consultor Paulo Beck, vê múltiplas empresas
+- **Admin:** acesso global + configuração
+
+## Deploy no Netlify
+
+1. Conectar repositório no Netlify
+2. Build settings detectados automaticamente via `netlify.toml`
+3. Configurar variáveis de ambiente no Netlify:
+   - `DATABASE_URL` — string de conexão Neon (produção)
+   - `NEXTAUTH_SECRET` — mesmo valor do .env.local
+   - `NEXTAUTH_URL` — `https://seu-dominio.netlify.app`
+   - `OPENAI_API_KEY` — vazio por ora (Fase 4)
+
+## Fases de implementação
+
+- ✅ Fase 1: Scaffolding + Diagnóstico + Dashboard
+- ⬜ Fase 2: Planos de Ação + Check-ins
+- ⬜ Fase 3: Relatórios + Aceleração + Admin
+- ⬜ Fase 4: Agentes de IA
+- ⬜ Fase 5+: Integrações externas

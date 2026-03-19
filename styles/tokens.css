@@ -1,0 +1,72 @@
+:root {
+  /* texto */
+  --text: #1a1a1a;
+  --text2: #4a4a4a;
+  --text3: #888;
+  --text4: #bbb;
+
+  /* backgrounds */
+  --bg: #fff;
+  --bg2: #f7f6f3;
+  --bg3: #f0efec;
+  --active-bg: #ebe9e4;
+
+  /* bordas */
+  --border: #eceae5;
+  --border2: #dddbd5;
+
+  /* dimensões */
+  --dim-estrategia: #1a5276;
+  --dim-estrategia-bg: #eaf2fb;
+  --dim-produto: #8e44ad;
+  --dim-produto-bg: #f5eef8;
+  --dim-mercado: #1e8449;
+  --dim-mercado-bg: #eafaf1;
+  --dim-financas: #d68910;
+  --dim-financas-bg: #fef9e7;
+  --dim-branding: #c0392b;
+  --dim-branding-bg: #fdedec;
+
+  /* maturidade */
+  --mat-1: #c0392b;
+  --mat-2: #d68910;
+  --mat-3: #555555;
+  --mat-4: #1a5276;
+  --mat-5: #1e8449;
+
+  /* semântico */
+  --success: #1e8449;
+  --success-bg: #eafaf1;
+  --warning: #d68910;
+  --warning-bg: #fef9e7;
+  --danger: #c0392b;
+  --danger-bg: #fdf2f2;
+  --neutral: #555555;
+  --neutral-bg: #f4f4f3;
+
+  /* deficiência */
+  --def-comportamental: #8e44ad;
+  --def-comportamental-bg: #f5eef8;
+  --def-ferramental: #1a5276;
+  --def-ferramental-bg: #eaf2fb;
+  --def-tecnica: #d68910;
+  --def-tecnica-bg: #fef9e7;
+
+  /* prioridade */
+  --priority-critical: #c0392b;
+  --priority-critical-bg: #fdf2f2;
+  --priority-high: #d68910;
+  --priority-high-bg: #fef9e7;
+  --priority-medium: #1a5276;
+  --priority-medium-bg: #eaf2fb;
+  --priority-low: #555555;
+  --priority-low-bg: #f4f4f3;
+
+  /* layout */
+  --sidebar-width: 220px;
+  --radius-card: 8px;
+  --radius-btn: 6px;
+  --radius-badge: 4px;
+  --radius-pill: 20px;
+  --radius-modal: 10px;
+}

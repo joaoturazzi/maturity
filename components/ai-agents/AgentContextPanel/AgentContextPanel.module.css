@@ -1,0 +1,107 @@
+.panel {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  height: fit-content;
+  position: sticky;
+  top: 72px;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.section:last-child { margin-bottom: 0; }
+
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.score {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scoreSuffix {
+  font-size: 13px;
+  color: var(--text3);
+}
+
+.matBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-badge);
+  margin-top: 6px;
+}
+
+.empty {
+  font-size: 12px;
+  color: var(--text4);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.dimList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dimItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dimHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dimName {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.priBadge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: var(--radius-badge);
+}
+
+.barTrack {
+  height: 4px;
+  background: #ebebea;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.dimMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text3);
+}

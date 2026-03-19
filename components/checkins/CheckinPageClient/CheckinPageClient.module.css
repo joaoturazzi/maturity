@@ -1,0 +1,124 @@
+.empty {
+  font-size: 13px;
+  color: var(--text4);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  transition: border-color 0.12s;
+}
+
+.card:hover { border-color: #aaa; }
+
+.cardMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.taskTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.planName {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.dimBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-badge);
+}
+
+.dueDate {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.checkedBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e8449;
+  background: #eafaf1;
+  padding: 3px 8px;
+  border-radius: var(--radius-badge);
+}
+
+.overdueBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #c0392b;
+  background: #fdf2f2;
+  padding: 3px 8px;
+  border-radius: var(--radius-badge);
+}
+
+.pendingBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d68910;
+  background: #fef9e7;
+  padding: 3px 8px;
+  border-radius: var(--radius-badge);
+}
+
+.checkinBtn {
+  padding: 5px 12px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.historyBtn {
+  padding: 5px 12px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}

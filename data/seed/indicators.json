@@ -1,0 +1,11 @@
+{
+  "indicators": [
+    {
+      "id": "ind_estrategia_001",
+      "dimension": "Estratégia",
+      "title": "Business Plan",
+      "order_index": 1
+    }
+  ],
+  "_note": "Aguardando Excel do Paulo com os ~150 indicadores completos. Popule este arquivo antes do seed."
+}

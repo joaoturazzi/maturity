@@ -1,0 +1,55 @@
+import { streamText } from 'ai'
+import { openai } from '@ai-sdk/openai'
+import { auth } from '@/auth'
+import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
+import { buildAgentContext, buildSystemPrompt } from '@/lib/agents/context'
+import { db } from '@/lib/db'
+import { companies } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
+
+export const runtime = 'edge'
+
+export async function GET(
+  _req: Request,
+  { params }: { params: { agentType: string } }
+) {
+  const session = await auth()
+  if (!session) return new Response('Unauthorized', { status: 401 })
+
+  const agentType = decodeURIComponent(params.agentType) as AgentType
+  const config = AGENT_CONFIG[agentType]
+  if (!config) return new Response('Not found', { status: 404 })
+
+  // Mock mode
+  if (process.env.USE_AI_MOCK === 'true') {
+    return Response.json({
+      message: `[MOCK] Olá! Sou o ${config.title}. Analisei o diagnóstico da sua empresa e identifiquei oportunidades de melhoria na dimensão ${config.dimensionName ?? 'geral'}. Vamos trabalhar nisso?`,
+    })
+  }
+
+  const company = await db.query.companies.findFirst({
+    where: eq(companies.id, session.user.companyId),
+    columns: { name: true },
+  })
+
+  const context = await buildAgentContext(
+    session.user.companyId,
+    company?.name ?? 'Empresa',
+    agentType
+  )
+
+  const systemPrompt = buildSystemPrompt(agentType, context)
+
+  const result = streamText({
+    model: openai('gpt-4o'),
+    system: systemPrompt,
+    messages: [{
+      role: 'user',
+      content: `Inicie a conversa com uma mensagem proativa curta (máximo 3 frases) baseada no diagnóstico atual da empresa. Identifique o gap mais crítico da ${config.dimensionName ?? 'análise geral'} e sugira um próximo passo concreto. Não se apresente — vá direto ao ponto.`,
+    }],
+    maxOutputTokens: 200,
+  })
+
+  const text = await result.text
+  return Response.json({ message: text })
+}

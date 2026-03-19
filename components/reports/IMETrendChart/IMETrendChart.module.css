@@ -1,0 +1,77 @@
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.metrics {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.deltaUp {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e8449;
+}
+
+.deltaDown {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c0392b;
+}
+
+.metric {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a5276;
+}
+
+.metricMuted {
+  font-size: 12px;
+  color: #555;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text4);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.tooltip {
+  background: #fff;
+  border: 1px solid #eceae5;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tooltipLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tooltipValue {
+  font-size: 11px;
+}

@@ -1,0 +1,22 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Edge Functions — rotas que precisam de streaming
+[[edge_functions]]
+  path = "/api/agents/*"
+  function = "next-runtime"
+
+[context.production.environment]
+  NEXTAUTH_URL = "https://SEU-DOMINIO.netlify.app"

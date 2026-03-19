@@ -1,0 +1,252 @@
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.statCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.overallProgress {
+  margin-bottom: 16px;
+}
+
+.progressTrack {
+  height: 5px;
+  background: #ebebea;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 5px;
+  background: var(--text);
+  transition: width 0.3s;
+}
+
+.progressLabel {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.newBtn {
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.22);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--bg);
+  border-radius: var(--radius-modal);
+  padding: 24px;
+  max-width: 480px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalTitle { font-size: 16px; font-weight: 700; color: var(--text); }
+
+.fieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.input, .select, .textarea {
+  padding: 7px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--text); }
+.textarea { resize: vertical; }
+
+.modalActions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.ghostBtn {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.submitBtn {
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text4);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.monthSep {
+  padding: 12px 0 4px;
+}
+
+.monthLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text4);
+}
+
+.eventCard {
+  display: flex;
+  gap: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.12s;
+}
+
+.eventCard:hover { border-color: #aaa; }
+
+.typeLine {
+  width: 3px;
+  flex-shrink: 0;
+}
+
+.eventContent {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.eventHeader {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.typeBadge, .statusBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-badge);
+}
+
+.eventTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.eventDate {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.eventNotes {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.eventActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.completeBtn {
+  padding: 4px 10px;
+  background: #eafaf1;
+  color: #1e8449;
+  border: 1px solid #b7dfc6;
+  border-radius: var(--radius-btn);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  padding: 4px 10px;
+  background: #fdf2f2;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+  border-radius: var(--radius-btn);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}

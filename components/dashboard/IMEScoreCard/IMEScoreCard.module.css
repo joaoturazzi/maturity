@@ -1,0 +1,83 @@
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.score {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scoreSuffix {
+  font-size: 14px;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-badge);
+  margin-top: 8px;
+}
+
+.progressTrack {
+  height: 5px;
+  background: #ebebea;
+  border-radius: 5px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+.date {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text4);
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text4);
+  margin: 16px 0 12px;
+}
+
+.startBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}

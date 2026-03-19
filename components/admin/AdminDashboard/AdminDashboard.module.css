@@ -1,0 +1,206 @@
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.statCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  padding: 6px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  width: 200px;
+}
+
+.searchInput:focus { outline: none; border-color: var(--text); }
+
+.pills {
+  display: flex;
+  gap: 4px;
+}
+
+.pill {
+  padding: 4px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pill:hover { background: var(--bg3); }
+
+.pillActive {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.sortSelect {
+  padding: 6px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  margin-left: auto;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--text4);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.companyCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  transition: border-color 0.12s;
+}
+
+.companyCard:hover { border-color: #aaa; }
+
+.companyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.companyName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.industryBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-badge);
+  background: var(--neutral-bg);
+  color: var(--neutral);
+  margin-left: 8px;
+}
+
+.scoreArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.imeScore {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.matBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-badge);
+}
+
+.dimBars {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dimBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.dimBarLabel {
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 24px;
+}
+
+.dimBarTrack {
+  flex: 1;
+  height: 4px;
+  background: #ebebea;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dimBarFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.dimBarScore {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text2);
+  min-width: 20px;
+  text-align: right;
+}
+
+.companyFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.criticalNote {
+  font-size: 11px;
+  font-weight: 600;
+  color: #c0392b;
+}
+
+.lastActivity {
+  font-size: 11px;
+  color: var(--text4);
+}

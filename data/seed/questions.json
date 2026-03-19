@@ -1,0 +1,438 @@
+{
+  "indicators": [
+    {
+      "id": "ind_estrategia_001",
+      "dimension": "Estratégia",
+      "title": "Planejamento",
+      "description": "Business Plan: A sua startup possui um plano de negócios estruturado?",
+      "weight": 0.033333,
+      "order_index": 1,
+      "response_options": [
+        { "level": 1, "text": "A startup não possui um plano de negócios" },
+        { "level": 2, "text": "A startup busca e está organizando seus conhecimentos para elaborar seu plano de negócios" },
+        { "level": 3, "text": "A startup já iniciou a elaboração do seu plano de negócios" },
+        { "level": 4, "text": "A startup já possui a primeira versão do seu plano de negócios, mas acredita que precisa ser lapidado" },
+        { "level": 5, "text": "A startup já possui um plano de negócios estruturado" }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Um plano de negócios auxilia a construção das estratégias do seu negócio, além de facilitar na captação de investimentos. Considere iniciar a construção do plano." },
+        { "level": 2, "feedback": "Um plano de negócios auxilia a construção das estratégias do seu negócio, além de facilitar na captação de investimentos. Considere iniciar logo a elaboração do plano." },
+        { "level": 3, "feedback": "Um plano de negócios auxilia a construção das estratégias do seu negócio, além de facilitar na captação de investimentos. Considere iniciar a primeira versão do plano." },
+        { "level": 4, "feedback": "Um plano de negócios auxilia a construção das estratégias do seu negócio, além de facilitar na captação de investimentos. Busque auxíio para o desenvolvimento e a lapidação do seu plano." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_estrategia_002",
+      "dimension": "Estratégia",
+      "title": "Planejamento",
+      "description": "Planejamento Estratégico: A empresa tem estabelecido seu planejamento estratégico?",
+      "weight": 0.033333,
+      "order_index": 2,
+      "response_options": [
+        { "level": 1, "text": "Não temos estabelecida a estratégia da empresa: ainda estamos numa etapa de intensa experimentação de modelos." },
+        { "level": 2, "text": "Nosso modelo de negócios foi estruturado usando a metodologia Canvas. Entretanto este Canvas não mais representa nossa situação atual pois nossa estratégia sofreu alterações." },
+        { "level": 3, "text": "Nosso modelo de negócios está estruturado e validado. Estamos construindo nossos objetivos estratégicos e respectivos indicadores." },
+        { "level": 4, "text": "Temos estabelecidos nossos objetivos estratégicos de negócio, com metas e indicadores." },
+        { "level": 5, "text": "Nossa estratégia está construída e gerenciamos nossa evolução através de um Balanced Scorecard ou OKR, que está estabelecido com horizonte 3 anos. Nossos objetivos estratégicos alimentam planos de ação e reacessamos nossas prioridades periodicamente." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Seu modelo de negócios ainda é passível de pivotamento? Então ainda não é o momento de sedimentar objetivos estratégicos. Persevere no processo de estabelecimento e teste de hipóteses, não perdendo o horizonte dos 4 stage-gates de validação: validação do mercado, validação do cliente, lançamento inicial e lançamento global. O negócio começa a estabelecer com maior clareza os objetivos estratégicos após os primeiros resultados do lançamento inicial. Busque referencial nos seus competidores ao estabelecer a modelagem de negócio." },
+        { "level": 2, "feedback": "Atualize seu modelo de negócios de acordo com o momento atual da empresa. Avalie o estágio em que você se encontra com relação aos stage-gates de validação: validação do mercado, validação do cliente, lançamento inicial e lançamento global; e avalie senão é o momento de estabelecer os objetivos estratégicos. Os quatro passos de visualização da estratégia podem ser superados: descoberta visual, exploração visual." },
+        { "level": 3, "feedback": "Os objetivos estratégicos de negócio devem ser desdobrados em metas verificáveis e indicadores. É importante estabelecer uma periodicidade de mensuração de resultados." },
+        { "level": 4, "feedback": "Avalie implantar a metodologia Balanced Scorecard ou OKR. Recomenda-se uma estrutura de revisão de três anos." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_estrategia_003",
+      "dimension": "Estratégia",
+      "title": "Diferenciais",
+      "description": "Modelos de Negócio: A empresa sabe quais são os melhores modelos de negócio para monetizar sua linha de produtos e serviços?",
+      "weight": 0.033333,
+      "order_index": 3,
+      "response_options": [
+        { "level": 1, "text": "A empresa não realizou esse estudo para entender o melhor modelo de negócio para monetizar." },
+        { "level": 2, "text": "A empresa tem ideia de como deve ser o modelo de negócio para monetizar, porém ainda não encontrou tempo hábil para aprofundá-lo com o time de marketing e vendas." },
+        { "level": 3, "text": "A empresa está validando modelos de negócios para monetização mas ainda não concluiu esta análise ou ainda não colocou em prática." },
+        { "level": 4, "text": "A empresa já realizou os estudos sobre modelos de negócio associados a monetização e entende quais são as melhores formas de monetizar, porém não colocou em prática a estratégia de marketing e vendas." },
+        { "level": 5, "text": "A empresa já realizou os estudos, sabe quais são os mehores modelos de negócios para monetizar e já iniciou a execução das estratégias de monetização ou já está monetizando de acordo com o modelo adotado." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "É importante entender o melhor modelo de negócio para um crescimento exponencial para a sua startup." },
+        { "level": 2, "feedback": "Reavalie o seu modelo de negócio para entender a viabilidade de crescimento exponencial para a sua startup." },
+        { "level": 3, "feedback": "É importante salientar que o modelo de negócio com crescimento exponencial potencializa os fatores de sucesso para a sua startup." },
+        { "level": 4, "feedback": "O crescimento exponencial da sua startup é um fator de sucesso, dessa forma, busque priorizar este potencial." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_estrategia_004",
+      "dimension": "Estratégia",
+      "title": "Expansão",
+      "description": "Mercado: A empresa sabe quais são as melhores formas e caminhos para o mercado comprar seus produtos e serviços atuais?",
+      "weight": 0.033333,
+      "order_index": 4,
+      "response_options": [
+        { "level": 1, "text": "A empresa não realizou esse estudo para entender a melhor abordagem para clientes comprarem os seus produtos e serviços." },
+        { "level": 2, "text": "A empresa tem ideia sobre as melhores formas dos clientes comprarem seus produtos e serviços, porém ainda não encontrou tempo hábil para aprofundá-lo com o time de marketing e vendas." },
+        { "level": 3, "text": "A empresa está realizando estudos aprofundados sobre as melhores formas de monetização mas ainda não cocluiu esta análise ou ainda não colocou em prática." },
+        { "level": 4, "text": "A empresa já realizou os estudos e sabe quais são as melhores formas de monetizar seus produtos e serviços, porém não colocou em prática a estratégia de marketing e vendas." },
+        { "level": 5, "text": "A empresa já realizou os estudos, sabe quais são as melhores formas para vender e já iniciou a execução das estratégias de monetização ou já está monetizando de acordo com a estratégia." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "É importante entender a melhor forma de vender seus produtos e serviços para a sua startup crescer." },
+        { "level": 2, "feedback": "Reavalie o seu modelo de negócio e as melhores formas de vender para entender a viabilidade de crescimento para a sua startup." },
+        { "level": 3, "feedback": "É importante salientar que o modelo de negócio com as melhores formas e caminhos tem potencial maior para crescimento exponencial aumentando os fatores de sucesso para a sua startup." },
+        { "level": 4, "feedback": "O crescimento exponencial da sua startup é um fator de sucesso, dessa forma, busque priorizar este potencial estudando sempre as melhores formas de monetizar sem esquecer de implementá-las junto ao time de marketing e vendas." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_estrategia_005",
+      "dimension": "Estratégia",
+      "title": "Expansão",
+      "description": "Regiões de atuação: A empresa sabe quais são as melhores regiões para vender seus produtos e serviços atuais?",
+      "weight": 0.033333,
+      "order_index": 5,
+      "response_options": [
+        { "level": 1, "text": "A empresa não realizou esse estudo para entender a melhor região geográfica para vender seus produtos e serviços." },
+        { "level": 2, "text": "A empresa tem ideia sobre as melhores regiões para vender seus produtos e serviços, porém ainda não encontrou tempo hábil para aprofundá-lo com o time de marketing e vendas." },
+        { "level": 3, "text": "A empresa está realizando estudos aprofundados sobre as melhores regiões para monetização mas ainda não cocluiu esta análise ou ainda não colocou em prática." },
+        { "level": 4, "text": "A empresa já realizou os estudos e sabe quais são as melhores regiões para monetizar seus produtos e serviços, porém não colocou em prática a estratégia de marketing e vendas, ou está em processo de revisão desta estratégia." },
+        { "level": 5, "text": "A empresa já realizou os estudos, sabe quais são as melhores regiões para vender e já iniciou a execução das estratégias de monetização ou já está monetizando nestas regiões." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "É importante entender as melhores regiões para vender seus produtos e serviços. Isto fará sua startup crescer mais rápido." },
+        { "level": 2, "feedback": "Reavalie a sua região geográfica para entender a viabilidade de crescimento para a sua startup." },
+        { "level": 3, "feedback": "É importante salientar que atuar em regiões com maior potencial de crescimento aumenta os fatores de sucesso da sua startup." },
+        { "level": 4, "feedback": "A região ideal para a sua startup atuar é um fator de sucesso, dessa forma, busque priorizar este potencial estudando sempre as melhores regiões para monetizar sem esquecer de implementá-las junto ao time de marketing e vendas." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_estrategia_006",
+      "dimension": "Estratégia",
+      "title": "Identidade de Marca",
+      "description": "Identidade de Marca: A empresa tem clareza quanto à identidade de marca e sabe comunicá-la?",
+      "weight": 0.033333,
+      "order_index": 6,
+      "response_options": [
+        { "level": 1, "text": "A empresa não possui uma identidade visual oficial." },
+        { "level": 2, "text": "A empresa possui uma identidade visual feita de forma emergencial ou já está desatualizada." },
+        { "level": 3, "text": "A empresa possui plano estratégico com uma identidade marca que se tangibiliza em uma logo adequada. Nem todos os elementos da identidade de marca são devidamente comunicados em todos os canais de comunicação." },
+        { "level": 4, "text": "A empresa possui um bom plano estratégico e identidade de marca, que se configura numa identidade visual atraente, desenvolvida por designer." },
+        { "level": 5, "text": "A empresa possui um excelente plano estratégico com uma identidade visual adequada e a expõe em todos os materiais.Apresenta características de brand equity para sua marca: autenticidade, consistência, relevância, presença, diferenciação e entendimento." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Comece a construir uma identidade visual para sua empresa. Contrate uma empresa especializada nesse serviço. Nesse estágio de maturidade é importante ter uma logo para tangibilizar o negócio e passar um mínimo de solidez, não se preocupe em já ter o estado da arte. Caso não haja recurso, comece com ferramentas gratuitas." },
+        { "level": 2, "feedback": "Caso já não tenha feito, procure um profissional de design e que tenha conhecimento em branding, se assegure tanto do alinhamento da identidade de marca com planejamento estratégico e de marketing quanto se assegure que a contratação compreenda manual de marca, com os elementos que compreenderam a construção da marca. A marca além do apelo visual deve comunicar uma mensagem: valores, visão da empresa, corework são elementos do planejamento estratégico que subsidiam esta criação." },
+        { "level": 3, "feedback": "Promova uma avaliação dos ativos de marketing e quais pontos precisam de atenção. É interessante que seja incorporado processo de avaliação de alinhamento de branding, antes do lançamento de novos produtos de marketing." },
+        { "level": 4, "feedback": "Avalie se a sua marca configura um ativo de negócio: devem ser analisados temas como autenticidade, consistência, relevância, presença, diferenciação e entendimento." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_001",
+      "dimension": "Produto",
+      "title": "User Experience",
+      "description": "User Experience: Como sua empresa atua na experiência do usuário a partir da jornada?",
+      "weight": 0.033333,
+      "order_index": 1,
+      "response_options": [
+        { "level": 1, "text": "Não identificamos a jornada de nossos usuários e atividades de UX ainda não foram executadas." },
+        { "level": 2, "text": "Conhecemos algumas funcionalidades importantes executadas pelos usuários, mas não desenvolvemos a jornada como um todo e não trabalhamos a fundo com UX." },
+        { "level": 3, "text": "Já temos a jornada do usuário mapeada, mas o UX não está satisfatório." },
+        { "level": 4, "text": "Temos uma solução com boa navegabilidade e experiência do usuário. E estamos buscando novas funcionalidades que o encantem." },
+        { "level": 5, "text": "Temos um excelente UX, diferenciais em nossos produtos que garantem uma vantagem competitiva e alta taxa de retenção. Técnicas de pesquisa com o cliente qualificam nosso UX como teste de usabilidade. Dados da pesquisa geram um plano de ação para os designers." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Cuidado. Fazer uma análise das funcionalidades mais usadas na sua solução é fundamental. Procure conhcer seu usuário através de dados, inclusive isto pode lhe ajudar a ter novas ideias de funcionamento para o seu produto." },
+        { "level": 2, "feedback": "Considere reservar um pedaço de seu orçamento para a análise da experiência do usuário e pesquisas, pois ela pode gerar ideias que você pode facilmente incorporar no seu produto." },
+        { "level": 3, "feedback": "Aprofunde e acelere, o UX é um elemento essencial de desenvolvimento de produto. Implante com rotinas aceleradas de design, desenvolvimento e testes." },
+        { "level": 4, "feedback": "Continue focado na quantidade de funcionalidades que podem garantir uma melhor expriência de uso do seu produto. Entenda a usabilidade dos seus concorrentes para identificar problemas, carências e oportunidades técnicas  que podem lhe trazer vantagem competitiva." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_produto_002",
+      "dimension": "Produto",
+      "title": "Gestão de Suprimentos",
+      "description": "Gestão de Estoques: Como a sua empresa gerencia seus insumos e/ou produtos acabados?",
+      "weight": 0.033333,
+      "order_index": 2,
+      "has_na_option": true,
+      "response_options": [
+        { "level": 0, "text": "Não aplicável ao nosso negócio." },
+        { "level": 1, "text": "Não temos nenhum processo implantado." },
+        { "level": 2, "text": "Realizamos um mapeamento de insumos com o mapeamento de fornecedores e pesquisa de preços concluído, entretanto ainda há possibilidades de se beneficiar de preço e qualidade mais satisfatórias." },
+        { "level": 3, "text": "Temos os insumos e fornecedores mapeados e com bons parâmetros de preço e qualidade. Temos falta ou excesso de estoque, desperdiçando recursos e gerando problemas de estoque. Nosso estoque não é organizado e é díficil de gerenciar." },
+        { "level": 4, "text": "Buscamos estoque mínimo, de acordo com nossa realidade de produção (necessidade de produção em lotes). Identificamos gargalo operacional, mas estamos implantando melhorias, como por exemplo espaço para estoque, ou falta de pessoal dedicado ou qualificado." },
+        { "level": 5, "text": "Os custos com matérias-primas foram otimizados, mantendo padrões de qualidade. A estrutura está consolidada e em condições de expansão." }
+      ],
+      "feedback_per_level": [
+        { "level": 0, "feedback": "Seu modelo de negócios não demanda este processo, você não fabrica produtos físicos? Então vamos para a próxima pergunta!" },
+        { "level": 1, "feedback": "Sua empresa precisa mapear os insumos e respectivas especificações técnicas, pesquisar pelo menos 3 fornecedores para cada item e fazer pesquisa de preços, bem como estabelecer como será a armazenagem neste estágio da empresa." },
+        { "level": 2, "feedback": "Avalie de que forma implantar sistema de coordenação e supervisão do processo de modo que a empresa possa focar na eficiência do processo. Avalie se os compradores têm o necessário em termos de perfil e preparação para realizar essa atividade adequadamente." },
+        { "level": 3, "feedback": "Avalie a implantação de 5S com enfoque especial nas unidades produtivas e de armazenagem e distribuição. Avalie implantação de ferramenta como diagrama de espinha de peixe para localizar as possibilidades de otimização de estoque e priorizar melhorias, bem como a implantação de métodos de gestão de estoque." },
+        { "level": 4, "feedback": "Estabeleça um plano de ação no modelo 5W2H (WHAT/ WHY/ WHO/ WHERE/ WHEN/ HOW/ HOW MUCH) e identifique a pessoa que responderá pelo monitoramento da execução deste plano de ação e garantirá sua execução. Se você se sentir confiante, invista em sistemas eletrônicos para controle de estoque como RFID ou código de barras." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_produto_003",
+      "dimension": "Produto",
+      "title": "Programação da Operação",
+      "description": "Delivery: Como a empresa se organiza para viabilizar a entrega da solução?",
+      "weight": 0.033333,
+      "order_index": 3,
+      "has_na_option": true,
+      "response_options": [
+        { "level": 0, "text": "Não aplicável ao nosso negócio." },
+        { "level": 1, "text": "O processo de entrega não está estabelecido." },
+        { "level": 2, "text": "O processo de entrega está delineado de forma macro, entretanto a empresa tem dificuldade na entrega." },
+        { "level": 3, "text": "O processo de entrega e de operação está padronizado. Eventualmente a empresa extrapola prazos e terceiriza parte do seu processo." },
+        { "level": 4, "text": "Todo o processo de entrega está devidamente programada, levando em consideração a alocação de tempos e atividades. Dificilmente temos desvios que comprometam prazos." },
+        { "level": 5, "text": "Todo o processo de entrega está programado. Temos agilidade em responder a falhas. Implantamos melhorias de processo a partir de controles, que se comprovam pela melhoria do fluxo de caixa e outros indicadores." }
+      ],
+      "feedback_per_level": [
+        { "level": 0, "feedback": "Vamos para a próxima pergunta" },
+        { "level": 1, "feedback": "Mapeie o processo produtivo usando ferramentas como 5W2H, mapeamento de processos com ferramentas como o Kanban, etc. Invista tempo nas atividades da entrega da sua solução para verificar como funciona." },
+        { "level": 2, "feedback": "Identifique os gargalos do processo e estabeleça planos de ação para melhorias. Avalie os impactos do processo, e crie um roadmap com vistas a absorver a inteligência do negócio e evitar perdas." },
+        { "level": 3, "feedback": "Busque uma solução que automatize o monitoramento das entregas. Avalie uma pessoa part-time que realize esta atividade de monitoramento e comunicação com fornecedores. Busque alternativas de indicadores para entender onde é possível melhorar." },
+        { "level": 4, "feedback": "Implante um modelo de avaliação da eficiência do processo de entrega. Avalie se a incorporação da parte da estrutura de entregas está atendendo aos principais mercados da empresa e como está a estrutura frente a custos de manutenção e pessoal." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo. Caso queira ir além, verifique a possibilidade de conciliar o sistema de gestão do seu cliente com o seu, para tornar mais ágil seu processo." }
+      ]
+    },
+    {
+      "id": "ind_produto_004",
+      "dimension": "Produto",
+      "title": "Conformidade do Produto",
+      "description": "Confomidade do Produto: Quão segura a empresa está para operar em relação à conformidade da solução frente aos órgãos de controle?",
+      "weight": 0.033333,
+      "order_index": 4,
+      "has_na_option": true,
+      "response_options": [
+        { "level": 0, "text": "Não aplicável ao nosso negócio." },
+        { "level": 1, "text": "Não sabemos se existe a necessidade de registro em órgãos de controle para operação da solução." },
+        { "level": 2, "text": "Identificamos que existe a necessidade de registro oficial para operar nossa solução; entretanto não iniciamos esse processo ainda." },
+        { "level": 3, "text": "Identificamos que existe a necessidade de registro oficial para operar nossa solução. Já realizamos o pedido e estamos aguardando a licença para operar." },
+        { "level": 4, "text": "Nossas soluções estão registradas em órgãos de controle e temos as devidas licenças para colocar nossa solução no mercado." },
+        { "level": 5, "text": "Além das licenças para operar, buscamos atender a requisitos técnicos que nos certifiquem para excelência, ex: Inmetro, ABNT, ISO (órgãos certificadores)." }
+      ],
+      "feedback_per_level": [
+        { "level": 0, "feedback": "Não tem nenhuma regulamentação específica para seu segmento de atuação? Então vamos para a próxima pergunta!" },
+        { "level": 1, "feedback": "Uma empresa que trabalha com atividades que necessitam de regulamentação não pode operar sem as certificações. Muitas vezes estas autorizações levam tempo, até mesmo anos para sair. Cuidado, consulte o órgão regulador que mais se aproxima da solução e identifique o que é preciso." },
+        { "level": 2, "feedback": "Neste ponto, você está brigando para se manter vivo. A reação passiva diante do registro em órgãos reguladores do mercado não lhe favorece para estar na dianteira. Você pode estar contando com um registro fácil que pode demorar meses, ou mesmo anos, para sair. Busque um especialista." },
+        { "level": 3, "feedback": "Esse é o primeiro passo a ser dado para tomar a dianteira do mercado. Mesmo que sua empresa dependa de registros externos para inovar, ela já está cada vez mais perto de ser uma empresa licenciada para vender. Mantenha este processo ativo e contate um especialista em licenciamento." },
+        { "level": 4, "feedback": "Muito bem: com a licença para operar você já está pronto para vender! Seu mercado de atuação valoriza atendimento a normas facultativas como ISO? Pode ser a hora de buscar certificações!" },
+        { "level": 5, "feedback": "Parabéns! Assegure-se que sua conformidade técnica seja devidamente comunicada ao mercado. Muitas certificações evidenciam o valor da sua empresa." }
+      ]
+    },
+    {
+      "id": "ind_produto_005",
+      "dimension": "Produto",
+      "title": "Propriedade Intelectual",
+      "description": "Propriedade Intelectual: A sua solução está devidamente registrada?",
+      "weight": 0.033333,
+      "order_index": 5,
+      "has_na_option": true,
+      "response_options": [
+        { "level": 0, "text": "Não aplicável ao nosso negócio." },
+        { "level": 1, "text": "Não sabemos se existe alguma possibilidade de registro de propriedade intelectual e/ou não temos intenção de efetuar o registro de PI do nosso software, marca ou website." },
+        { "level": 2, "text": "Sabemos que existe a necessidade de registro, entretanto não procedemos com nenhuma análise técnica." },
+        { "level": 3, "text": "A partir de avaliação técnica realizada de forma não sistemática, realizamos parcialmente o depósito do registro de patente, software, marca e/ou domínio em órgãos regulamentadores referentes à propriedade intelectual. Falta encaminhar alguns dos pedidos." },
+        { "level": 4, "text": "A partir de avaliação técnica realizada não sistemática, realizamos o depósito de registro de patente, software, marca e/ou domínio identificados. Falta parecer técnico que confirme se todas as esferas de registro estão ok, nacional e internacionalmente." },
+        { "level": 5, "text": "A partir de avaliação técnica sistemática com todas as esferas de registro, realizamos o depósito do registro de patente, software, marca e/ou domínio em todos os órgãos cabíveis, na esfera e internacional. Todos os registros estão em análise ou emitidos." }
+      ],
+      "feedback_per_level": [
+        { "level": 0, "feedback": "-" },
+        { "level": 1, "feedback": "Vá atrás destas informações imediatamente! Não existe PATENTE de software, apenas REGISTRO dele. Um bom ponto de partida é o site do INPI." },
+        { "level": 2, "feedback": "A marca e o domínio do website são fundamentais. Se você está desenvolvendo um programa de computador para um cliente, preste atenção ao contrato: se você quiser ter direitos sobre o código fonte, você precisa deixar isto bem claro no contrato de licença de uso, indicando que o cliente esta comprando o direito de usar o seu programa e não tem direitos sobre o código fonte." },
+        { "level": 3, "feedback": "Dê atenção para encaminhar os pedidos pois o registro costuma ser bastante demorado e necessita de acompanhamento dos prazos. Lembre-se que em caso de software produzido pelo empregado, contratado, servidor, bolsista e estagiário pertence ao empregador. Atenção: neste caso requer-se o vínculo do contrato de trabalho." },
+        { "level": 4, "feedback": "Avalie se o registro no formato \".com\" é interessante para sua empresa. Se busca uma inserção internacional talvez deva considerar esse registro." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_006",
+      "dimension": "Produto",
+      "title": "Desempenho e Eficiência",
+      "description": "Desempenho e Eficiência: Quão eficiente é sua solução quanto ao uso de recursos e/ou tempo de processamento?",
+      "weight": 0.033333,
+      "order_index": 6,
+      "response_options": [
+        { "level": 1, "text": "Não temos um padrão formalizado para nosso produto/serviço, por isso não sabemos se somos eficientes em relação aos recursos." },
+        { "level": 2, "text": "Temos nossos processos de produção/prestação de serviços mapeados, porém não controlamos seu desempenho." },
+        { "level": 3, "text": "Monitoramos a eficiência em termos de recursos utilizados e tempo de processamento, porém não temos um processo de ação sobre falhas ou análise sobre os dados." },
+        { "level": 4, "text": "Monitoramos a eficiência em termos de recursos utilizados e tempo de processamento e tomamos ações corretivas. Monitoramos nosso desempenho em comparação com empresas concorrentes." },
+        { "level": 5, "text": "Monitoramos a eficiência com recursos utilizados e tempo de processamento e temos ações preventivas de acordo com o comportamento histórico dos recursos. Monitoramos nosso desempenho em comparação com empresas concorrente." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "O primeiro passo é criar um procedimento padrão de produção/prestação de serviço. Sem isso, é muito complicado estabelecer métricas de acompanhamento e saber qual o desempenho da empresa. Invista já no mapeamento e na padronização dos seus processos." },
+        { "level": 2, "feedback": "Estabeleça um controle sobre seu processo. Níveis de eficiência podem variar de acordo com o tipo de negócio. Investigue qual o melhor critério para o seu negócio e comece a controlar!" },
+        { "level": 3, "feedback": "Não se combate febre com termômetro! Se você controla indicadores em relação aos seus processos, é hora de começar a agir sobre falhas e melhorar onde há margem para desempenhos mais conformes as exigências do cliente." },
+        { "level": 4, "feedback": "Ótimo! Agora que tal agir antes de precisar agir. Ações corretivas mostram que você sabe onde agir, mas tomando pequenas medidas diárias você consegue eliminar grande parte dos problemas que podem causar dor de cabeça e atrasos, fazer uma matriz de riscos é uma boa opção!" },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo!" }
+      ]
+    },
+    {
+      "id": "ind_produto_007",
+      "dimension": "Produto",
+      "title": "Credibilidade na Oferta de Funcionalidades",
+      "description": "Credibilidade na Oferta de Funcionalidades: Quanto a sua solução atende às expectativas do cliente?",
+      "weight": 0.033333,
+      "order_index": 7,
+      "response_options": [
+        { "level": 1, "text": "Nossa solução ainda não é fácil de usar e estamos buscando uma forma de solucionar, desconhecemos o real valor procurado pelos clientes em nossos produtos. Ainda não se pode saber se a empresa está perto ou longe de atender às necessidades dos clientes." },
+        { "level": 2, "text": "Já temos um método de construção de conceito, mas precisamos melhorar, não sabemos o motivo dos clientes escolherem nosso produto em vez dos concorrentes e vice-versa. Sabemos q estamos atendendo às necessidades dos clientes tanto quanto os concorrentes." },
+        { "level": 3, "text": "A solução é de fácil usabilidade, mas não é intuitiva. Acreditamos que ao colocar o business case em prática, conseguiremos atrair mais clientes. Sabemos o valor da entrega e a diferença dos concorrentes, mas não focamos as ações para aumentar esse valor." },
+        { "level": 4, "text": "Estamos usando o business case ou prova de conceito junto aos nossos clientes e estamos em processo de tornar nosso produto mais intuitivo. As nossas decisões de marketing são baseadas no entendimento das necessidades de nossos clientes." },
+        { "level": 5, "text": "Temos um business case testado e validado, medimos sua performance c os resultados. Mantemos o produto o mais intuitivo possível. Sabemos o valor das entregas, diferenciais e focamos em amplia-las." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "É muito importante estabelecer uma forma de demonstrar ou validar o seu produto no mercado. Busque entender o que cada tipo de cliente procura em seus produtos através de simulações ou até mesmo conversas ou pesquisas com clientes." },
+        { "level": 2, "feedback": "Procure entender todos os atributos envolvidos com seu produto ou serviço e faça uma matriz de comparação com seus concorrentes, gerando a chamada curva de valor. Assim você poderá entender onde a empresa está acima e onde está abaixo deles." },
+        { "level": 3, "feedback": "Estabelecer uma forma de validar o produto com a ajuda de um business case é um grande desafio, mas você está quase lá. Tente construir um modelo que seja facilmente replicado em outros negócios, e defina até 5 pontos importantes como indicadores que se bem implementados garantam o aceite do cliente. Depois de entender o que o cliente procura em produtos como o seu, planeje ações para onde a empresa pretende chegar." },
+        { "level": 4, "feedback": "Sistematize os resultados que vêm sendo gerados, estabeleça uma forma que eles possam subsidiar o processo de desenvolvimento da solução. Foco é essencial para a obtenção de resultados." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_008",
+      "dimension": "Produto",
+      "title": "Credibilidade de Cumpridora de Prazos",
+      "description": "Entrega de Produtos e Serviços: Quão comprometida é a sua startup com relação ao cumprimento de prazos com o cliente?",
+      "weight": 0.033333,
+      "order_index": 8,
+      "response_options": [
+        { "level": 1, "text": "A empresa não tem rotina de monitoramento de prazos." },
+        { "level": 2, "text": "A empresa tem extrema dificuldade em cumprir prazos." },
+        { "level": 3, "text": "Eventualmente a empresa extrapola um prazo ou outro." },
+        { "level": 4, "text": "A empresa tem controles implantados para atuar nos desvios e grande parte das entregas estão dentro do prazo." },
+        { "level": 5, "text": "Sim, a empresa possui extremo compromisso com seus prazos e os prazos extrapolados tem relação com fatores incontroláveis." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Implante o monitoramento o quanto antes. Estabeleça responsáveis e accountability." },
+        { "level": 2, "feedback": "Este é um mau sinal e, se você continuar assim, terá sérios problemas para reter clientes. Estude os gargalos e pense em como estabaler processos que diminuam esses atrasos." },
+        { "level": 3, "feedback": "Tome cuidado, pois cumprir prazos é extremamente importante e qualquer coisa que contraria isto será visto com maus olhos. Pense em adotar uma ferramenta de gestão de tarefas, como asana e trello." },
+        { "level": 4, "feedback": "Avalie automatizar o monitoramento de prazos com sistemas de apoio à gestão." },
+        { "level": 5, "feedback": "Parabéns! Busque sempre divulgar seus resultados internos. A Ryanair, por exemplo, abusa do marketing em cima de sua taxa de chegada dentro do horário. Todo mundo quer desempenho, diga o que você tem e atraia mais clientes." }
+      ]
+    },
+    {
+      "id": "ind_produto_009",
+      "dimension": "Produto",
+      "title": "Segurança Quanto ao Uso de Dados",
+      "description": "Segurança Quanto ao Uso de Dados: Quão seguros seus clientes podem se sentir para disponibilizar seus dados na sua solução? (LGPD)",
+      "weight": 0.033333,
+      "order_index": 9,
+      "response_options": [
+        { "level": 1, "text": "Muito Baixa Segurança, não temos nenhum comprometimento com fatores de segurança." },
+        { "level": 2, "text": "Baixa, mapeamos algumas das fontes de riscos, usamos algumas ferramentas para evitar a existência de vírus." },
+        { "level": 3, "text": "Média. Estamos montando uma arquitetura de segurança de rede, em que há protocolos e ferramentas de segurança e que é possível identificar a fonte de todos os riscos." },
+        { "level": 4, "text": "Alta. Nossa rede segue uma arquitetura, existindo protocolos e ferramentas de segurança. Existe uma política de segurança a ser seguida por todos nossos colaboradores e podemos monitorar as fontes de riscos e vírus." },
+        { "level": 5, "text": "Máxima. Nossa rede segue uma arquitetura, com protocolos e ferramentas de segurança. Existe uma política de segurança onde podemos monitorar as fontes de riscos e vírus." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Você precisa transmitir segurança para seu cliente. Se seu negócio lida com prestação de serviço online, é crucial que você busque alternativas para tornar seu negócio seguro e confiável." },
+        { "level": 2, "feedback": "A segurança extrapola os limites da sua empresa e vai além de assegurar que internamente vocês estão sem problemas. Busque formas de criar um sistema de segurança completo." },
+        { "level": 3, "feedback": "Você está no caminho, mas ainda é preciso consolidar a segurança da sua rede. Invista tempo para que isso não seja um problema mais a frente." },
+        { "level": 4, "feedback": "Ótimo! Quase lá, verifique como os seus pares e concorrentes estão lidando com esse assunto e melhore a sua solução." },
+        { "level": 5, "feedback": "Parabéns! Você atingiu a nota máxima neste quesito, agora é preciso que você busque manter esse nível para demonstrar para seus usuários que este critério é importante para você." }
+      ]
+    },
+    {
+      "id": "ind_produto_010",
+      "dimension": "Produto",
+      "title": "Segurança Quanto à Estabilidade",
+      "description": "Segurança Quanto à Estabilidade: Quão seguros seus clientes podem se sentir quanto à estabilidade da solução e sua fácil manutenção?",
+      "weight": 0.033333,
+      "order_index": 10,
+      "response_options": [
+        { "level": 1, "text": "Muito baixa. Um problema no nosso servidor na rede pode comprometer nossa operação, pois dificilmente saberemos lidar com a solução ou levará tempo até descobrirmos." },
+        { "level": 2, "text": "Baixa. Estamos estruturando uma política de segurança que contempla a padronização e periodicidade da manutenção para não sofrermos quando o sistema estiver instável." },
+        { "level": 3, "text": "Média. Trabahamos com redundância de internet, temos programadas as manutenções preventivas e avisamos sempre que o sistema estiver fora do ar para que o usuário se programe." },
+        { "level": 4, "text": "Alta. Trabahamos com redundância de internet, manutenções preventivas programadas e sempre avisadas aos usuários. Além disso, seguimos fortes políticas de segurança interna e estamos pensando em implantar um plano de recuperação de dados." },
+        { "level": 5, "text": "Muito Alta: contamos com redundância de internet, manut. preventivas programadas avisadas aos usuários. Temos políticas de segurança interna e plano de recuperação de dados e uma empresa especializada que nos auxilia na manutenção do sistema." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "Cuidado! A estabilidade do sistema é um dos principais fatores que contribuem para gerar agilidade e eficiência às operações da empresa. Diante de um mercado tão desafiador e em constantes mudanças como o atual, permitir que competitividade esteja à mercê de instabilidades pode ser fatal." },
+        { "level": 2, "feedback": "Siga firme e invista recursos na implementação, em opções de redundância de internet e manutenção preventiva. Com mais estabilidade nas operações, você gasta menos tempo \"apagando incêndios\" e pode a se dedicar mais em projetos de implementações de melhorias, como novas ferramentas e recursos ou otimizando os já existentes." },
+        { "level": 3, "feedback": "Legal, isso é bastante, mas ainda pode haver problemas. Certifique-se que internamente não haja nenhum problema de segurança, monitore incidentes e exija compromisso dos seus colaboradores para manter os sistemas seguro." },
+        { "level": 4, "feedback": "Muito bem! Implante este sistema e trabalhe na garantia de que sua empresa não falhe nunca." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_011",
+      "dimension": "Produto",
+      "title": "Validação da Solução",
+      "description": "Teste da Solução com Clientes: Com que intensidade sua solução já foi validada pelo mercado?",
+      "weight": 0.033333,
+      "order_index": 11,
+      "response_options": [
+        { "level": 1, "text": "Não realizei uma validação do meu produto diretamente com o mercado" },
+        { "level": 2, "text": "Validei a aceitação do meu produto com uma pesquisa de mercado sobre as necessidades que ele atende." },
+        { "level": 3, "text": "Realizei um MVP, mas já fiz alterações no meu produto e não realizei uma nova validação." },
+        { "level": 4, "text": "Realizo alguma validação com o mercado somente depois de fazer alterações no produto." },
+        { "level": 5, "text": "Realizamos validação perante o mercado constantemente, isto é, tanto antes de fazer alterações no produto quanto depois." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "É importante realizar validações no mercado para entender se você está despendendo seus esforços de forma eficiente, isto é, dedicando energia para desenvolver um produto que atenda as necessidade do mercado. Comece realizando uma pesquisa de mercado e em seguida comece a estruturar um MVP." },
+        { "level": 2, "feedback": "A pesquisa de mercado é de extrema importância para iniciar o desenvolvimento da sua solução, porém não é suficiente para valida-la. Considera estruturar um MVP logo após da pesquisa de mercado." },
+        { "level": 3, "feedback": "Por mais simples que sejam as alterações é sempre interessante realizar uma validação com o mercado." },
+        { "level": 4, "feedback": "Muito bem! Para tornar seu processo ainda mais eficiente, entende a viabilidade de realizar validações do seu produto antes de realizar as alterações, para que dessa forma você despenda suas energias no desenvolvimento da solução de forma mais eficiente." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_012",
+      "dimension": "Produto",
+      "title": "Diferenciação",
+      "description": "Diferenciação: Como a sua empresa busca a diferenciação da solução?",
+      "weight": 0.033333,
+      "order_index": 12,
+      "response_options": [
+        { "level": 1, "text": "Não colocamos a diferenciação como uma pauta de discussão." },
+        { "level": 2, "text": "Entendemos que a diferenciação é um fator importante, porém não identificamos uma forma de trazer essa diferenciação para o nosso produto/serviço." },
+        { "level": 3, "text": "Acreditamos que nosso produto/serviço tem uma diferenciação perante a concorrência, contudo ela pode ser facilmente copiada." },
+        { "level": 4, "text": "Prezamos por oferecer uma diferenciação perante a concorrência e entendemos que devemos buscar a diferenciação que não seja facilmente copiada pelo mercado." },
+        { "level": 5, "text": "Prezamos por oferecer uma diferenciação no mercado e entendemos que devemos busca-la de forma que não seja facilmente copiada pela concorrência. Além disso, fazemos reavaliações constantes da nossas estratégias para buscar a diferenciação." }
+      ],
+      "feedback_per_level": [
+        { "level": 1, "feedback": "O mercado atual não tem espaço para solulões que não possuam diferenciação. Priorize entender com a sua equipe quais são e podem ser os diferenciais do seu produto/serviço. Caso não consigam identificar, busque entender as oportunidades no mercado." },
+        { "level": 2, "feedback": "Para iniciar esse processo, você deve analisar o melhor contexto para inserir o seu produto/serviço no mercado frente a seus concorrentes e ficar sempre atento às novas tendências de tecnologias e inovações." },
+        { "level": 3, "feedback": "Você deve focar na criação de soluçõs não facilmente copiáveis, para obter diferencial competitivo de longo prazo. Você pode realizar um benchmarking para entender as deficiências dos concorrentes e ver as oportunidades atreladas a isso." },
+        { "level": 4, "feedback": "Ótimo! Considere reavaliar continuamente as diferenciações apresentadas pelo seu produto/serviço, buscando dessa forma estar sempre atualizado com o mercado." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    },
+    {
+      "id": "ind_produto_013",
+      "dimension": "Produto",
+      "title": "Solução",
+      "description": "Roadmap de desenvolvimento: Sua empresa possui um Roadmap de Desenvolvimento do Produto? E quais são as prioridades?",
+      "weight": 0.033333,
+      "order_index": 13,
+      "has_na_option": true,
+      "response_options": [
+        { "level": 0, "text": "Não aplicável ao nosso negócio." },
+        { "level": 1, "text": "Ainda não conseguimos validar o produto no mercado a ponto de identificar novas funcionalidades a serem desenvolvidas." },
+        { "level": 2, "text": "Já validamos o produto com o mercado e temos um backlog de funcionalidades a serem desenvolvidas, porém não temos um roadmap de desenvolvimento." },
+        { "level": 3, "text": "Temos um roadmap de desenvolvimento de produto, porém não está alinhado com as prioridades da empresa e/ou não temos um processo para priorizar as funcionalidades." },
+        { "level": 4, "text": "Temos um roadmap de desenvolvimento de produto alinhado com as prioridades da empresa. Usamos ferramentas e/ou processos para priorizar funcionalidades." },
+        { "level": 5, "text": "Temos um roadmap de desenvolvimento do produto alinhado com as prioridades da empresa. Usamos ferramentas e processos para priorizar funcionalidades. Nosso roadmap é revisado periodicamente para se adaptar às necessidades do mercado." }
+      ],
+      "feedback_per_level": [
+        { "level": 0, "feedback": "Vamos para a próxima pergunta!" },
+        { "level": 1, "feedback": "Foque na validação do produto com o mercado. A partir dos feedbacks, você poderá identificar as funcionalidades mais importantes para os seus clientes." },
+        { "level": 2, "feedback": "Organize o backlog de funcionalidades e comece a priorizar com base no valor para o cliente e para o negócio. Ferramentas como RICE ou ICE podem ajudar." },
+        { "level": 3, "feedback": "Alinhe o roadmap de desenvolvimento com os objetivos estratégicos da empresa. Envolva diferentes áreas (produto, vendas, suporte) na priorização." },
+        { "level": 4, "feedback": "Considere implementar revisões periódicas do roadmap (trimestral, por exemplo) para garantir que ele continue alinhado com as necessidades do mercado." },
+        { "level": 5, "feedback": "Parabéns! Você está no caminho certo." }
+      ]
+    }
+  ],
+  "_note": "Parcial: 6 indicadores de Estratégia + 13 de Produto. Faltam indicadores restantes de Produto + Mercado (30) + Finanças (30) + Branding (30). Enviar o restante para completar os 150 indicadores."
+}

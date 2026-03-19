@@ -1,0 +1,34 @@
+{
+  "dimensions": [
+    {
+      "name": "Estratégia",
+      "description": "Capacidade da empresa de definir e executar direcionamento estratégico",
+      "color": "#1a5276",
+      "order_index": 1
+    },
+    {
+      "name": "Produto",
+      "description": "Maturidade na gestão, desenvolvimento e evolução de produtos",
+      "color": "#8e44ad",
+      "order_index": 2
+    },
+    {
+      "name": "Mercado",
+      "description": "Capacidade de entender, acessar e dominar o mercado-alvo",
+      "color": "#1e8449",
+      "order_index": 3
+    },
+    {
+      "name": "Finanças",
+      "description": "Maturidade na gestão financeira, captação e sustentabilidade",
+      "color": "#d68910",
+      "order_index": 4
+    },
+    {
+      "name": "Branding",
+      "description": "Força da marca, posicionamento e percepção de valor",
+      "color": "#c0392b",
+      "order_index": 5
+    }
+  ]
+}

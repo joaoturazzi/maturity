@@ -1,0 +1,15 @@
+.btn {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.1s;
+}
+
+.btn:hover { background: var(--bg3); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
