@@ -1,9 +1,10 @@
 import { auth } from '@clerk/nextjs/server'
-import { getLatestCycleById } from '@/lib/db/queries'
-import { getCompanyId } from '@/lib/getCompanyId'
 import { redirect } from 'next/navigation'
-import { ResultRadarWrapper } from '@/components/diagnostic/ResultRadarWrapper'
-import Link from 'next/link'
+import { db } from '@/lib/db'
+import { diagnosticCycles, dimensionScores } from '@/lib/db/schema'
+import { eq, and } from 'drizzle-orm'
+import { getCompanyId } from '@/lib/getCompanyId'
+import { DiagnosticResult } from '@/components/diagnostic/DiagnosticResult'
 
 export default async function ResultPage({ params }: { params: Promise<{ cycleId: string }> }) {
   const { cycleId } = await params
@@ -13,28 +14,61 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
   const companyId = await getCompanyId()
   if (!companyId) redirect('/onboarding')
 
-  const cycle = await getLatestCycleById(cycleId)
-  if (!cycle || cycle.companyId !== companyId) redirect('/diagnostic')
+  const cycle = await db.query.diagnosticCycles.findFirst({
+    where: and(
+      eq(diagnosticCycles.id, cycleId),
+      eq(diagnosticCycles.companyId, companyId),
+    ),
+  })
+
+  if (!cycle || cycle.status !== 'Submitted') redirect('/diagnostic')
+
+  const scores = await db.query.dimensionScores.findMany({
+    where: eq(dimensionScores.cycleId, cycleId),
+    with: { dimension: true },
+  })
+
+  // Sort by gap descending (most critical first)
+  const sorted = [...scores].sort((a, b) => Number(b.maturityGap) - Number(a.maturityGap))
+
+  const radarData = sorted.map(s => ({
+    dimension: s.dimension?.name ?? '',
+    atual: Number(s.weightedScore ?? 0),
+    desejado: Number(s.desiredScore ?? 5),
+    recomendado: Number(s.recommendedMinScore ?? 3.5),
+  }))
+
+  const deficiencyData = sorted.map(s => ({
+    dimension: s.dimension?.name ?? '',
+    comportamental: Math.round(Number(s.pctComportamental ?? 0) * 100),
+    ferramental: Math.round(Number(s.pctFerramental ?? 0) * 100),
+    tecnica: Math.round(Number(s.pctTecnica ?? 0) * 100),
+  }))
+
+  const tableData = sorted.map(s => ({
+    dimension: s.dimension?.name ?? '',
+    color: s.dimension?.color ?? null,
+    atual: Number(s.weightedScore ?? 0),
+    desejado: Number(s.desiredScore ?? 5),
+    recomendado: Number(s.recommendedMinScore ?? 3.5),
+    gap: Number(s.maturityGap ?? 0),
+    priority: s.priorityLevel,
+    comportamental: Math.round(Number(s.pctComportamental ?? 0) * 100),
+    ferramental: Math.round(Number(s.pctFerramental ?? 0) * 100),
+    tecnica: Math.round(Number(s.pctTecnica ?? 0) * 100),
+  }))
 
   return (
-    <div>
-      <div>
-        <h1>Resultado do diagnóstico</h1>
-        <p>
-          IME Score: <strong>{cycle.overallImeScore}</strong>/5.0
-        </p>
-        <p>
-          Nível de maturidade: <strong>{cycle.maturityLevel}</strong>
-          {cycle.submittedAt && ` · ${new Date(cycle.submittedAt).toLocaleDateString('pt-BR')}`}
-        </p>
-      </div>
-
-      <ResultRadarWrapper scores={cycle.dimensionScores} />
-
-      <div>
-        <Link href="/action-plans">Ver plano de ação →</Link>
-        <Link href="/diagnostic">Voltar</Link>
-      </div>
-    </div>
+    <DiagnosticResult
+      cycle={{
+        overallImeScore: cycle.overallImeScore,
+        maturityLevel: cycle.maturityLevel,
+        submittedAt: cycle.submittedAt,
+      }}
+      radarData={radarData}
+      deficiencyData={deficiencyData}
+      tableData={tableData}
+      cycleId={cycleId}
+    />
   )
 }
