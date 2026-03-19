@@ -1,10 +1,21 @@
-// TODO: Implement Select component
-import { forwardRef } from 'react';
+import { forwardRef } from 'react'
+import styles from './Select.module.css'
 
-export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
-  ({ children, ...props }, ref) => {
-    return <select ref={ref} {...props}>{children}</select>;
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string
+}
+
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ label, children, className, ...props }, ref) => {
+    return (
+      <div className={styles.wrapper}>
+        {label && <label className={styles.label}>{label}</label>}
+        <select ref={ref} className={`${styles.select} ${className ?? ''}`} {...props}>
+          {children}
+        </select>
+      </div>
+    )
   }
-);
+)
 
-Select.displayName = 'Select';
+Select.displayName = 'Select'

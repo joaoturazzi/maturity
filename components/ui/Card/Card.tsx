@@ -1,4 +1,15 @@
-// TODO: Implement Card component
-export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={className}>{children}</div>;
+import styles from './Card.module.css'
+
+interface CardProps {
+  children: React.ReactNode
+  className?: string
+  style?: React.CSSProperties
+}
+
+export function Card({ children, className, style }: CardProps) {
+  return (
+    <div className={`${styles.card} ${className ?? ''}`} style={style}>
+      {children}
+    </div>
+  )
 }

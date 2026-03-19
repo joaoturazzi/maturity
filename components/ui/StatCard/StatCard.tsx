@@ -1,10 +1,18 @@
-// TODO: Implement StatCard component
-export function StatCard({ label, value, sublabel }: { label: string; value: string | number; sublabel?: string }) {
+import styles from './StatCard.module.css'
+
+interface StatCardProps {
+  label: string
+  value: string | number
+  sublabel?: string
+  color?: string
+}
+
+export function StatCard({ label, value, sublabel, color }: StatCardProps) {
   return (
-    <div>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      {sublabel && <span>{sublabel}</span>}
+    <div className={styles.card}>
+      <span className={styles.label}>{label}</span>
+      <span className={styles.value} style={color ? { color } : undefined}>{value}</span>
+      {sublabel && <span className={styles.sublabel}>{sublabel}</span>}
     </div>
-  );
+  )
 }

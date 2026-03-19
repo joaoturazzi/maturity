@@ -1,4 +1,5 @@
-// TODO: Implement SectionLabel component
-export function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <h3>{children}</h3>;
+import styles from './SectionLabel.module.css'
+
+export function SectionLabel({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <span className={`${styles.label} ${className ?? ''}`}>{children}</span>
 }
