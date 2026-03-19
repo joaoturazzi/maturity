@@ -213,7 +213,7 @@ export function TaskSlidePanel({ taskId, onClose, onStatusChange }: {
               )}
             </div>
 
-            <a href="/checkins" style={{ display: 'block', textAlign: 'center', padding: 10, background: dc.bg, color: dc.color, fontWeight: 700, fontSize: 13, borderRadius: 6, textDecoration: 'none', border: `1px solid ${dc.color}30` }}>
+            <a href={`/checkins?taskId=${task.id}`} style={{ display: 'block', textAlign: 'center', padding: 10, background: dc.bg, color: dc.color, fontWeight: 700, fontSize: 13, borderRadius: 6, textDecoration: 'none', border: `1px solid ${dc.color}30` }}>
               Fazer check-in nesta task →
             </a>
           </div>

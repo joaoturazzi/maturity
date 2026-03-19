@@ -1,8 +1,8 @@
 export const dynamic = 'force-dynamic'
 
 import { db } from '@/lib/db'
-import { actionPlans, tasks, dimensionScores } from '@/lib/db/schema'
-import { eq, and } from 'drizzle-orm'
+import { actionPlans, tasks, dimensionScores, diagnosticResponses } from '@/lib/db/schema'
+import { eq, and, asc } from 'drizzle-orm'
 
 const TASKS_BY_DIMENSION: Record<string, string[]> = {
   'Estratégia': [
@@ -73,6 +73,21 @@ export async function POST(req: Request) {
       const dimName = score.dimension?.name ?? ''
       const taskTitles = TASKS_BY_DIMENSION[dimName] ?? TASKS_BY_DIMENSION['Estratégia']
 
+      // Get critical indicators for context descriptions
+      const criticalResponses = await db.query.diagnosticResponses.findMany({
+        where: and(eq(diagnosticResponses.cycleId, cycleId), eq(diagnosticResponses.dimensionId, score.dimensionId)),
+        with: { indicator: true },
+        orderBy: asc(diagnosticResponses.score),
+        limit: 5,
+      })
+      const criticals = criticalResponses
+        .filter(r => r.score && r.score > 0 && r.score < 4)
+        .map(r => {
+          const opts = (r.indicator?.responseOptions as Array<{ level: number; text: string }>) ?? []
+          const chosen = opts.find(o => o.level === r.score)
+          return { title: r.indicator?.title ?? '', score: r.score!, chosenText: chosen?.text ?? '' }
+        })
+
       const [plan] = await db.insert(actionPlans).values({
         title: `Plano de Evolução — ${dimName}`,
         description: `Plano de 90 dias: ${dimName} de ${Number(score.weightedScore).toFixed(1)} para ${Number(score.desiredScore ?? 5).toFixed(1)}. Gap: ${gap.toFixed(1)}.`,
@@ -84,9 +99,13 @@ export async function POST(req: Request) {
       }).returning()
 
       for (let i = 0; i < taskTitles.length; i++) {
+        const relatedInd = criticals[i] ?? criticals[0]
+        const desc = relatedInd
+          ? `Criada porque "${relatedInd.title}" recebeu nível ${relatedInd.score}/5. Resposta: "${relatedInd.chosenText.slice(0, 100)}". Gap: ${gap.toFixed(1)}.`
+          : `Evolução de ${dimName}. Score: ${Number(score.weightedScore).toFixed(1)}/5. Gap: ${gap.toFixed(1)}.`
         await db.insert(tasks).values({
           title: taskTitles[i],
-          description: `Task para evolução de ${dimName}.`,
+          description: desc,
           actionPlanId: plan.id,
           dimensionId: score.dimensionId,
           companyId,
