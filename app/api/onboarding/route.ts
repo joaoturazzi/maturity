@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { auth, clerkClient } from '@clerk/nextjs/server'
+import { cookies } from 'next/headers'
 import { db } from '@/lib/db'
 import { companies, users } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
@@ -24,6 +25,14 @@ export async function POST(req: Request) {
       const client = await clerkClient()
       await client.users.updateUser(userId, {
         publicMetadata: { companyId: existingUser.companyId, role: existingUser.role ?? 'User' },
+      })
+      const cookieStore = await cookies()
+      cookieStore.set('maturityiq_company', existingUser.companyId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30,
       })
       return Response.json({ ok: true, companyId: existingUser.companyId })
     }
@@ -53,7 +62,17 @@ export async function POST(req: Request) {
       publicMetadata: { companyId: company.id, role: 'User' },
     })
 
-    // 4. Trigger scraping via separate API route (fire-and-forget)
+    // 4. Set httpOnly cookie — instant, no JWT propagation delay
+    const cookieStore = await cookies()
+    cookieStore.set('maturityiq_company', company.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30,
+    })
+
+    // 5. Trigger scraping via separate API route (fire-and-forget)
     if (websiteUrl) {
       const baseUrl = process.env.URL || 'https://maturity2.netlify.app'
       fetch(`${baseUrl}/api/internal/scrape`, {

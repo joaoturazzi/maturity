@@ -23,13 +23,15 @@ export default clerkMiddleware(async (auth, req) => {
   if (!userId) return redirectToSignIn()
 
   const meta = sessionClaims?.metadata as Record<string, string> | undefined
-  const companyId = meta?.companyId ?? ''
+  const jwtCompanyId = meta?.companyId ?? ''
   const role = meta?.role ?? ''
 
-  // No companyId in JWT → redirect to onboarding
-  // EXCEPT /dashboard — let it through so it can check the DB directly
-  // (avoids infinite loop when JWT hasn't propagated yet after onboarding)
-  if (!companyId && !req.nextUrl.pathname.startsWith('/dashboard')) {
+  // Fallback: read httpOnly cookie if JWT hasn't propagated yet
+  const cookieCompanyId = req.cookies.get('maturityiq_company')?.value ?? ''
+  const companyId = jwtCompanyId || cookieCompanyId
+
+  // No companyId anywhere → onboarding
+  if (!companyId) {
     return NextResponse.redirect(new URL('/onboarding', req.url))
   }
 

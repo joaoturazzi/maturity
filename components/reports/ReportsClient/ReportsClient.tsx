@@ -2,7 +2,12 @@
 
 import { PeriodSelector } from '../PeriodSelector/PeriodSelector'
 import { ExportButton } from '../ExportButton/ExportButton'
-import { IMETrendChart } from '../IMETrendChart/IMETrendChart'
+import dynamic from 'next/dynamic'
+
+const IMETrendChart = dynamic(
+  () => import('../IMETrendChart/IMETrendChart').then(m => m.IMETrendChart),
+  { ssr: false, loading: () => <div style={{ height: 280, background: '#f0efec', borderRadius: 8 }} /> }
+)
 import { DimensionTrends } from '../DimensionTrends/DimensionTrends'
 import { ActionPlanCompletion } from '../ActionPlanCompletion/ActionPlanCompletion'
 import { TaskThroughput } from '../TaskThroughput/TaskThroughput'
