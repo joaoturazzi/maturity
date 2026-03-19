@@ -1,11 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 
 export default function OnboardingPage() {
-  const router = useRouter()
   const { user } = useUser()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -31,20 +29,31 @@ export default function OnboardingPage() {
         body: JSON.stringify(form),
       })
 
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error ?? 'Erro ao salvar empresa.')
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch {
+        setError(`Resposta inválida do servidor (status ${res.status})`)
+        setLoading(false)
         return
       }
 
-      // Reload Clerk session to pick up new metadata
-      await user?.reload()
+      if (!res.ok) {
+        setError(`Erro ${res.status}: ${data.error ?? JSON.stringify(data)}`)
+        setLoading(false)
+        return
+      }
 
-      router.push('/dashboard')
-    } catch {
-      setError('Erro inesperado. Tente novamente.')
-    } finally {
+      // Reload Clerk session to pick up new companyId in metadata
+      if (user) {
+        await user.reload()
+      }
+
+      // Hard redirect — forces middleware to re-evaluate sessionClaims
+      window.location.href = '/dashboard'
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'desconhecido'
+      setError(`Erro inesperado: ${msg}`)
       setLoading(false)
     }
   }
