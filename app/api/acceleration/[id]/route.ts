@@ -43,7 +43,7 @@ export async function DELETE(
     const { userId: delUserId, sessionClaims: delClaims } = await auth()
     if (!delUserId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const delCompanyId = (delClaims?.metadata as Record<string, string>)?.companyId as string
+    const delCompanyId = await getCompanyId()
 
     await db.delete(accelerationEvents)
       .where(and(

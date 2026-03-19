@@ -10,7 +10,7 @@ export async function GET() {
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const role = (sessionClaims?.metadata as Record<string, string>)?.role
+    const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role ?? ''
     if (!role || !['SuperUser', 'Admin'].includes(role)) {
       return Response.json({ error: 'Forbidden' }, { status: 403 })
     }

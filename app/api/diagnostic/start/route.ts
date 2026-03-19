@@ -12,8 +12,7 @@ export async function POST(req: Request) {
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
     const companyId = await getCompanyId()
-    const meta = sessionClaims?.metadata as Record<string, string> | undefined
-    const role = meta?.role ?? 'User'
+    const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role ?? 'User'
 
     if (!companyId) {
       return Response.json(

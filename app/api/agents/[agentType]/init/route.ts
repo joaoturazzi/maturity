@@ -10,7 +10,7 @@ import { eq } from 'drizzle-orm'
 export const runtime = 'edge'
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ agentType: string }> }
 ) {
   try {
@@ -18,7 +18,13 @@ export async function GET(
     const { userId, sessionClaims } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    // Read from JWT metadata (primary) or cookie header (fallback)
+    const meta = sessionClaims?.metadata as Record<string, string> | undefined
+    const jwtCompanyId = meta?.companyId ?? ''
+    // Edge runtime: read cookie from request headers
+    const cookieHeader = req.headers.get('cookie') ?? ''
+    const cookieMatch = cookieHeader.match(/maturityiq_company=([^;]+)/)
+    const companyId = jwtCompanyId || (cookieMatch ? cookieMatch[1] : '')
 
     const agentType = decodeURIComponent(rawAgentType) as AgentType
     const config = AGENT_CONFIG[agentType]

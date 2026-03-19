@@ -34,7 +34,13 @@ export async function POST(
     const { messages: rawMessages } = bodySchema.parse(await req.json())
     // Limit history to prevent context overflow
     const messages = rawMessages.slice(-20)
-    const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+    // Read from JWT metadata (primary) or cookie header (fallback)
+    const meta = sessionClaims?.metadata as Record<string, string> | undefined
+    const jwtCompanyId = meta?.companyId ?? ''
+    // Edge runtime: read cookie from request headers
+    const cookieHeader = req.headers.get('cookie') ?? ''
+    const cookieMatch = cookieHeader.match(/maturityiq_company=([^;]+)/)
+    const companyId = jwtCompanyId || (cookieMatch ? cookieMatch[1] : '')
 
     // Get company name
     const company = await db.query.companies.findFirst({

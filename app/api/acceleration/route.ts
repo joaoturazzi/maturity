@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     const { userId: postUserId, sessionClaims: postClaims } = await auth()
     if (!postUserId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const postCompanyId = (postClaims?.metadata as Record<string, string>)?.companyId as string
+    const postCompanyId = await getCompanyId()
 
     const body = createSchema.parse(await req.json())
 
