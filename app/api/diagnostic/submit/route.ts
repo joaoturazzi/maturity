@@ -112,11 +112,18 @@ function calcDeficiencyBreakdown(responses: Array<{ score: number | null; defici
   let comp = 0, ferr = 0, tec = 0
 
   for (const r of valid) {
-    if (!r.deficiencyType) continue
-    const dt = r.deficiencyType.toLowerCase()
+    const dt = (r.deficiencyType ?? '').toLowerCase()
     if (dt.includes('comportamental')) comp++
-    if (dt.includes('ferramental')) ferr++
-    if (dt.includes('técnica') || dt.includes('tecnica')) tec++
+    else if (dt.includes('ferramental')) ferr++
+    else if (dt.includes('técnica') || dt.includes('tecnica')) tec++
+    else {
+      // Infer from score when deficiencyType is null
+      const s = r.score ?? 0
+      if (s === 1) comp++
+      else if (s === 2) ferr++
+      else if (s === 3) tec++
+      else comp++
+    }
   }
 
   return {

@@ -56,8 +56,14 @@ export async function POST(req: Request) {
         if (dt.includes('comportamental')) comp++
         else if (dt.includes('ferramental')) ferr++
         else if (dt.includes('técnica') || dt.includes('tecnica')) tec++
-        else if ((r.score ?? 0) <= 2) comp++
-        else ferr++
+        else {
+          // Infer from score when deficiencyType is null
+          const s = r.score ?? 0
+          if (s === 1) comp++
+          else if (s === 2) ferr++
+          else if (s === 3) tec++
+          else comp++ // 4-5 default
+        }
       }
 
       const dim = await db.query.dimensions.findFirst({
