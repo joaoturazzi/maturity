@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { GeneratePlanButton } from './GeneratePlanButton'
 
 const RadarCharts = dynamic(() => import('./RadarCharts'), { ssr: false,
   loading: () => <div style={{ height: 240, background: '#f0efec', borderRadius: 8 }} /> })
@@ -46,9 +47,11 @@ type Props = {
   deficiencyData: Array<{ dimension: string; comportamental: number; ferramental: number; tecnica: number }>
   tableData: TableRow[]
   cycleId: string
+  companyId: string
+  hasExistingPlan: boolean
 }
 
-export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, cycleId }: Props) {
+export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, cycleId, companyId, hasExistingPlan }: Props) {
   const mc = MATURITY_COLORS[cycle.maturityLevel ?? ''] ?? '#555'
   const imeScore = Number(cycle.overallImeScore ?? 0)
 
@@ -180,9 +183,9 @@ export function DiagnosticResult({ cycle, radarData, deficiencyData, tableData, 
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end', alignItems: 'center' }}>
         <a href="/diagnostic" style={{ fontSize: 13, fontWeight: 600, color: '#555', textDecoration: 'none', padding: '9px 20px', border: '1px solid #e5e4e0', borderRadius: 6 }}>← Voltar</a>
-        <a href="/action-plans" style={{ fontSize: 13, fontWeight: 700, color: '#fff', textDecoration: 'none', padding: '9px 20px', background: '#1a1a1a', borderRadius: 6 }}>Gerar Plano de Ação →</a>
+        <GeneratePlanButton cycleId={cycleId} companyId={companyId} hasExistingPlan={hasExistingPlan} />
       </div>
     </div>
   )

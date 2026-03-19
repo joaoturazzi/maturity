@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
-import { diagnosticCycles, dimensionScores } from '@/lib/db/schema'
+import { diagnosticCycles, dimensionScores, actionPlans } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { getCompanyId } from '@/lib/getCompanyId'
 import { DiagnosticResult } from '@/components/diagnostic/DiagnosticResult'
@@ -15,12 +15,8 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
   if (!companyId) redirect('/onboarding')
 
   const cycle = await db.query.diagnosticCycles.findFirst({
-    where: and(
-      eq(diagnosticCycles.id, cycleId),
-      eq(diagnosticCycles.companyId, companyId),
-    ),
+    where: and(eq(diagnosticCycles.id, cycleId), eq(diagnosticCycles.companyId, companyId)),
   })
-
   if (!cycle || cycle.status !== 'Submitted') redirect('/diagnostic')
 
   const scores = await db.query.dimensionScores.findMany({
@@ -28,7 +24,12 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
     with: { dimension: true },
   })
 
-  // Sort by gap descending (most critical first)
+  // Check if plan already exists for this cycle
+  const existingPlan = await db.query.actionPlans.findFirst({
+    where: and(eq(actionPlans.companyId, companyId), eq(actionPlans.cycleId, cycleId)),
+    columns: { id: true },
+  })
+
   const sorted = [...scores].sort((a, b) => Number(b.maturityGap) - Number(a.maturityGap))
 
   const radarData = sorted.map(s => ({
@@ -69,6 +70,8 @@ export default async function ResultPage({ params }: { params: Promise<{ cycleId
       deficiencyData={deficiencyData}
       tableData={tableData}
       cycleId={cycleId}
+      companyId={companyId}
+      hasExistingPlan={!!existingPlan}
     />
   )
 }
