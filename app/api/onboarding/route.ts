@@ -17,11 +17,20 @@ export async function POST(req: Request) {
       return Response.json({ error: 'Nome da empresa é obrigatório.' }, { status: 400 })
     }
 
-    // Prevent double onboarding
+    // If user already onboarded, update the existing company with new data
     const existingUser = await db.query.users.findFirst({
       where: eq(users.id, userId),
     })
     if (existingUser?.companyId) {
+      await db.update(companies)
+        .set({
+          name: companyName.trim(),
+          industry: industry ?? undefined,
+          size: size ?? undefined,
+          websiteUrl: websiteUrl || null,
+        })
+        .where(eq(companies.id, existingUser.companyId))
+
       const client = await clerkClient()
       await client.users.updateUser(userId, {
         publicMetadata: { companyId: existingUser.companyId, role: existingUser.role ?? 'User' },
@@ -34,6 +43,21 @@ export async function POST(req: Request) {
         path: '/',
         maxAge: 60 * 60 * 24 * 30,
       })
+
+      // Trigger scraping if URL provided
+      if (websiteUrl) {
+        const baseUrl = process.env.URL || 'https://maturity2.netlify.app'
+        const cookieHeader = req.headers.get('cookie') ?? ''
+        fetch(`${baseUrl}/api/internal/scrape`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(cookieHeader ? { Cookie: cookieHeader } : {}),
+          },
+          body: JSON.stringify({ companyId: existingUser.companyId, websiteUrl }),
+        }).catch(() => {})
+      }
+
       return Response.json({ ok: true, companyId: existingUser.companyId })
     }
 
