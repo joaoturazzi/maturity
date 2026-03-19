@@ -53,11 +53,10 @@ export async function POST(req: Request) {
       publicMetadata: { companyId: company.id, role: 'User' },
     })
 
-    // 4. Trigger scraping via separate Netlify function (fire-and-forget)
-    // .then() would be killed when this function returns on Netlify
+    // 4. Trigger scraping via separate API route (fire-and-forget)
     if (websiteUrl) {
-      const baseUrl = process.env.URL || process.env.NEXTAUTH_URL || 'https://maturity2.netlify.app'
-      fetch(`${baseUrl}/.netlify/functions/scrape-website`, {
+      const baseUrl = process.env.URL || 'https://maturity2.netlify.app'
+      fetch(`${baseUrl}/api/internal/scrape`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ companyId: company.id, websiteUrl }),

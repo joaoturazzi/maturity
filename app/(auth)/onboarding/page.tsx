@@ -37,9 +37,18 @@ export default function OnboardingPage() {
         return
       }
 
-      // Success — go to dashboard immediately
-      // The dashboard checks the DB directly if JWT hasn't propagated yet
-      window.location.href = '/dashboard'
+      // Poll for JWT propagation (max 10 × 600ms = 6s)
+      for (let i = 0; i < 10; i++) {
+        await new Promise(r => setTimeout(r, 600))
+        try {
+          const check = await fetch('/api/onboarding/check')
+          const { ready } = await check.json()
+          if (ready) break
+        } catch {}
+      }
+
+      // Redirect regardless — dashboard has DB fallback
+      window.location.replace('/dashboard')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'tente novamente'
       setError(`Erro inesperado: ${msg}`)
