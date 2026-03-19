@@ -11,6 +11,7 @@ export default function OnboardingPage() {
     companyName: '',
     industry: 'Tecnologia',
     size: '1-10',
+    websiteUrl: '',
   })
 
   async function handleSubmit(e: React.FormEvent) {
@@ -163,6 +164,33 @@ export default function OnboardingPage() {
               <option value="51-200">51–200 pessoas</option>
               <option value="200+">200+ pessoas</option>
             </select>
+          </div>
+
+          <div>
+            <label style={{ fontSize: 12, fontWeight: 600, color: '#555', display: 'block', marginBottom: 6 }}>
+              Site da empresa
+              <span style={{ fontWeight: 400, color: '#aaa', marginLeft: 6 }}>
+                (opcional — usamos para personalizar os agentes de IA)
+              </span>
+            </label>
+            <input
+              type="url"
+              value={form.websiteUrl}
+              onChange={e => setForm(f => ({ ...f, websiteUrl: e.target.value }))}
+              placeholder="https://minhaempresa.com.br"
+              style={{
+                width: '100%',
+                fontSize: 13,
+                padding: '8px 12px',
+                border: '1px solid #e5e4e0',
+                borderRadius: 6,
+                background: '#fff',
+                color: '#1a1a1a',
+                outline: 'none',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box',
+              }}
+            />
           </div>
 
           {error && (

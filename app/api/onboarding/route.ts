@@ -3,13 +3,15 @@ export const dynamic = 'force-dynamic'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { companies, users } from '@/lib/db/schema'
+import { eq } from 'drizzle-orm'
+import { scrapeWebsite } from '@/lib/website-scraper'
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth()
     if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { companyName, industry, size } = await req.json()
+    const { companyName, industry, size, websiteUrl } = await req.json()
 
     if (!companyName?.trim()) {
       return Response.json({ error: 'Nome da empresa é obrigatório.' }, { status: 400 })
@@ -20,9 +22,10 @@ export async function POST(req: Request) {
       name: companyName.trim(),
       industry,
       size,
+      websiteUrl: websiteUrl || null,
     }).returning()
 
-    // 2. Create user in Neon (email placeholder — Clerk manages the real email)
+    // 2. Create user in Neon
     await db.insert(users).values({
       id: userId,
       email: `${userId}@clerk.maturityiq`,
@@ -33,7 +36,7 @@ export async function POST(req: Request) {
       set: { companyId: company.id, role: 'User' },
     })
 
-    // 3. Save companyId in Clerk publicMetadata — THIS IS CRITICAL
+    // 3. Save companyId in Clerk publicMetadata — CRITICAL
     const client = await clerkClient()
     await client.users.updateUser(userId, {
       publicMetadata: {
@@ -41,6 +44,18 @@ export async function POST(req: Request) {
         role: 'User',
       },
     })
+
+    // 4. Scrape website in background — never blocks the response
+    if (websiteUrl) {
+      scrapeWebsite(websiteUrl)
+        .then(async (summary) => {
+          if (!summary) return
+          await db.update(companies)
+            .set({ websiteSummary: summary })
+            .where(eq(companies.id, company.id))
+        })
+        .catch(() => {/* ignore silently */})
+    }
 
     return Response.json({ ok: true, companyId: company.id })
   } catch (error) {

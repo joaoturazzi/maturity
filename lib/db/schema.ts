@@ -21,6 +21,8 @@ export const companies = pgTable('companies', {
   name: text('name').notNull(),
   industry: text('industry'),
   size: text('size'),
+  websiteUrl: text('website_url'),
+  websiteSummary: jsonb('website_summary'),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

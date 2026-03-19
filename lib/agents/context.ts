@@ -1,7 +1,8 @@
 import { db } from '@/lib/db'
-import { diagnosticCycles, actionPlans } from '@/lib/db/schema'
+import { diagnosticCycles, actionPlans, companies } from '@/lib/db/schema'
 import { eq, and, desc } from 'drizzle-orm'
 import { AGENT_CONFIG, type AgentType } from './config'
+import type { WebsiteSummary } from '@/lib/website-scraper'
 
 export type AgentContext = {
   companyName: string
@@ -10,6 +11,7 @@ export type AgentContext = {
   lastDiagnosticDate: string
   dimensionContext: string
   actionPlanContext: string
+  websiteContext: string
 }
 
 export async function buildAgentContext(
@@ -17,6 +19,27 @@ export async function buildAgentContext(
   companyName: string,
   agentType: AgentType
 ): Promise<AgentContext> {
+  // Fetch company data including website summary
+  const company = await db.query.companies.findFirst({
+    where: eq(companies.id, companyId),
+    columns: { name: true, websiteSummary: true, industry: true },
+  })
+
+  const effectiveName = company?.name ?? companyName
+
+  // Build website context
+  let websiteContext = ''
+  if (company?.websiteSummary) {
+    const s = company.websiteSummary as WebsiteSummary
+    websiteContext = `
+## Contexto extraído do site da empresa
+- O que fazem: ${s.description}
+- Público-alvo: ${s.targetAudience}
+- Proposta de valor: ${s.valueProposition}
+- Tom de comunicação: ${s.toneOfVoice}
+- Destaques: ${s.highlights}`
+  }
+
   const latestCycle = await db.query.diagnosticCycles.findFirst({
     where: and(
       eq(diagnosticCycles.companyId, companyId),
@@ -32,12 +55,13 @@ export async function buildAgentContext(
 
   if (!latestCycle) {
     return {
-      companyName,
+      companyName: effectiveName,
       imeScore: 'Não disponível',
       maturityLevel: 'Não avaliado',
       lastDiagnosticDate: 'Nenhum diagnóstico realizado',
       dimensionContext: 'Nenhum diagnóstico disponível. Oriente o usuário a realizar o diagnóstico primeiro.',
       actionPlanContext: 'Sem dados de plano de ação.',
+      websiteContext,
     }
   }
 
@@ -91,7 +115,7 @@ export async function buildAgentContext(
   }
 
   return {
-    companyName,
+    companyName: effectiveName,
     imeScore: Number(latestCycle.overallImeScore).toFixed(1),
     maturityLevel: latestCycle.maturityLevel ?? 'Não calculado',
     lastDiagnosticDate: latestCycle.submittedAt
@@ -99,6 +123,7 @@ export async function buildAgentContext(
       : 'Desconhecida',
     dimensionContext,
     actionPlanContext,
+    websiteContext,
   }
 }
 
@@ -117,6 +142,7 @@ Nível de maturidade: ${context.maturityLevel}
 Data do último diagnóstico: ${context.lastDiagnosticDate}
 
 ${context.dimensionContext}
+${context.websiteContext}
 
 ## Plano de ação ativo
 ${context.actionPlanContext}
