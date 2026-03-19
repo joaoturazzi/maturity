@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { checkins, tasks } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
@@ -24,8 +24,10 @@ function getWeekStart(): string {
 }
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const body = checkinSchema.parse(await req.json())
   const weekStartDate = getWeekStart()
@@ -34,7 +36,7 @@ export async function POST(req: Request) {
   const existing = await db.query.checkins.findFirst({
     where: and(
       eq(checkins.taskId, body.taskId),
-      eq(checkins.submittedBy, session.user.id!),
+      eq(checkins.submittedBy, userId),
       eq(checkins.weekStartDate, weekStartDate),
     ),
   })
@@ -50,8 +52,8 @@ export async function POST(req: Request) {
     blockerNotes: body.blockerNotes,
     confidenceRating: body.confidenceRating,
     newStatus: body.newStatus,
-    companyId: session.user.companyId,
-    submittedBy: session.user.id!,
+    companyId,
+    submittedBy: userId,
     weekStartDate,
   }).returning()
 
@@ -63,7 +65,7 @@ export async function POST(req: Request) {
     })
     .where(and(
       eq(tasks.id, body.taskId),
-      eq(tasks.companyId, session.user.companyId),
+      eq(tasks.companyId, companyId),
     ))
 
   return Response.json(checkin)

@@ -1,12 +1,12 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { getLatestCycleById } from '@/lib/db/queries'
 import { ResultRadar } from '@/components/diagnostic/ResultRadar/ResultRadar'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default async function ResultPage({ params }: { params: { cycleId: string } }) {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId } = await auth()
+  if (!userId) redirect('/login')
 
   const cycle = await getLatestCycleById(params.cycleId)
   if (!cycle) redirect('/diagnostic')

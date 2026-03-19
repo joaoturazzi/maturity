@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
@@ -30,11 +30,13 @@ function statusLabel(status: string | null) {
 }
 
 export default async function DiagnosticPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const cycles = await db.query.diagnosticCycles.findMany({
-    where: eq(diagnosticCycles.companyId, session.user.companyId),
+    where: eq(diagnosticCycles.companyId, companyId),
     orderBy: desc(diagnosticCycles.createdAt),
   })
 

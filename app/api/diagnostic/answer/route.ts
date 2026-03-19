@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { diagnosticResponses } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
@@ -15,8 +15,10 @@ const answerSchema = z.object({
 })
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const body = await req.json()
   const parsed = answerSchema.parse(body)
@@ -41,8 +43,8 @@ export async function POST(req: Request) {
   } else {
     await db.insert(diagnosticResponses).values({
       ...parsed,
-      companyId: session.user.companyId,
-      answeredBy: session.user.id,
+      companyId,
+      answeredBy: userId,
     })
   }
 

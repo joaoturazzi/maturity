@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { tasks, actionPlans } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
@@ -14,13 +14,15 @@ const createTaskSchema = z.object({
 })
 
 export async function POST(req: Request, { params }: { params: { planId: string } }) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const plan = await db.query.actionPlans.findFirst({
     where: eq(actionPlans.id, params.planId),
   })
-  if (!plan || plan.companyId !== session.user.companyId) {
+  if (!plan || plan.companyId !== companyId) {
     return new Response('Not found', { status: 404 })
   }
 
@@ -30,7 +32,7 @@ export async function POST(req: Request, { params }: { params: { planId: string 
     ...body,
     actionPlanId: params.planId,
     dimensionId: plan.dimensionId ?? undefined,
-    companyId: session.user.companyId,
+    companyId,
   }).returning()
 
   return Response.json(task)

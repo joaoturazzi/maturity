@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getAvailablePeriods, getReportData } from '@/lib/db/queries/reports'
 import { ReportsClient } from '@/components/reports/ReportsClient/ReportsClient'
@@ -9,10 +9,10 @@ export default async function ReportsPage({
 }: {
   searchParams: { period?: string }
 }) {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
 
-  const companyId = session.user.companyId
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
   const periods = await getAvailablePeriods(companyId)
 
   if (!periods.length) {

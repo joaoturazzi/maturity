@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { aiConversations, aiMessages } from '@/lib/db/schema'
@@ -15,8 +15,10 @@ export default async function AgentChatPage({
 }: {
   params: { agentType: string }
 }) {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const agentType = decodeURIComponent(params.agentType) as AgentType
   const config = AGENT_CONFIG[agentType]
@@ -24,8 +26,8 @@ export default async function AgentChatPage({
 
   const conversation = await db.query.aiConversations.findFirst({
     where: and(
-      eq(aiConversations.companyId, session.user.companyId),
-      eq(aiConversations.userId, session.user.id!),
+      eq(aiConversations.companyId, companyId),
+      eq(aiConversations.userId, userId),
       eq(aiConversations.agentType, agentType),
     ),
     with: {
@@ -39,7 +41,7 @@ export default async function AgentChatPage({
     content: m.content ?? '',
   }))
 
-  const latestCycle = await getLatestCycle(session.user.companyId)
+  const latestCycle = await getLatestCycle(companyId)
 
   return (
     <div className={styles.layout}>

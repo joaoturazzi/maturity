@@ -1,15 +1,14 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getMyActiveTasks, getThisWeekCheckins } from '@/lib/db/queries'
 import { CheckinPageClient } from '@/components/checkins/CheckinPageClient/CheckinPageClient'
 import styles from './page.module.css'
 
 export default async function CheckinsPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
 
-  const userId = session.user.id!
-  const companyId = session.user.companyId
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const [myTasks, thisWeekCheckins] = await Promise.all([
     getMyActiveTasks(userId, companyId),

@@ -1,11 +1,11 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { dimensionScores } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 
 export async function GET(request: Request) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const cycleId = searchParams.get('cycleId')

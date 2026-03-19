@@ -1,15 +1,17 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { getReportData } from '@/lib/db/queries/reports'
 
 export async function GET(req: Request) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const { searchParams } = new URL(req.url)
   const period = searchParams.get('period')
   if (!period) return new Response('Period required', { status: 400 })
 
-  const data = await getReportData(session.user.companyId, period)
+  const data = await getReportData(companyId, period)
   if (!data) return new Response('Not found', { status: 404 })
 
   const header = 'Dimensão,Score Atual,Score Anterior,Variação,Gap,Priority\n'

@@ -1,6 +1,6 @@
 import { streamText } from 'ai'
 import { openai } from '@ai-sdk/openai'
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { AGENT_CONFIG, type AgentType } from '@/lib/agents/config'
 import { buildAgentContext, buildSystemPrompt } from '@/lib/agents/context'
 import { db } from '@/lib/db'
@@ -21,8 +21,8 @@ export async function POST(
   req: Request,
   { params }: { params: { agentType: string } }
 ) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
 
   const agentType = decodeURIComponent(params.agentType) as AgentType
   if (!AGENT_CONFIG[agentType]) {
@@ -30,8 +30,7 @@ export async function POST(
   }
 
   const { messages } = bodySchema.parse(await req.json())
-  const companyId = session.user.companyId
-  const userId = session.user.id!
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   // Get company name
   const company = await db.query.companies.findFirst({

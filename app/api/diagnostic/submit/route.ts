@@ -1,12 +1,15 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { diagnosticCycles, dimensionScores, diagnosticResponses } from '@/lib/db/schema'
 import { calculateDimensionScore, calculateIME, getMaturityLevel, determinePriority } from '@/lib/scoring'
 import { eq } from 'drizzle-orm'
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  if (!companyId) return new Response('Onboarding incomplete', { status: 403 })
 
   const { cycleId } = await req.json()
 
@@ -43,14 +46,20 @@ export async function POST(req: Request) {
     const maturityGap = Math.round((desiredScore - weightedScore) * 100) / 100
     const priorityLevel = determinePriority(maturityGap)
 
+    // Deficiency breakdown
+    const deficiency = calcDeficiencyBreakdown(dimResponses)
+
     dimScores.push({
       cycleId,
       dimensionId,
-      companyId: session.user.companyId,
+      companyId,
       weightedScore: String(weightedScore),
       desiredScore: String(desiredScore),
       maturityGap: String(maturityGap),
       priorityLevel,
+      pctComportamental: deficiency.pctComportamental,
+      pctFerramental: deficiency.pctFerramental,
+      pctTecnica: deficiency.pctTecnica,
       reportPeriod: new Date().toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' }),
     })
   }
@@ -71,4 +80,26 @@ export async function POST(req: Request) {
   }).where(eq(diagnosticCycles.id, cycleId))
 
   return Response.json({ ok: true, overallImeScore, maturityLevel })
+}
+
+function calcDeficiencyBreakdown(responses: Array<{ score: number | null; deficiencyType: string | null }>) {
+  const valid = responses.filter(r => r.score && r.score > 0)
+  const total = valid.length
+  if (total === 0) return { pctComportamental: '0', pctFerramental: '0', pctTecnica: '0' }
+
+  let comp = 0, ferr = 0, tec = 0
+
+  for (const r of valid) {
+    if (!r.deficiencyType) continue
+    const dt = r.deficiencyType.toLowerCase()
+    if (dt.includes('comportamental')) comp++
+    if (dt.includes('ferramental')) ferr++
+    if (dt.includes('técnica') || dt.includes('tecnica')) tec++
+  }
+
+  return {
+    pctComportamental: String(Math.round((comp / total) * 100) / 100),
+    pctFerramental: String(Math.round((ferr / total) * 100) / 100),
+    pctTecnica: String(Math.round((tec / total) * 100) / 100),
+  }
 }

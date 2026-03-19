@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getLatestCycle, getActiveTasksSummary, getUnreadAlerts, getUpcomingCheckins } from '@/lib/db/queries'
 import { IMEScoreCard } from '@/components/dashboard/IMEScoreCard/IMEScoreCard'
@@ -11,10 +11,10 @@ import Link from 'next/link'
 import styles from './page.module.css'
 
 export default async function DashboardPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
 
-  const companyId = session.user.companyId
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const [cycle, tasksSummary, alerts, upcomingCheckins] = await Promise.all([
     getLatestCycle(companyId),

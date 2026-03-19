@@ -12,3 +12,7 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
+[[edge_functions]]
+  path = "/api/agents/*"
+  function = "next-runtime"

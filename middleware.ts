@@ -1,26 +1,29 @@
-import { auth } from './auth'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth
-  const isPlatformRoute = ['/dashboard', '/diagnostic', '/action-plans',
-    '/checkins', '/reports', '/ai-agents', '/acceleration', '/dimensions', '/admin'].some(
-    p => req.nextUrl.pathname.startsWith(p)
-  )
+const isPublicRoute = createRouteMatcher([
+  '/login(.*)',
+  '/signup(.*)',
+  '/onboarding(.*)',
+  '/api/webhooks/clerk(.*)',
+  '/',
+])
 
-  if (isPlatformRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  }
+const isAdminRoute = createRouteMatcher([
+  '/admin(.*)',
+  '/acceleration(.*)',
+  '/dimensions(.*)',
+])
 
-  // Admin/SuperUser route protection
-  const protectedAdminRoutes = ['/admin', '/acceleration', '/dimensions']
-  const isProtectedAdmin = protectedAdminRoutes.some(
-    r => req.nextUrl.pathname.startsWith(r)
-  )
+export default clerkMiddleware(async (auth, req) => {
+  if (isPublicRoute(req)) return NextResponse.next()
 
-  if (isProtectedAdmin && isLoggedIn) {
-    const userRole = req.auth?.user?.role
-    if (!['SuperUser', 'Admin'].includes(userRole ?? '')) {
+  const { userId, sessionClaims, redirectToSignIn } = await auth()
+  if (!userId) return redirectToSignIn()
+
+  if (isAdminRoute(req)) {
+    const role = (sessionClaims?.metadata as Record<string, string> | undefined)?.role
+    if (!['SuperUser', 'Admin'].includes(role ?? '')) {
       return NextResponse.redirect(new URL('/dashboard', req.url))
     }
   }
@@ -29,5 +32,8 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+  ],
 }

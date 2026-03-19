@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getActiveDimensions, getLatestCycle } from '@/lib/db/queries'
 import styles from './page.module.css'
@@ -30,12 +30,14 @@ function priorityLabel(level: string | null) {
 }
 
 export default async function DimensionsPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const [dimensions, latestCycle] = await Promise.all([
     getActiveDimensions(),
-    getLatestCycle(session.user.companyId),
+    getLatestCycle(companyId),
   ])
 
   const scoresByDimensionId = new Map(

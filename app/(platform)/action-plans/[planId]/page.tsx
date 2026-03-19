@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getPlanWithTasks } from '@/lib/db/queries'
 import { KanbanBoard } from '@/components/action-plans/KanbanBoard/KanbanBoard'
@@ -13,10 +13,11 @@ const PRIORITY_STYLES: Record<string, { bg: string; color: string }> = {
 }
 
 export default async function ActionPlanDetailPage({ params }: { params: { planId: string } }) {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
 
-  const plan = await getPlanWithTasks(params.planId, session.user.companyId)
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const plan = await getPlanWithTasks(params.planId, companyId)
   if (!plan) redirect('/action-plans')
 
   const totalTasks = plan.tasks.length

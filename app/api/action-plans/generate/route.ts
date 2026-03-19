@@ -1,14 +1,14 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { actionPlans, tasks, dimensionScores, diagnosticCycles } from '@/lib/db/schema'
 import { eq, and, desc } from 'drizzle-orm'
 import { determinePriority } from '@/lib/scoring'
 
 export async function POST() {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
 
-  const companyId = session.user.companyId
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   // Get latest submitted cycle
   const latestCycle = await db.query.diagnosticCycles.findFirst({
@@ -56,7 +56,7 @@ export async function POST() {
       description: `Gap de ${gap.gap.toFixed(1)} pontos identificado na dimensão ${gap.dimensionName}. Score atual: ${gap.weightedScore.toFixed(1)}/5.0.`,
       dimensionId: gap.dimensionId,
       companyId,
-      createdBy: session.user.id,
+      createdBy: userId,
       priority: gap.priority,
       status: 'Active',
     }).returning()

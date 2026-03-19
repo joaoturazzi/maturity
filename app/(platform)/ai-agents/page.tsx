@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { aiConversations } from '@/lib/db/schema'
@@ -8,13 +8,15 @@ import Link from 'next/link'
 import styles from './page.module.css'
 
 export default async function AIAgentsPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const conversations = await db.query.aiConversations.findMany({
     where: and(
-      eq(aiConversations.companyId, session.user.companyId),
-      eq(aiConversations.userId, session.user.id!),
+      eq(aiConversations.companyId, companyId),
+      eq(aiConversations.userId, userId),
     ),
     with: {
       messages: { columns: { id: true } },

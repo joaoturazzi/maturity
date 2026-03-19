@@ -1,10 +1,11 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { getAvailablePeriods } from '@/lib/db/queries/reports'
 
 export async function GET() {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
 
-  const periods = await getAvailablePeriods(session.user.companyId)
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const periods = await getAvailablePeriods(companyId)
   return Response.json(periods)
 }

@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
@@ -8,10 +8,11 @@ import { AdminDashboard } from '@/components/admin/AdminDashboard/AdminDashboard
 import styles from './page.module.css'
 
 export default async function AdminPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
 
-  if (!['SuperUser', 'Admin'].includes(session.user.role)) {
+  const role = (sessionClaims?.metadata as Record<string, string>)?.role
+  if (!role || !['SuperUser', 'Admin'].includes(role)) {
     redirect('/dashboard')
   }
 

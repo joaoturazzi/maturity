@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { actionPlans } from '@/lib/db/schema'
@@ -8,9 +8,9 @@ import { ActionPlanList } from '@/components/action-plans/ActionPlanList/ActionP
 import styles from './page.module.css'
 
 export default async function ActionPlansPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
-  const companyId = session.user.companyId
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const [plans, activeDimensions] = await Promise.all([
     db.query.actionPlans.findMany({

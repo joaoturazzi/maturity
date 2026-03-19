@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { accelerationEvents } from '@/lib/db/schema'
@@ -7,11 +7,14 @@ import { AccelerationBoard } from '@/components/acceleration/AccelerationBoard/A
 import styles from './page.module.css'
 
 export default async function AccelerationPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+  const { userId, sessionClaims } = await auth()
+  if (!userId) redirect('/login')
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
+  const role = (sessionClaims?.metadata as Record<string, string>)?.role
 
   const events = await db.query.accelerationEvents.findMany({
-    where: eq(accelerationEvents.companyId, session.user.companyId),
+    where: eq(accelerationEvents.companyId, companyId),
     orderBy: accelerationEvents.scheduledFor,
   })
 
@@ -23,7 +26,7 @@ export default async function AccelerationPage() {
         <p className={styles.subtitle}>Jornada de 10 meses — rituais de evolução</p>
       </div>
 
-      <AccelerationBoard events={events} userRole={session.user.role ?? 'User'} />
+      <AccelerationBoard events={events} userRole={role ?? 'User'} />
     </div>
   )
 }

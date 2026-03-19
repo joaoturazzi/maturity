@@ -1,23 +1,13 @@
 import { relations } from 'drizzle-orm'
 import {
-  users, accounts, sessions, companies, dimensions, indicators,
+  users, companies, dimensions, indicators,
   diagnosticCycles, diagnosticResponses, dimensionScores,
   actionPlans, tasks, checkins, alerts,
   aiConversations, aiMessages, accelerationEvents,
 } from './schema'
 
-export const usersRelations = relations(users, ({ one, many }) => ({
+export const usersRelations = relations(users, ({ one }) => ({
   company: one(companies, { fields: [users.companyId], references: [companies.id] }),
-  accounts: many(accounts),
-  sessions: many(sessions),
-}))
-
-export const accountsRelations = relations(accounts, ({ one }) => ({
-  user: one(users, { fields: [accounts.userId], references: [users.id] }),
-}))
-
-export const sessionsRelations = relations(sessions, ({ one }) => ({
-  user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }))
 
 export const companiesRelations = relations(companies, ({ many }) => ({

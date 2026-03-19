@@ -1,13 +1,14 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { diagnosticCycles } from '@/lib/db/schema'
 import { eq, desc } from 'drizzle-orm'
 
 export async function GET() {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
 
-  if (!['SuperUser', 'Admin'].includes(session.user.role)) {
+  const role = (sessionClaims?.metadata as Record<string, string>)?.role
+  if (!role || !['SuperUser', 'Admin'].includes(role)) {
     return new Response('Forbidden', { status: 403 })
   }
 

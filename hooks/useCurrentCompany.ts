@@ -1,15 +1,17 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 
 export function useCurrentCompany() {
-  const { data: session, status } = useSession()
+  const { user, isLoaded, isSignedIn } = useUser()
+
+  const metadata = user?.publicMetadata as Record<string, string> | undefined
 
   return {
-    companyId: session?.user?.companyId ?? null,
-    user: session?.user ?? null,
-    role: session?.user?.role ?? null,
-    loading: status === 'loading',
-    isAuthenticated: status === 'authenticated',
+    companyId: metadata?.companyId ?? null,
+    user: user ? { id: user.id, name: user.fullName, email: user.primaryEmailAddress?.emailAddress } : null,
+    role: metadata?.role ?? null,
+    loading: !isLoaded,
+    isAuthenticated: !!isSignedIn,
   }
 }

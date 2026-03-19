@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { accelerationEvents } from '@/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
@@ -7,8 +7,10 @@ export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return new Response('Unauthorized', { status: 401 })
+
+  const companyId = (sessionClaims?.metadata as Record<string, string>)?.companyId as string
 
   const body = await req.json()
 
@@ -16,7 +18,7 @@ export async function PATCH(
     .set(body)
     .where(and(
       eq(accelerationEvents.id, params.id),
-      eq(accelerationEvents.companyId, session.user.companyId),
+      eq(accelerationEvents.companyId, companyId),
     ))
     .returning()
 
@@ -27,13 +29,15 @@ export async function DELETE(
   _req: Request,
   { params }: { params: { id: string } }
 ) {
-  const session = await auth()
-  if (!session) return new Response('Unauthorized', { status: 401 })
+  const { userId: delUserId, sessionClaims: delClaims } = await auth()
+  if (!delUserId) return new Response('Unauthorized', { status: 401 })
+
+  const delCompanyId = (delClaims?.metadata as Record<string, string>)?.companyId as string
 
   await db.delete(accelerationEvents)
     .where(and(
       eq(accelerationEvents.id, params.id),
-      eq(accelerationEvents.companyId, session.user.companyId),
+      eq(accelerationEvents.companyId, delCompanyId),
     ))
 
   return Response.json({ ok: true })
