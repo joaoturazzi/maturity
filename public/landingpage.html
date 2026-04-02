@@ -518,32 +518,69 @@ nav.scrolled {
 .hero-radar-float {
   position: relative;
   width: 100%;
-  max-width: 320px;
+  max-width: 380px;
   margin: 0 auto;
-  animation: radarFloat 6s ease-in-out infinite;
+  animation: radarFloat 8s ease-in-out infinite;
 }
 @keyframes radarFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 .hero-radar-svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 40px rgba(201,168,76,0.08));
+  filter: drop-shadow(0 0 60px rgba(201,168,76,0.12)) drop-shadow(0 0 120px rgba(201,168,76,0.05));
+}
+.hero-radar-svg .radar-grid-line {
+  stroke: rgba(201,168,76,0.15);
+  stroke-width: 0.7;
+}
+.hero-radar-svg .radar-axis {
+  stroke: rgba(201,168,76,0.1);
+  stroke-width: 0.5;
+}
+.hero-radar-svg .radar-area {
+  fill: rgba(201,168,76,0.15);
+  stroke: var(--gold);
+  stroke-width: 2;
+}
+.hero-radar-svg .radar-area-pulse {
+  fill: rgba(201,168,76,0.08);
+}
+.hero-radar-svg .radar-label-text {
+  font-size: 8px;
+  fill: var(--text-sec);
+  opacity: 0.8;
+}
+.hero-radar-svg .radar-dot {
+  r: 4;
+  fill: var(--gold);
+  opacity: 0;
+  animation: dotAppear 0.5s var(--ease-out-expo) forwards;
+}
+.hero-radar-svg .radar-dot:nth-child(12) { animation-delay: 0.8s; }
+.hero-radar-svg .radar-dot:nth-child(13) { animation-delay: 1.0s; }
+.hero-radar-svg .radar-dot:nth-child(14) { animation-delay: 1.2s; }
+.hero-radar-svg .radar-dot:nth-child(15) { animation-delay: 1.4s; }
+.hero-radar-svg .radar-dot:nth-child(16) { animation-delay: 1.6s; }
+@keyframes dotAppear {
+  to { opacity: 1; }
 }
 .hero-radar-score {
   position: absolute;
-  bottom: -1.5rem;
+  bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-out-expo) forwards 1.8s;
 }
 .hero-radar-score-n {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: 300;
   color: var(--gold);
   line-height: 1;
@@ -556,8 +593,9 @@ nav.scrolled {
   color: var(--text-muted);
 }
 @media (max-width: 767px) {
-  .hero-radar-float { max-width: 200px; }
-  .hero-radar-score-n { font-size: 1.4rem; }
+  .hero-radar-float { max-width: 220px; }
+  .hero-radar-score-n { font-size: 1.8rem; }
+  .hero-radar-score { bottom: -1.5rem; }
 }
 
 .radar-card {
@@ -2525,49 +2563,6 @@ kbd {
   background-size: 100% 100%;
 }
 
-/* ── ST5: DYNAMIC ISLAND NOTIFICATION ── */
-.dynamic-island {
-  position: fixed;
-  top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(-120%) scale(0.8);
-  background: rgba(14,14,12,0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-strong);
-  border-radius: 9999px;
-  padding: 0.6rem 1.5rem;
-  z-index: 10001;
-  opacity: 0;
-  transition: all 0.6s var(--ease-spring);
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-.dynamic-island.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0) scale(1);
-}
-.dynamic-island .di-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-  animation: breathe 1.5s ease-in-out infinite;
-}
-.dynamic-island .di-text {
-  font-family: "DM Mono", monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-sec);
-}
-.dynamic-island .di-num {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--gold);
-}
 
 
 </style>
@@ -2594,12 +2589,6 @@ kbd {
 <!-- Scroll progress (T4) -->
 <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar" id="scrollProgress"></div></div>
 
-<!-- Dynamic Island notification (ST5) -->
-<div class="dynamic-island" id="dynamicIsland">
-  <span class="di-dot"></span>
-  <span class="di-num">37</span>
-  <span class="di-text">diagn&oacute;sticos esta semana</span>
-</div>
 
 <!-- Skip link (redesign-skill: accessibility) -->
 <a href="#main" class="skip-link">Ir para o conte&uacute;do</a>
@@ -3744,16 +3733,6 @@ kbd {
     hlObserver.observe(qb);
   });
 
-  /* ── ST5: DYNAMIC ISLAND NOTIFICATION ── */
-  var island = document.getElementById('dynamicIsland');
-  if (island) {
-    setTimeout(function() {
-      island.classList.add('show');
-      setTimeout(function() {
-        island.classList.remove('show');
-      }, 4000);
-    }, 3000);
-  }
 
   /* ── M4: RADIAL LIGHT SPOTS (add via JS) ── */
   ['deserto','dimensoes','enterprise','plataforma'].forEach(function(id) {
