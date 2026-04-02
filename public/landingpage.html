@@ -9,7 +9,7 @@
 <meta property="og:description" content="Framework das 5 Dimensoes do Valuation. Diagnostico de maturidade empresarial com 150 indicadores. Plataforma Self. com agentes de IA.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://growplus.com.br">
-<meta property="og:image" content="https://picsum.photos/seed/growplus-og/1200/630">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Crect fill='%23060606' width='1200' height='630'/%3E%3Ctext x='100' y='280' font-family='sans-serif' font-size='72' font-weight='300' fill='%23f0ede6'%3EGrow%3Ctspan fill='%23c9a84c'%3E+%3C/tspan%3E%3C/text%3E%3Ctext x='100' y='350' font-family='monospace' font-size='18' fill='%23c9a84c' letter-spacing='4'%3E:: BUILDING INTELLIGENT SCALE%3C/text%3E%3Ctext x='100' y='420' font-family='sans-serif' font-size='24' font-weight='300' fill='%239a958b'%3EFramework das 5 Dimensoes do Valuation%3C/text%3E%3Cline x1='100' y1='460' x2='500' y2='460' stroke='%23c9a84c' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23c9a84c'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23080808'>G+</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -349,6 +349,7 @@ nav.scrolled {
 .mobile-menu.open a:nth-child(5) { transition-delay: 0.3s; }
 .mobile-menu.open a:nth-child(6) { transition-delay: 0.35s; }
 .mobile-menu.open a:nth-child(7) { transition-delay: 0.4s; }
+.mobile-menu.open a:nth-child(8) { transition-delay: 0.45s; }
 .mobile-menu a:hover { color: var(--gold); }
 
 /* ══════════════════════════════════════════════
@@ -527,7 +528,7 @@ nav.scrolled {
   background: var(--gold);
   color: var(--bg);
   font-family: "DM Mono", monospace;
-  font-size: 0.52rem;
+  font-size: 0.58rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 0.25rem 0.7rem;
@@ -1074,7 +1075,7 @@ nav.scrolled {
   position: absolute;
   top: 0; left: clamp(1.5rem, 2.5vw, 2.2rem); right: clamp(1.5rem, 2.5vw, 2.2rem);
   font-family: "DM Mono", monospace;
-  font-size: 0.52rem;
+  font-size: 0.58rem;
   letter-spacing: 0.17em;
   text-transform: uppercase;
   color: var(--bg);
@@ -2190,7 +2191,7 @@ footer {
     box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
   }
   .nav-tag {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     letter-spacing: 0.12em;
   }
   .nav-links {
@@ -2368,7 +2369,7 @@ kbd {
 /* ── B3: REGISTRATION MARKS ── */
 .reg-mark {
   font-family: "DM Mono", monospace;
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   color: var(--gold);
   opacity: 0.4;
   vertical-align: super;
@@ -2409,7 +2410,7 @@ kbd {
 }
 .data-strip-inner {
   font-family: "DM Mono", monospace;
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -2544,38 +2545,6 @@ kbd {
   color: var(--gold);
 }
 
-/* ── ST1: INLINE IMAGE TYPOGRAPHY ── */
-.inline-img {
-  display: inline-block;
-  width: 1.4em;
-  height: 1.4em;
-  border-radius: 0.35em;
-  object-fit: cover;
-  vertical-align: -0.25em;
-  margin: 0 0.12em;
-  filter: grayscale(30%) contrast(1.1);
-  transition: filter 0.4s, transform 0.3s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-.inline-img:hover { filter: grayscale(0%) contrast(1); transform: scale(1.08); }
-@media (max-width: 767px) {
-  .inline-img { display: none; }
-  .inline-img-mobile {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-  .inline-img-mobile img {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    object-fit: cover;
-    filter: grayscale(30%);
-  }
-}
-@media (min-width: 768px) {
-  .inline-img-mobile { display: none; }
-}
 
 </style>
 </head>
@@ -2650,6 +2619,7 @@ kbd {
   <a href="#planos">Planos</a>
   <a href="#enterprise">Enterprise</a>
   <a href="#sobre">Paulo Beck</a>
+  <a href="#cta">Contato</a>
   <a href="/login" style="color:var(--gold);">Acessar plataforma</a>
 </div>
 
@@ -3302,7 +3272,7 @@ kbd {
       </div>
 
       <div class="cta-form reveal d2">
-        <form id="contactForm" onsubmit="handleSubmit(event)">
+        <form id="contactForm" onsubmit="handleSubmit(event)" aria-label="Formulario de contato">
           <div class="form-title serif">Solicitar diagnostico</div>
           <div class="form-sub">Resposta em ate 24h</div>
           <div class="form-group">
@@ -3353,7 +3323,7 @@ kbd {
 <!-- ══════════════════════════════════════════════
      FOOTER
      ══════════════════════════════════════════════ -->
-<footer>
+<footer aria-label="Rodape">
   <div class="container">
     <div class="footer-grid">
       <div>
