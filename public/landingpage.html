@@ -2663,10 +2663,9 @@ kbd {
   <div class="hero-left">
     <div class="hero-eyebrow">:: Building Intelligent Scale</div>
     <h1 class="hero-h1 serif">
-      Crescer <img src="https://picsum.photos/seed/grow-strategy/80/80" alt="" class="inline-img">e comum.<br><em>Valer <img src="https://picsum.photos/seed/grow-value/80/80" alt="" class="inline-img">mais</em>
+      Crescer e comum.<br><em>Valer mais</em>
       <span class="accent-line">e estrategia.</span>
     </h1>
-    <div class="inline-img-mobile" aria-hidden="true"><img src="https://picsum.photos/seed/grow-strategy/96/96" alt=""><img src="https://picsum.photos/seed/grow-value/96/96" alt=""></div>
     <p class="hero-sub">Estamos no Deserto de Risco. O capital ficou seletivo. Promessa deixou de financiar negocio. Quem atravessa esse momento e quem tem o modelo mais equilibrado.</p>
     <div class="hero-metrics">
       <div class="hero-metric">
@@ -3415,27 +3414,27 @@ kbd {
     var bootProgressBar = document.getElementById('bootProgressBar');
 
     // Show logo first
-    setTimeout(function() { bootLogo.classList.add('visible'); }, 200);
+    setTimeout(function() { bootLogo.classList.add('visible'); }, 400);
 
     // Show lines one by one
-    var lineDelay = 700;
+    var lineDelay = 1400;
     bootLines.forEach(function(line, i) {
       setTimeout(function() {
         line.classList.add('visible');
-      }, lineDelay + i * 500);
+      }, lineDelay + i * 800);
     });
 
     // Show progress bar
-    var progressStart = lineDelay + bootLines.length * 500;
+    var progressStart = lineDelay + bootLines.length * 800 + 400;
     setTimeout(function() {
       bootProgress.classList.add('visible');
     }, progressStart);
     setTimeout(function() {
       bootProgressBar.style.width = '100%';
-    }, progressStart + 200);
+    }, progressStart + 300);
 
     // Fade out
-    var totalDuration = progressStart + 900;
+    var totalDuration = progressStart + 1400;
     setTimeout(function() {
       bootOverlay.classList.add('fade-out');
       document.body.style.overflow = '';
