@@ -1889,6 +1889,115 @@ footer {
   border-radius: calc(1rem - 0.375rem);
 }
 
+
+/* ── T7: DIMENSION-SPECIFIC HOVER COLOR ── */
+.dim-card:nth-child(1):hover { background: rgba(16,185,129,0.03); } /* Estrategia: emerald */
+.dim-card:nth-child(1):hover::after { background: #10B981; }
+.dim-card:nth-child(2):hover { background: rgba(59,130,246,0.03); } /* Mercado: blue */
+.dim-card:nth-child(2):hover::after { background: #3B82F6; }
+.dim-card:nth-child(3):hover { background: rgba(245,158,11,0.03); } /* Produto: amber */
+.dim-card:nth-child(3):hover::after { background: #F59E0B; }
+.dim-card:nth-child(4):hover { background: rgba(225,29,72,0.03); } /* Branding: rose */
+.dim-card:nth-child(4):hover::after { background: #E11D48; }
+.dim-card:nth-child(5):hover { background: rgba(139,92,246,0.03); } /* Financas: violet */
+.dim-card:nth-child(5):hover::after { background: #8B5CF6; }
+
+
+/* ── S9: TOOLTIP ON TECHNICAL TERMS ── */
+.term-tip {
+  position: relative;
+  border-bottom: 1px dotted var(--gold);
+  cursor: help;
+  opacity: 0.9;
+}
+.term-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--text-sec);
+  font-family: "Outfit", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 0.4rem 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s var(--ease-out-expo);
+  z-index: 100;
+}
+.term-tip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* ── ST6: SVG RADAR CHART ── */
+.radar-pentagon {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto 1.5rem;
+}
+.radar-pentagon svg {
+  width: 100%;
+  height: auto;
+}
+.radar-grid-line {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 0.5;
+}
+.radar-axis {
+  stroke: var(--border);
+  stroke-width: 0.5;
+}
+.radar-area {
+  fill: rgba(201,168,76,0.12);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out-expo);
+}
+.radar-area.visible { opacity: 1; }
+.radar-area-pulse {
+  fill: rgba(201,168,76,0.06);
+  stroke: none;
+  animation: radarPulse 3s ease-in-out infinite;
+}
+@keyframes radarPulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.8; }
+}
+.radar-dot {
+  fill: var(--gold);
+  r: 3;
+  opacity: 0;
+  transition: opacity 0.5s, r 0.2s var(--ease-spring);
+}
+.radar-dot.visible { opacity: 1; }
+.radar-dot:hover { r: 5; }
+.radar-label-text {
+  font-family: "DM Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--text-sec);
+  text-anchor: middle;
+}
+.radar-score-text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 9px;
+  fill: var(--gold);
+  text-anchor: middle;
+  font-weight: 400;
+}
+
 /* Quote block with stat (used in planos) */
 .quote-block--stat {
   display: grid;
@@ -2478,7 +2587,17 @@ kbd {
       <div class="radar-float">Exemplo &mdash; IME simulado</div>
       <div class="rc-label">Diagnostico Self.</div>
       <div class="rc-title serif">Radar de Maturidade</div>
-      <div class="rc-bars">
+      <div class="radar-pentagon">
+        <svg viewBox="0 0 260 270" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="130.0,106.0 148.1,119.1 141.2,140.4 118.8,140.4 111.9,119.1" class="radar-grid-line"/><polygon points="130.0,87.0 166.1,113.3 152.3,155.7 107.7,155.7 93.9,113.3" class="radar-grid-line"/><polygon points="130.0,68.0 184.2,107.4 163.5,171.1 96.5,171.1 75.8,107.4" class="radar-grid-line"/><polygon points="130.0,49.0 202.3,101.5 174.7,186.5 85.3,186.5 57.7,101.5" class="radar-grid-line"/><polygon points="130.0,30.0 220.4,95.6 185.8,201.9 74.2,201.9 39.6,95.6" class="radar-grid-line"/>
+          <line x1="130" y1="125" x2="130.0" y2="30.0" class="radar-axis"/><line x1="130" y1="125" x2="220.4" y2="95.6" class="radar-axis"/><line x1="130" y1="125" x2="185.8" y2="201.9" class="radar-axis"/><line x1="130" y1="125" x2="74.2" y2="201.9" class="radar-axis"/><line x1="130" y1="125" x2="39.6" y2="95.6" class="radar-axis"/>
+          <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area-pulse"/>
+          <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area" id="radarArea"/>
+          <circle cx="130.0" cy="60.4" class="radar-dot" data-dim="Estrategia" data-score="3.4"/><circle cx="180.6" cy="108.6" class="radar-dot" data-dim="Mercado" data-score="2.8"/><circle cx="175.8" cy="188.0" class="radar-dot" data-dim="Produto" data-score="4.1"/><circle cx="108.8" cy="154.2" class="radar-dot" data-dim="Branding" data-score="1.9"/><circle cx="74.0" cy="106.8" class="radar-dot" data-dim="Financas" data-score="3.1"/>
+          <text x="130.0" y="12.0" class="radar-label-text">Estrategia</text><text x="130.0" y="0.0" class="radar-score-text">3.4</text><text x="237.5" y="90.1" class="radar-label-text">Mercado</text><text x="248.9" y="86.4" class="radar-score-text">2.8</text><text x="196.4" y="216.4" class="radar-label-text">Produto</text><text x="203.5" y="226.1" class="radar-score-text">4.1</text><text x="63.6" y="216.4" class="radar-label-text">Branding</text><text x="56.5" y="226.1" class="radar-score-text">1.9</text><text x="22.5" y="90.1" class="radar-label-text">Financas</text><text x="11.1" y="86.4" class="radar-score-text">3.1</text>
+        </svg>
+      </div>
+      <div class="rc-bars" style="margin-top:0.5rem;">
         <div class="rc-row">
           <div class="rc-head"><span class="rc-name">Estrategia</span><span class="rc-val">3.4</span></div>
           <div class="rc-track"><div class="rc-fill" style="--w:68%"></div></div>
@@ -2659,7 +2778,7 @@ kbd {
         <div class="step-row">
           <span class="step-n serif">3</span>
           <div class="step-body">
-            <strong>Receba o IME</strong>
+            <strong>Receba o <span class="term-tip" data-tip="Indice de Maturidade Empresarial">IME</span></strong>
             <p>Indice de Maturidade Empresarial por dimensao. Gargalo identificado. O que esta limitando seu valuation, exposto com clareza.</p>
           </div>
         </div>
@@ -2667,7 +2786,7 @@ kbd {
           <span class="step-n serif">4</span>
           <div class="step-body">
             <strong>Acao imediata</strong>
-            <p>Dependendo do plano: prioridades mapeadas, plano de acao 5W2H e checklist para os proximos 90 dias.</p>
+            <p>Dependendo do plano: prioridades mapeadas, plano de acao <span class="term-tip" data-tip="What, Why, Where, When, Who, How, How much">5W2H</span> e checklist para os proximos 90 dias.</p>
           </div>
         </div>
       </div>
@@ -2686,7 +2805,7 @@ kbd {
             <div class="dim-content">
               <p>Clareza de visao, consistencia nas decisoes, governanca, priorizacao e independencia da empresa em relacao ao fundador.</p>
               <div class="dim-tags">
-                <span class="tag">Visao</span><span class="tag">Governanca</span><span class="tag">OKRs</span><span class="tag">Foco</span><span class="tag">Independencia</span>
+                <span class="tag">Visao</span><span class="tag">Governanca</span><span class="tag"><span class="term-tip" data-tip="Objectives and Key Results — metas estrategicas">OKRs</span></span><span class="tag">Foco</span><span class="tag">Independencia</span>
               </div>
             </div>
           </div>
@@ -2702,9 +2821,9 @@ kbd {
           </div>
           <div class="dim-bd">
             <div class="dim-content">
-              <p>Qualidade da tracao, eficiencia dos canais, CAC, LTV, previsibilidade de crescimento e capacidade de reter e expandir clientes.</p>
+              <p>Qualidade da tracao, eficiencia dos canais, <span class="term-tip" data-tip="Custo de Aquisicao de Cliente">CAC</span>, <span class="term-tip" data-tip="Lifetime Value — valor do cliente ao longo do tempo">LTV</span>, previsibilidade de crescimento e capacidade de reter e expandir clientes.</p>
               <div class="dim-tags">
-                <span class="tag">CAC / LTV</span><span class="tag">Retencao</span><span class="tag">NPS</span><span class="tag">Canais</span><span class="tag">Previsibilidade</span>
+                <span class="tag"><span class="term-tip" data-tip="Custo de Aquisicao vs Valor do Cliente">CAC / LTV</span></span><span class="tag">Retencao</span><span class="tag"><span class="term-tip" data-tip="Net Promoter Score — satisfacao do cliente">NPS</span></span><span class="tag">Canais</span><span class="tag">Previsibilidade</span>
               </div>
             </div>
           </div>
@@ -2788,7 +2907,7 @@ kbd {
         <div class="plan-div"></div>
         <ul class="plan-items">
           <li>150 indicadores &mdash; 5 dimensoes</li>
-          <li>Radar IME com score 0 a 5</li>
+          <li>Radar <span class="term-tip" data-tip="Indice de Maturidade Empresarial">IME</span> com score 0 a 5</li>
           <li>Gargalo principal identificado</li>
           <li>Relatorio PDF automatico</li>
         </ul>
@@ -2966,7 +3085,7 @@ kbd {
 
     <div class="plat-features reveal d1">
       <div class="plat-feat">
-        <strong>Dashboard IME</strong>
+        <strong>Dashboard <span class="term-tip" data-tip="Indice de Maturidade Empresarial">IME</span></strong>
         <p>Indice de Maturidade Empresarial em tempo real, por dimensao. Sempre visivel, sempre atualizado.</p>
       </div>
       <div class="plat-feat">
@@ -3229,7 +3348,7 @@ kbd {
         const start = performance.now();
         function update(now) {
           const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
+          const eased = 1 - Math.pow(1 - progress, 4.5);
           const current = Math.round(eased * target);
           el.textContent = current + (target >= 100 ? '+' : '');
           if (progress < 1) requestAnimationFrame(update);
@@ -3476,6 +3595,36 @@ kbd {
       sec.appendChild(spot);
     }
   });
+
+
+  /* ── T8: SCROLL-LINKED GRID FADE ── */
+  var heroGrid = document.querySelector('#hero::before') ? null : document.querySelector('#hero');
+  if (heroGrid) {
+    var gridStyle = document.createElement('style');
+    gridStyle.id = 'grid-fade-style';
+    gridStyle.textContent = '#hero::before { opacity: 1; transition: opacity 0.1s; }';
+    document.head.appendChild(gridStyle);
+    window.addEventListener('scroll', function() {
+      var fade = Math.max(0, 1 - (window.scrollY / (window.innerHeight * 0.6)));
+      gridStyle.textContent = '#hero::before { opacity: ' + fade + '; }';
+    }, { passive: true });
+  }
+
+
+  /* ── ST6: RADAR CHART ANIMATION ── */
+  var radarArea = document.getElementById('radarArea');
+  if (radarArea) {
+    var radarObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        radarArea.classList.add('visible');
+        document.querySelectorAll('.radar-dot').forEach(function(dot, i) {
+          setTimeout(function() { dot.classList.add('visible'); }, 300 + i * 150);
+        });
+        radarObs.unobserve(entries[0].target);
+      }
+    }, { threshold: 0.3 });
+    radarObs.observe(radarArea.closest('.radar-pentagon'));
+  }
 
   /* ── SMOOTH SCROLL FOR NAV LINKS ── */
   document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {

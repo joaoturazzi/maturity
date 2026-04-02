@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimensao nao mapeada | Grow+</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23c9a84c'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='18' fill='%23080808'>G+</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Outfit:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060606;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: rgba(201,168,76,0.10);
+  --text: #f0ede6;
+  --text-sec: #9a958b;
+  --text-muted: #6b6660;
+  --border: rgba(201,168,76,0.12);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.35;
+}
+
+.error-code {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(6rem, 15vw, 12rem);
+  font-weight: 300;
+  color: var(--gold);
+  opacity: 0.08;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 480px;
+  animation: fadeUp 0.8s var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.label::before {
+  content: "";
+  width: 5px; height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+h1 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  text-wrap: balance;
+}
+h1 em { font-style: italic; color: var(--gold); }
+
+p {
+  font-size: 0.92rem;
+  color: var(--text-sec);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  text-wrap: pretty;
+}
+
+/* Mini radar at 0.0 */
+.mini-radar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 2rem auto;
+  max-width: 240px;
+}
+.mini-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.mini-bar-label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  min-width: 5rem;
+  text-align: right;
+}
+.mini-bar-track {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+}
+.mini-bar-val {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-width: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "DM Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--bg);
+  padding: 0.9rem 2rem;
+  min-height: 44px;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-out-expo);
+}
+.btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn:active { transform: translateY(1px) scale(0.98); }
+
+.footer-note {
+  margin-top: 3rem;
+  font-family: "DM Mono", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<span class="error-code">404</span>
+
+<div class="content">
+  <div class="label">Pagina nao encontrada</div>
+  <h1>Essa dimensao ainda nao <em>foi mapeada.</em></h1>
+  <p>A pagina que voce procura nao existe ou foi movida. O diagnostico comeca pelo caminho certo.</p>
+
+  <div class="mini-radar">
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">Estrategia</span>
+      <div class="mini-bar-track"></div>
+      <span class="mini-bar-val">0.0</span>
+    </div>
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">Mercado</span>
+      <div class="mini-bar-track"></div>
+      <span class="mini-bar-val">0.0</span>
+    </div>
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">Produto</span>
+      <div class="mini-bar-track"></div>
+      <span class="mini-bar-val">0.0</span>
+    </div>
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">Branding</span>
+      <div class="mini-bar-track"></div>
+      <span class="mini-bar-val">0.0</span>
+    </div>
+    <div class="mini-bar-row">
+      <span class="mini-bar-label">Financas</span>
+      <div class="mini-bar-track"></div>
+      <span class="mini-bar-val">0.0</span>
+    </div>
+  </div>
+
+  <a href="/" class="btn">Voltar ao radar</a>
+
+  <div class="footer-note">:: Building Intelligent Scale</div>
+</div>
+
+</body>
+</html>
