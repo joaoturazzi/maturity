@@ -20,6 +20,18 @@ const nextConfig = {
       ],
     },
   ],
+  rewrites: async () => ({
+    beforeFiles: [
+      {
+        source: '/',
+        destination: '/landing.html',
+      },
+      {
+        source: '/landingpage',
+        destination: '/landingpage.html',
+      },
+    ],
+  }),
 }
 
 export default nextConfig
