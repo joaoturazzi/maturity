@@ -17,9 +17,16 @@
   path = "/api/agents/*"
   function = "next-runtime"
 
-# Landing page: serve static HTML at root instead of Next.js redirect
+# Landing page A: serve static HTML at root
 [[redirects]]
   from = "/"
   to = "/landing.html"
+  status = 200
+  force = true
+
+# Landing page B: test variant at /landingpage
+[[redirects]]
+  from = "/landingpage"
+  to = "/landingpage.html"
   status = 200
   force = true
