@@ -505,12 +505,59 @@ nav.scrolled {
   animation: fadeUp 0.85s var(--ease-out-expo) forwards 0.92s;
 }
 
-/* ── RADAR CARD (hero right) ── */
+/* ── HERO RADAR (decorative floating pentagon) ── */
 .hero-right {
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  animation: fadeUp 1s var(--ease-out-expo) forwards 0.6s;
+  animation: fadeUp 1.2s var(--ease-out-expo) forwards 0.5s;
+}
+.hero-radar-float {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  animation: radarFloat 6s ease-in-out infinite;
+}
+@keyframes radarFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.hero-radar-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 40px rgba(201,168,76,0.08));
+}
+.hero-radar-score {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+.hero-radar-score-n {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-radar-score-l {
+  font-family: "DM Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+@media (max-width: 767px) {
+  .hero-radar-float { max-width: 200px; }
+  .hero-radar-score-n { font-size: 1.4rem; }
 }
 
 .radar-card {
@@ -2665,57 +2712,35 @@ kbd {
   </div>
 
   <div class="hero-right">
-    <div class="os-chrome crt-scanlines">
-    <div class="os-chrome-bar"><span class="os-dot"></span><span class="os-dot"></span><span class="os-dot"></span></div>
-    <div class="radar-card-shell tinted-shadow">
-    <div class="radar-card">
-      <div class="radar-float">Exemplo &mdash; IME simulado</div>
-      <div class="rc-label">Diagn&oacute;stico Self.</div>
-      <div class="rc-title serif">Radar de Maturidade</div>
-      <div class="radar-pentagon">
-        <svg viewBox="0 0 260 270" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="130.0,106.0 148.1,119.1 141.2,140.4 118.8,140.4 111.9,119.1" class="radar-grid-line"/><polygon points="130.0,87.0 166.1,113.3 152.3,155.7 107.7,155.7 93.9,113.3" class="radar-grid-line"/><polygon points="130.0,68.0 184.2,107.4 163.5,171.1 96.5,171.1 75.8,107.4" class="radar-grid-line"/><polygon points="130.0,49.0 202.3,101.5 174.7,186.5 85.3,186.5 57.7,101.5" class="radar-grid-line"/><polygon points="130.0,30.0 220.4,95.6 185.8,201.9 74.2,201.9 39.6,95.6" class="radar-grid-line"/>
-          <line x1="130" y1="125" x2="130.0" y2="30.0" class="radar-axis"/><line x1="130" y1="125" x2="220.4" y2="95.6" class="radar-axis"/><line x1="130" y1="125" x2="185.8" y2="201.9" class="radar-axis"/><line x1="130" y1="125" x2="74.2" y2="201.9" class="radar-axis"/><line x1="130" y1="125" x2="39.6" y2="95.6" class="radar-axis"/>
-          <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area-pulse"/>
-          <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area" id="radarArea"/>
-          <circle cx="130.0" cy="60.4" class="radar-dot" data-dim="Estratégia" data-score="3.4"/><circle cx="180.6" cy="108.6" class="radar-dot" data-dim="Mercado" data-score="2.8"/><circle cx="175.8" cy="188.0" class="radar-dot" data-dim="Produto" data-score="4.1"/><circle cx="108.8" cy="154.2" class="radar-dot" data-dim="Branding" data-score="1.9"/><circle cx="74.0" cy="106.8" class="radar-dot" data-dim="Finanças" data-score="3.1"/>
-          <text x="130.0" y="12.0" class="radar-label-text">Estratégia</text><text x="130.0" y="0.0" class="radar-score-text">3.4</text><text x="237.5" y="90.1" class="radar-label-text">Mercado</text><text x="248.9" y="86.4" class="radar-score-text">2.8</text><text x="196.4" y="216.4" class="radar-label-text">Produto</text><text x="203.5" y="226.1" class="radar-score-text">4.1</text><text x="63.6" y="216.4" class="radar-label-text">Branding</text><text x="56.5" y="226.1" class="radar-score-text">1.9</text><text x="22.5" y="90.1" class="radar-label-text">Finanças</text><text x="11.1" y="86.4" class="radar-score-text">3.1</text>
-        </svg>
+    <div class="hero-radar-float">
+      <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" class="hero-radar-svg">
+        <polygon points="130.0,106.0 148.1,119.1 141.2,140.4 118.8,140.4 111.9,119.1" class="radar-grid-line"/>
+        <polygon points="130.0,87.0 166.1,113.3 152.3,155.7 107.7,155.7 93.9,113.3" class="radar-grid-line"/>
+        <polygon points="130.0,68.0 184.2,107.4 163.5,171.1 96.5,171.1 75.8,107.4" class="radar-grid-line"/>
+        <polygon points="130.0,49.0 202.3,101.5 174.7,186.5 85.3,186.5 57.7,101.5" class="radar-grid-line"/>
+        <polygon points="130.0,30.0 220.4,95.6 185.8,201.9 74.2,201.9 39.6,95.6" class="radar-grid-line"/>
+        <line x1="130" y1="125" x2="130.0" y2="30.0" class="radar-axis"/>
+        <line x1="130" y1="125" x2="220.4" y2="95.6" class="radar-axis"/>
+        <line x1="130" y1="125" x2="185.8" y2="201.9" class="radar-axis"/>
+        <line x1="130" y1="125" x2="74.2" y2="201.9" class="radar-axis"/>
+        <line x1="130" y1="125" x2="39.6" y2="95.6" class="radar-axis"/>
+        <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area-pulse"/>
+        <polygon points="130.0,60.4 180.6,108.6 175.8,188.0 108.8,154.2 74.0,106.8" class="radar-area" id="radarArea"/>
+        <circle cx="130.0" cy="60.4" class="radar-dot" data-dim="Estrat&eacute;gia" data-score="3.4"/>
+        <circle cx="180.6" cy="108.6" class="radar-dot" data-dim="Mercado" data-score="2.8"/>
+        <circle cx="175.8" cy="188.0" class="radar-dot" data-dim="Produto" data-score="4.1"/>
+        <circle cx="108.8" cy="154.2" class="radar-dot" data-dim="Branding" data-score="1.9"/>
+        <circle cx="74.0" cy="106.8" class="radar-dot" data-dim="Finan&ccedil;as" data-score="3.1"/>
+        <text x="130" y="18" class="radar-label-text">Estrat&eacute;gia</text>
+        <text x="232" y="98" class="radar-label-text">Mercado</text>
+        <text x="192" y="218" class="radar-label-text">Produto</text>
+        <text x="68" y="218" class="radar-label-text">Branding</text>
+        <text x="28" y="98" class="radar-label-text">Finan&ccedil;as</text>
+      </svg>
+      <div class="hero-radar-score">
+        <span class="hero-radar-score-n serif">3.06</span>
+        <span class="hero-radar-score-l">IME Score</span>
       </div>
-      <div class="rc-bars" style="margin-top:0.5rem;">
-        <div class="rc-row">
-          <div class="rc-head"><span class="rc-name">Estrat&eacute;gia</span><span class="rc-val">3.4</span></div>
-          <div class="rc-track"><div class="rc-fill" style="--w:68%"></div></div>
-        </div>
-        <div class="rc-row">
-          <div class="rc-head"><span class="rc-name">Mercado</span><span class="rc-val">2.8</span></div>
-          <div class="rc-track"><div class="rc-fill" style="--w:56%"></div></div>
-        </div>
-        <div class="rc-row">
-          <div class="rc-head"><span class="rc-name">Produto</span><span class="rc-val">4.1</span></div>
-          <div class="rc-track"><div class="rc-fill" style="--w:82%"></div></div>
-        </div>
-        <div class="rc-row">
-          <div class="rc-head"><span class="rc-name">Branding</span><span class="rc-val" style="color:#e8c97a;">1.9</span></div>
-          <div class="rc-track"><div class="rc-fill" style="--w:38%; opacity:0.5;"></div></div>
-        </div>
-        <div class="rc-row">
-          <div class="rc-head"><span class="rc-name">Finan&ccedil;as</span><span class="rc-val">3.1</span></div>
-          <div class="rc-track"><div class="rc-fill" style="--w:62%"></div></div>
-        </div>
-      </div>
-      <div class="rc-gap">
-        <p><strong>Gargalo identificado:</strong> <span id="typewriterTarget"></span><span class="tw-cursor">|</span></p>
-      </div>
-      <div class="ime-badge">
-        <span class="ime-score">3.06</span>
-        <div class="ime-info">
-          <strong>IME &mdash; &Iacute;ndice de Maturidade</strong>
-          <span>N&iacute;vel 3 &mdash; Empresa estruturada</span>
-        </div>
-      </div>
-    </div>
-    </div>
     </div>
   </div>
 </section>
@@ -2828,8 +2853,50 @@ kbd {
       </div>
     </div>
 
-    <div class="quote-block reveal">
-      <p class="quote-text">"Uma empresa vale exatamente o n&iacute;vel de maturidade da sua dimensao mais fraca. N&atilde;o a mais forte. A mais fraca."</p>
+    <!-- Radar card detalhado (movido do hero) -->
+    <div class="dim-radar-preview reveal d3" style="margin-top:clamp(3rem,5vw,5rem);">
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+        <div class="radar-card" style="max-width:560px;margin:0 auto;width:100%;">
+          <div class="rc-label">Diagn&oacute;stico Self.</div>
+          <div class="rc-title serif">Exemplo &mdash; Radar de Maturidade</div>
+          <div class="rc-bars" style="margin-top:0.5rem;">
+            <div class="rc-row">
+              <div class="rc-head"><span class="rc-name">Estrat&eacute;gia</span><span class="rc-val">3.4</span></div>
+              <div class="rc-track"><div class="rc-fill" style="--w:68%"></div></div>
+            </div>
+            <div class="rc-row">
+              <div class="rc-head"><span class="rc-name">Mercado</span><span class="rc-val">2.8</span></div>
+              <div class="rc-track"><div class="rc-fill" style="--w:56%"></div></div>
+            </div>
+            <div class="rc-row">
+              <div class="rc-head"><span class="rc-name">Produto</span><span class="rc-val">4.1</span></div>
+              <div class="rc-track"><div class="rc-fill" style="--w:82%"></div></div>
+            </div>
+            <div class="rc-row">
+              <div class="rc-head"><span class="rc-name">Branding</span><span class="rc-val" style="color:#e8c97a;">1.9</span></div>
+              <div class="rc-track"><div class="rc-fill" style="--w:38%; opacity:0.5;"></div></div>
+            </div>
+            <div class="rc-row">
+              <div class="rc-head"><span class="rc-name">Finan&ccedil;as</span><span class="rc-val">3.1</span></div>
+              <div class="rc-track"><div class="rc-fill" style="--w:62%"></div></div>
+            </div>
+          </div>
+          <div class="rc-gap">
+            <p><strong>Gargalo identificado:</strong> <span id="typewriterTarget"></span><span class="tw-cursor">|</span></p>
+          </div>
+          <div class="ime-badge">
+            <span class="ime-score">3.06</span>
+            <div class="ime-info">
+              <strong>IME &mdash; &Iacute;ndice de Maturidade</strong>
+              <span>N&iacute;vel 3 &mdash; Empresa estruturada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block reveal" style="margin-top:clamp(2.5rem,4vw,4rem);">
+      <p class="quote-text">"Uma empresa vale exatamente o n&iacute;vel de maturidade da sua dimens&atilde;o mais fraca. N&atilde;o a mais forte. A mais fraca."</p>
       <span class="quote-src">:: Paulo Beck, Grow+</span>
     </div>
   </div>
