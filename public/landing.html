@@ -92,6 +92,14 @@ h1, h2, h3 {
   font-weight: 300;
   line-height: 1.08;
   letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+
+/* ── TABULAR FIGURES (redesign-skill: aligned numbers) ── */
+.hero-metric-n, .stat-num, .rc-val, .ime-score, .plan-price,
+.ent-stat-n, .metric-n, [data-count] {
+  font-variant-numeric: tabular-nums;
 }
 h1 em, h2 em, h3 em { font-style: italic; color: var(--gold); }
 
@@ -110,6 +118,10 @@ section { position: relative; z-index: 1; scroll-margin-top: 80px; }
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  background: var(--gold-glow);
 }
 .s-label::before {
   content: "";
@@ -145,14 +157,14 @@ section { position: relative; z-index: 1; scroll-margin-top: 80px; }
   background: var(--gold);
   color: var(--bg);
 }
-.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-3px) scale(1.015); transition-timing-function: var(--ease-spring); }
 
 .btn-ghost {
   background: transparent;
   color: var(--gold);
   border: 1px solid var(--border-strong);
 }
-.btn-ghost:hover { border-color: var(--gold); background: var(--gold-dim); transform: translateY(-2px); }
+.btn-ghost:hover { border-color: var(--gold); background: var(--gold-dim); transform: translateY(-3px) scale(1.015); transition-timing-function: var(--ease-spring); }
 
 .btn-arrow::after {
   content: "";
@@ -164,13 +176,14 @@ section { position: relative; z-index: 1; scroll-margin-top: 80px; }
 }
 .btn-arrow:hover::after { transform: translateX(3px) translateY(-1px); }
 
-/* ── REVEAL ANIMATION ── */
+/* ── REVEAL ANIMATION (soft-skill: scroll interpolation with blur) ── */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+  filter: blur(6px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo), filter 0.8s var(--ease-out-expo);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 .reveal.d1 { transition-delay: 0.08s; }
 .reveal.d2 { transition-delay: 0.16s; }
 .reveal.d3 { transition-delay: 0.24s; }
@@ -204,6 +217,7 @@ nav.scrolled {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(255,255,255,0.02);
 }
 
 .nav-brand {
@@ -388,9 +402,27 @@ nav.scrolled {
   color: var(--gold);
   border: 1px solid var(--border);
   padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  background: var(--gold-glow);
   margin-bottom: 2.2rem;
   opacity: 0;
   animation: fadeUp 0.7s var(--ease-out-expo) forwards 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+/* Shimmer effect (taste-skill: perpetual micro-interaction) */
+.hero-eyebrow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.08) 40%, rgba(201,168,76,0.14) 50%, rgba(201,168,76,0.08) 60%, transparent 100%);
+  background-size: 200% 100%;
+  animation: badgeShimmer 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes badgeShimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }
 .hero-eyebrow::before {
   content: "";
@@ -479,6 +511,7 @@ nav.scrolled {
   padding: clamp(1.5rem, 3vw, 2.5rem);
   position: relative;
   overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.03), 0 20px 40px -15px rgba(0,0,0,0.3);
 }
 .radar-card::before {
   content: "";
@@ -1023,8 +1056,11 @@ nav.scrolled {
   padding: clamp(2rem, 3vw, 2.8rem) clamp(1.5rem, 2.5vw, 2.2rem);
   border-bottom: 1px solid var(--border);
   position: relative;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.45s var(--ease-spring);
+  display: flex;
+  flex-direction: column;
 }
+.plan:hover { transform: translateY(-2px); }
 @media (min-width: 768px) {
   .plan { border-bottom: none; border-right: 1px solid var(--border); }
   .plan:last-child { border-right: none; }
@@ -1086,6 +1122,7 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+  flex-grow: 1;
 }
 .plan-items li {
   font-size: 0.8rem;
@@ -1712,8 +1749,8 @@ footer {
    ══════════════════════════════════════════════ */
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(26px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(26px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 @keyframes pulse {
   0%, 100% { opacity: 0.5; }
@@ -1731,6 +1768,126 @@ footer {
 /* ══════════════════════════════════════════════
    RESPONSIVE (redesign-skill: 375px, 768px, 1440px)
    ══════════════════════════════════════════════ */
+
+/* ── AMBIENT BLOB (minimalist-skill s6: slow-moving radial gradient) ── */
+.ambient-blob {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.ambient-blob::before {
+  content: "";
+  position: absolute;
+  width: 80vmax;
+  height: 80vmax;
+  top: -20%;
+  left: -10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.035) 0%, transparent 65%);
+  animation: ambientDrift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes ambientDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(12vw, 8vh) scale(1.08); }
+  100% { transform: translate(-5vw, 15vh) scale(0.95); }
+}
+
+/* ── SPOTLIGHT BORDERS (taste+redesign: cursor-following glow on cards) ── */
+.spotlight-card {
+  --spot-x: 50%;
+  --spot-y: 50%;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px circle at var(--spot-x) var(--spot-y), rgba(201,168,76,0.07) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight-card:hover::before { opacity: 1; }
+
+/* ── KINETIC MARQUEE (taste-skill: creative arsenal) ── */
+.marquee-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0;
+  position: relative;
+  z-index: 1;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+  will-change: transform;
+}
+.marquee-content {
+  flex-shrink: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-right: 2rem;
+}
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-wrap:hover .marquee-track { animation-duration: 12s; }
+
+/* ── BUTTON-IN-BUTTON NESTED CTA (soft-skill 4B) ── */
+.btn-nested-arrow {
+  border-radius: 9999px;
+  padding: 0.65rem 0.65rem 0.65rem 1.8rem;
+  gap: 0.9rem;
+}
+.btn-icon-pill {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-family: system-ui, sans-serif;
+  transition: transform 0.4s var(--ease-out-expo);
+  flex-shrink: 0;
+}
+.btn-nested-arrow:hover .btn-icon-pill {
+  transform: translateX(2px) translateY(-1px) scale(1.08);
+}
+
+/* ── TYPEWRITER CURSOR (taste-skill: perpetual micro-interaction) ── */
+.tw-cursor {
+  color: var(--gold);
+  font-weight: 300;
+  animation: twBlink 0.85s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes twBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── DOUBLE-BEZEL SHELL (soft-skill 4A: nested architecture) ── */
+.radar-card-shell {
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 1rem;
+  padding: 0.375rem;
+}
+.radar-card-shell .radar-card {
+  border-radius: calc(1rem - 0.375rem);
+}
 
 /* Quote block with stat (used in planos) */
 .quote-block--stat {
@@ -1768,6 +1925,9 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- Ambient blob (minimalist-skill: background depth) -->
+<div class="ambient-blob" aria-hidden="true"></div>
 
 <!-- Skip link (redesign-skill: accessibility) -->
 <a href="#main" class="skip-link">Ir para o conteudo</a>
@@ -1837,12 +1997,13 @@ footer {
       </div>
     </div>
     <div class="hero-actions">
-      <a href="/login" class="btn btn-primary">Iniciar diagnostico</a>
+      <a href="/login" class="btn btn-primary btn-nested-arrow">Iniciar diagnostico <span class="btn-icon-pill">&#8599;</span></a>
       <a href="#deserto" class="btn btn-ghost">Entender o cenario</a>
     </div>
   </div>
 
   <div class="hero-right">
+    <div class="radar-card-shell">
     <div class="radar-card">
       <div class="radar-float">Exemplo &mdash; IME simulado</div>
       <div class="rc-label">Diagnostico Self.</div>
@@ -1870,7 +2031,7 @@ footer {
         </div>
       </div>
       <div class="rc-gap">
-        <p><strong>Gargalo identificado:</strong> Branding em 1.9 esta comprimindo o valuation. Produto solido (4.1) sem percepcao de valor equivalente.</p>
+        <p><strong>Gargalo identificado:</strong> <span id="typewriterTarget"></span><span class="tw-cursor">|</span></p>
       </div>
       <div class="ime-badge">
         <span class="ime-score">3.06</span>
@@ -1880,10 +2041,16 @@ footer {
         </div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<div class="container"><div class="gold-divider"></div></div>
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-content">Estrategia &mdash; Mercado &mdash; Produto &mdash; Branding &mdash; Financas &mdash; IME &mdash; Valuation &mdash; Maturidade &mdash; Diagnostico &mdash; Framework &mdash; </span>
+    <span class="marquee-content">Estrategia &mdash; Mercado &mdash; Produto &mdash; Branding &mdash; Financas &mdash; IME &mdash; Valuation &mdash; Maturidade &mdash; Diagnostico &mdash; Framework &mdash; </span>
+  </div>
+</div>
 
 <!-- ── DESERTO DE RISCO ── -->
 <section id="deserto">
@@ -2626,6 +2793,60 @@ footer {
     form.style.display = 'none';
     success.classList.add('visible');
   };
+
+  /* ── SPOTLIGHT BORDER ON CARDS (taste+redesign-skill) ── */
+  document.querySelectorAll('.dim-card, .fase-card, .agent-card').forEach(function(card) {
+    card.classList.add('spotlight-card');
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--spot-x', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--spot-y', (e.clientY - rect.top) + 'px');
+    });
+  });
+
+  /* ── TYPEWRITER ON RADAR GARGALO (taste-skill: command input) ── */
+  var twTarget = document.getElementById('typewriterTarget');
+  if (twTarget) {
+    var twTexts = [
+      'Branding em 1.9 esta comprimindo o valuation. Produto solido (4.1) sem percepcao de valor equivalente.',
+      'Financas em 3.1 com margem abaixo do benchmark. Estrategia precisa de recalibracao de foco.',
+      'Mercado em 2.8 indica dependencia de canal unico. Diversificacao e prioridade critica.'
+    ];
+    var twIndex = 0;
+    var twCharIndex = 0;
+    var twDeleting = false;
+
+    function typewrite() {
+      var current = twTexts[twIndex];
+      if (!twDeleting) {
+        twTarget.textContent = current.substring(0, twCharIndex + 1);
+        twCharIndex++;
+        if (twCharIndex >= current.length) {
+          setTimeout(function() { twDeleting = true; typewrite(); }, 3500);
+          return;
+        }
+        setTimeout(typewrite, 28);
+      } else {
+        twTarget.textContent = current.substring(0, twCharIndex - 1);
+        twCharIndex--;
+        if (twCharIndex <= 0) {
+          twDeleting = false;
+          twIndex = (twIndex + 1) % twTexts.length;
+          setTimeout(typewrite, 600);
+          return;
+        }
+        setTimeout(typewrite, 12);
+      }
+    }
+
+    var twObserver = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        typewrite();
+        twObserver.unobserve(entries[0].target);
+      }
+    }, { threshold: 0.3 });
+    twObserver.observe(twTarget.closest('.radar-card'));
+  }
 
   /* ── SMOOTH SCROLL FOR NAV LINKS ── */
   document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
