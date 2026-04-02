@@ -9,6 +9,10 @@ const isPublicRoute = createRouteMatcher([
   '/api/webhooks(.*)',
   '/api/onboarding(.*)',
   '/',
+  '/landingpage',
+  '/landing.html',
+  '/landingpage.html',
+  '/404.html',
 ])
 
 const isAdminRoute = createRouteMatcher([
