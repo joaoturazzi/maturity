@@ -2051,8 +2051,89 @@ footer {
 
 /* ── T3: TEXT SCRAMBLE ── */
 .scramble-char {
-  display: inline-block;
-  transition: opacity 0.05s;
+  display: inline;
+  color: var(--gold-light);
+  opacity: 0.7;
+  font-family: "DM Mono", monospace;
+  font-size: 0.85em;
+}
+.scramble-text {
+  transition: color 0.6s ease;
+}
+
+/* ── BOOT SEQUENCE ── */
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #030303;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.boot-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.boot-terminal {
+  font-family: "DM Mono", monospace;
+  font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  color: var(--gold);
+  max-width: 540px;
+  width: 90%;
+  line-height: 1.9;
+}
+.boot-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.boot-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.boot-line .ok {
+  color: var(--gold-light);
+  float: right;
+}
+.boot-line .fail {
+  color: #e64040;
+  float: right;
+}
+.boot-line.dim {
+  color: var(--text-muted);
+  font-size: 0.85em;
+}
+.boot-logo {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  letter-spacing: 0.1em;
+  color: var(--text);
+  margin-bottom: 2rem;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.boot-logo.visible { opacity: 1; }
+.boot-logo span { color: var(--gold); }
+.boot-progress {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-top: 1.5rem;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.boot-progress.visible { opacity: 1; }
+.boot-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width 0.4s ease;
 }
 
 /* ── T4: SCROLL PROGRESS PATH ── */
@@ -2094,9 +2175,9 @@ footer {
 /* ── S1: FLOATING PILL NAVBAR ── */
 @media (min-width: 1024px) {
   nav {
-    max-width: 860px;
-    margin: 1.2rem auto 0;
-    padding: 0.6rem 1.4rem;
+    max-width: 920px;
+    margin: 1rem auto 0;
+    padding: 0.55rem 1.6rem;
     border-radius: 9999px;
     background: rgba(6,6,6,0.55);
     backdrop-filter: blur(20px);
@@ -2108,8 +2189,21 @@ footer {
     border-color: var(--border-strong);
     box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
   }
+  .nav-tag {
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+  .nav-links {
+    gap: 1.6rem;
+  }
+  .nav-links a {
+    font-size: 0.6rem;
+  }
   .nav-cta {
     border-radius: 9999px;
+    font-size: 0.58rem;
+    padding: 0.6rem 1rem;
+    min-height: 36px;
   }
 }
 
@@ -2453,16 +2547,17 @@ kbd {
 /* ── ST1: INLINE IMAGE TYPOGRAPHY ── */
 .inline-img {
   display: inline-block;
-  width: 1.15em;
-  height: 1.15em;
-  border-radius: 0.3em;
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 0.35em;
   object-fit: cover;
-  vertical-align: -0.15em;
-  margin: 0 0.08em;
+  vertical-align: -0.25em;
+  margin: 0 0.12em;
   filter: grayscale(30%) contrast(1.1);
-  transition: filter 0.4s;
+  transition: filter 0.4s, transform 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
-.inline-img:hover { filter: grayscale(0%) contrast(1); }
+.inline-img:hover { filter: grayscale(0%) contrast(1); transform: scale(1.08); }
 @media (max-width: 767px) {
   .inline-img { display: none; }
   .inline-img-mobile {
@@ -2485,6 +2580,20 @@ kbd {
 </style>
 </head>
 <body>
+
+<!-- ── BOOT SEQUENCE ── -->
+<div class="boot-overlay" id="bootOverlay">
+  <div class="boot-logo" id="bootLogo">GROW<span>+</span></div>
+  <div class="boot-terminal" id="bootTerminal">
+    <div class="boot-line dim">[SYS] Initializing GROW+ framework...</div>
+    <div class="boot-line">[CORE] Loading 5-dimension engine <span class="ok">[OK]</span></div>
+    <div class="boot-line">[SELF.] Diagnostic module v3.06 <span class="ok">[OK]</span></div>
+    <div class="boot-line">[DATA] 150+ indicators mapped <span class="ok">[OK]</span></div>
+    <div class="boot-line">[AI] Agent network connected <span class="ok">[OK]</span></div>
+    <div class="boot-line dim">[STATUS] Ready — Welcome to the radar.</div>
+  </div>
+  <div class="boot-progress" id="bootProgress"><div class="boot-progress-bar" id="bootProgressBar"></div></div>
+</div>
 
 <!-- Ambient blob (minimalist-skill: background depth) -->
 <div class="ambient-blob" aria-hidden="true"></div>
@@ -3296,6 +3405,51 @@ kbd {
 (function() {
   'use strict';
 
+  /* ── BOOT SEQUENCE ── */
+  var bootOverlay = document.getElementById('bootOverlay');
+  if (bootOverlay && !sessionStorage.getItem('growboot')) {
+    document.body.style.overflow = 'hidden';
+    var bootLogo = document.getElementById('bootLogo');
+    var bootLines = bootOverlay.querySelectorAll('.boot-line');
+    var bootProgress = document.getElementById('bootProgress');
+    var bootProgressBar = document.getElementById('bootProgressBar');
+
+    // Show logo first
+    setTimeout(function() { bootLogo.classList.add('visible'); }, 200);
+
+    // Show lines one by one
+    var lineDelay = 700;
+    bootLines.forEach(function(line, i) {
+      setTimeout(function() {
+        line.classList.add('visible');
+      }, lineDelay + i * 500);
+    });
+
+    // Show progress bar
+    var progressStart = lineDelay + bootLines.length * 500;
+    setTimeout(function() {
+      bootProgress.classList.add('visible');
+    }, progressStart);
+    setTimeout(function() {
+      bootProgressBar.style.width = '100%';
+    }, progressStart + 200);
+
+    // Fade out
+    var totalDuration = progressStart + 900;
+    setTimeout(function() {
+      bootOverlay.classList.add('fade-out');
+      document.body.style.overflow = '';
+      sessionStorage.setItem('growboot', '1');
+    }, totalDuration);
+
+    // Remove from DOM
+    setTimeout(function() {
+      bootOverlay.remove();
+    }, totalDuration + 700);
+  } else if (bootOverlay) {
+    bootOverlay.remove();
+  }
+
   /* ── NAV SCROLL ── */
   const nav = document.querySelector('nav');
   let lastScroll = 0;
@@ -3486,7 +3640,7 @@ kbd {
   /* ── T3: TEXT SCRAMBLE ON HERO HEADLINE ── */
   var heroH1 = document.querySelector('.hero-h1');
   if (heroH1) {
-    var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var scrambleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:+';
     var textNodes = [];
     function getTextNodes(el) {
       el.childNodes.forEach(function(node) {
@@ -3495,28 +3649,31 @@ kbd {
       });
     }
     getTextNodes(heroH1);
-    textNodes.forEach(function(node) {
+    textNodes.forEach(function(node, nodeIndex) {
       var original = node.textContent;
       var parent = node.parentNode;
       var span = document.createElement('span');
       span.textContent = original;
+      span.className = 'scramble-text';
       parent.replaceChild(span, node);
       var chars = original.split('');
       var iterations = 0;
       setTimeout(function() {
+        span.style.color = 'var(--gold)';
         var interval = setInterval(function() {
-          span.textContent = chars.map(function(c, i) {
+          span.innerHTML = chars.map(function(c, i) {
             if (c === ' ' || c === '\n') return c;
             if (i < iterations) return original[i];
-            return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+            return '<span class="scramble-char">' + scrambleChars[Math.floor(Math.random() * scrambleChars.length)] + '</span>';
           }).join('');
-          iterations += 1.5;
+          iterations += 0.8;
           if (iterations >= chars.length) {
             span.textContent = original;
+            span.style.color = '';
             clearInterval(interval);
           }
-        }, 30);
-      }, 800);
+        }, 45);
+      }, 600 + nodeIndex * 400);
     });
   }
 
