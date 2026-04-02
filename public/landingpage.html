@@ -2325,36 +2325,6 @@ footer {
   }
 }
 
-/* ── M1: FAUX-OS WINDOW CHROME ── */
-.os-chrome {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.os-chrome-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 14px;
-  background: var(--surface-raised);
-  border-bottom: 1px solid var(--border);
-}
-.os-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--text-muted);
-  opacity: 0.3;
-}
-.os-chrome .radar-card-shell {
-  border: none;
-  border-radius: 0;
-}
-.os-chrome .radar-card {
-  border: none;
-  border-radius: 0;
-}
-
 /* ── M2: KEYSTROKE MICRO-UIS ── */
 kbd {
   font-family: "DM Mono", monospace;
@@ -3665,7 +3635,7 @@ kbd {
   /* ── T2: PARALLAX TILT ON RADAR CARD ── */
   var radarTilt = document.querySelector('.radar-card');
   if (radarTilt) {
-    var tiltWrap = radarTilt.closest('.os-chrome') || radarTilt.closest('.hero-right');
+    var tiltWrap = radarTilt.closest('.hero-right');
     if (tiltWrap) {
       tiltWrap.classList.add('tilt-card');
       tiltWrap.addEventListener('mousemove', function(e) {
